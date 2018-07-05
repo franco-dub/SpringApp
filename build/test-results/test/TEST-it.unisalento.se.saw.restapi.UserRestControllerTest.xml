@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="it.unisalento.se.saw.restapi.UserRestControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-07-03T12:41:42" hostname="Francos-MBP" time="4.112">
+  <properties/>
+  <testcase name="findUserByIdTest" classname="it.unisalento.se.saw.restapi.UserRestControllerTest" time="4.112"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+]]></system-err>
+</testsuite>
