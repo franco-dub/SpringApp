@@ -45,7 +45,6 @@ public class UserRestController {
 		userDTO.setName(user.getName());
 		userDTO.setSurname(user.getSurname());
 		return userDTO;
-		//QUESTO è UN COMMENTO ABUSIVO BY SIMONLEBON
 	}
 	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
