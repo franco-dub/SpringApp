@@ -4,6 +4,6 @@
 
 <hibernate-reverse-engineering>
 
-    <schema-selection match-catalog="se_db" match-schema=".*" match-table=".*" />
+    <schema-selection match-catalog="mydb" match-schema=".*" match-table=".*" />
 
 </hibernate-reverse-engineering>

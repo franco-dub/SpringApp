@@ -1,7 +1,7 @@
 package it.unisalento.se.saw.services;
 
 import java.util.List;
-
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,12 +60,12 @@ public class AulaService implements IAulaService {
 	@Transactional
 	public List<Aula> getByName(String name) {
 		// TODO Auto-generated method stub
-		/*
-		List<Aula> list = aulaRepository.getByName(name);
-		if (list == null) {
-			return new ArrayList<Aula>();
-		}*/
+		
+	//	List<Aula> list = aulaRepository.getByName(name);
+	//	if (list == null) {
+	//		return new ArrayList<Aula>();
+	//	}
 		return null;
 	}
 
-}
+}*/
