@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import it.unisalento.se.saw.IService.PersonIService;
 import it.unisalento.se.saw.domain.Person;
 import it.unisalento.se.saw.dto.PersonDto;
+import it.unisalento.se.saw.util.Dto;
 
 @RestController
 @RequestMapping(path = "/person")
@@ -46,7 +47,7 @@ public class PersonController {
  // -------------------Create a Person-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createPerson(@RequestBody @Validated PersonDto personDto, 
+    public ResponseEntity<?> createPerson(@RequestBody @Validated @Dto(PersonDto.class)Person person, 
     		UriComponentsBuilder ucBuilder) {
       /*  logger.info("Creating User : {}", user);
     	
@@ -58,8 +59,8 @@ public class PersonController {
     			personDto.getEmail(), personDto.getPhone(), personDto.getDateOfBirth(),
     			personDto.getGender(), personDto.getPassword());
     	personService.savePerson(person);*/
-    	ModelMapper modelMapper = new ModelMapper();
-    	Person person = modelMapper.map(personDto, Person.class);
+    	//ModelMapper modelMapper = new ModelMapper();
+    	//Person person = modelMapper.map(personDto, Person.class);
     	personService.savePerson(person);
     	
         HttpHeaders headers = new HttpHeaders();
