@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("it.unisalento.se.saw.repositories")
+@EnableJpaRepositories("it.unisalento.se.saw.repo")
 @PropertySource("classpath:application.properties")
 
 public class JPAConfigurations {

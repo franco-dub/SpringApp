@@ -15,18 +15,19 @@ import it.unisalento.se.saw.exceptions.ResourceNotFoundException;
 import it.unisalento.se.saw.repo.PersonRepository;
 
 @Service
-public class PersonService {
+public class PersonService implements PersonIService {
 	
 	PersonRepository personRepository;
-	@Autowired
+	
+
+	//private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	
+	
 	public PersonService(PersonRepository personRepository) {
 		super();
 		this.personRepository = personRepository;
 	}
 
-	//private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-	
-	
 	@Transactional
     public Person findById(Integer id) throws ResourceNotFoundException {
     	try {
