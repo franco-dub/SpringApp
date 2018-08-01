@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 1, 2018, 10:00:00 AM by Hibernate Tools 5.2.0.Final
+// Generated Aug 1, 2018, 2:16:06 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
