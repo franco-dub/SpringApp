@@ -56,8 +56,7 @@ public class PersonService implements PersonIService {
     @Transactional
     public void updatePerson(Person personDetails){
     	Integer id = personDetails.getPersonId();
-    	Person person = personRepository.findById(id)
-    			.orElseThrow(() -> new ResourceNotFoundException("Person", "id", id));
+    	Person person = personRepository.getOne(id);
         
     	person.setFirstName(personDetails.getFirstName());
         person.setLastName(personDetails.getLastName());
