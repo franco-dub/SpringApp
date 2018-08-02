@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -33,6 +34,7 @@ import java.util.List;
 @Configuration
 @ComponentScan(basePackages={"it.unisalento.se.saw"})
 @EnableWebMvc
+@EnableTransactionManagement
 public class WebAppConfig extends WebMvcConfigurerAdapter{
 	private final ApplicationContext applicationContext;
     private final EntityManager entityManager;

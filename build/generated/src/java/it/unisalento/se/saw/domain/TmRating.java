@@ -1,12 +1,15 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:19:14 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -14,21 +17,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="tm_rating"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class TmRating  implements java.io.Serializable {
 
 
      private Integer tmRatingId;
+     private TeachingMaterial teachingMaterial;
      private String rate;
-     private int teachingMaterialTechingMaterialId;
 
     public TmRating() {
     }
 
-    public TmRating(String rate, int teachingMaterialTechingMaterialId) {
+    public TmRating(TeachingMaterial teachingMaterial, String rate) {
+       this.teachingMaterial = teachingMaterial;
        this.rate = rate;
-       this.teachingMaterialTechingMaterialId = teachingMaterialTechingMaterialId;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -43,6 +46,16 @@ public class TmRating  implements java.io.Serializable {
         this.tmRatingId = tmRatingId;
     }
 
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="teaching_material_teching_material_id", nullable=false)
+    public TeachingMaterial getTeachingMaterial() {
+        return this.teachingMaterial;
+    }
+    
+    public void setTeachingMaterial(TeachingMaterial teachingMaterial) {
+        this.teachingMaterial = teachingMaterial;
+    }
+
     
     @Column(name="rate", nullable=false, length=2)
     public String getRate() {
@@ -51,16 +64,6 @@ public class TmRating  implements java.io.Serializable {
     
     public void setRate(String rate) {
         this.rate = rate;
-    }
-
-    
-    @Column(name="teaching_material_teching_material_id", nullable=false)
-    public int getTeachingMaterialTechingMaterialId() {
-        return this.teachingMaterialTechingMaterialId;
-    }
-    
-    public void setTeachingMaterialTechingMaterialId(int teachingMaterialTechingMaterialId) {
-        this.teachingMaterialTechingMaterialId = teachingMaterialTechingMaterialId;
     }
 
 

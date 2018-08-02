@@ -1,12 +1,18 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:19:14 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,27 +20,41 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="module"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class Module  implements java.io.Serializable {
 
 
      private Integer moduleId;
+     private Course course;
+     private Professor professor;
+     private String title;
      private int credits;
      private String semester;
-     private String title;
-     private int courseCourseId;
-     private int professorProfessorId;
+     private Set<Lecture> lectures = new HashSet<Lecture>(0);
+     private Set<Exam> exams = new HashSet<Exam>(0);
+     private Set<TeachingMaterial> teachingMaterials = new HashSet<TeachingMaterial>(0);
 
     public Module() {
     }
 
-    public Module(int credits, String semester, String title, int courseCourseId, int professorProfessorId) {
+	
+    public Module(Course course, Professor professor, String title, int credits, String semester) {
+        this.course = course;
+        this.professor = professor;
+        this.title = title;
+        this.credits = credits;
+        this.semester = semester;
+    }
+    public Module(Course course, Professor professor, String title, int credits, String semester, Set<Lecture> lectures, Set<Exam> exams, Set<TeachingMaterial> teachingMaterials) {
+       this.course = course;
+       this.professor = professor;
+       this.title = title;
        this.credits = credits;
        this.semester = semester;
-       this.title = title;
-       this.courseCourseId = courseCourseId;
-       this.professorProfessorId = professorProfessorId;
+       this.lectures = lectures;
+       this.exams = exams;
+       this.teachingMaterials = teachingMaterials;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -47,6 +67,36 @@ public class Module  implements java.io.Serializable {
     
     public void setModuleId(Integer moduleId) {
         this.moduleId = moduleId;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="course_course_id", nullable=false)
+    public Course getCourse() {
+        return this.course;
+    }
+    
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="professor_professor_id", nullable=false)
+    public Professor getProfessor() {
+        return this.professor;
+    }
+    
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+    
+    @Column(name="title", nullable=false, length=45)
+    public String getTitle() {
+        return this.title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     
@@ -69,34 +119,31 @@ public class Module  implements java.io.Serializable {
         this.semester = semester;
     }
 
-    
-    @Column(name="title", nullable=false, length=45)
-    public String getTitle() {
-        return this.title;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="module")
+    public Set<Lecture> getLectures() {
+        return this.lectures;
     }
     
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    
-    @Column(name="course_course_id", nullable=false)
-    public int getCourseCourseId() {
-        return this.courseCourseId;
-    }
-    
-    public void setCourseCourseId(int courseCourseId) {
-        this.courseCourseId = courseCourseId;
+    public void setLectures(Set<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
-    
-    @Column(name="professor_professor_id", nullable=false)
-    public int getProfessorProfessorId() {
-        return this.professorProfessorId;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="module")
+    public Set<Exam> getExams() {
+        return this.exams;
     }
     
-    public void setProfessorProfessorId(int professorProfessorId) {
-        this.professorProfessorId = professorProfessorId;
+    public void setExams(Set<Exam> exams) {
+        this.exams = exams;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="module")
+    public Set<TeachingMaterial> getTeachingMaterials() {
+        return this.teachingMaterials;
+    }
+    
+    public void setTeachingMaterials(Set<TeachingMaterial> teachingMaterials) {
+        this.teachingMaterials = teachingMaterials;
     }
 
 

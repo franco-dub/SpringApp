@@ -1,12 +1,18 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:19:14 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,25 +20,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="lecture"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class Lecture  implements java.io.Serializable {
 
 
      private Integer lectureId;
+     private Module module;
      private String type;
-     private int moduleModuleId;
+     private Set<ClassDayOfWeek> classDayOfWeeks = new HashSet<ClassDayOfWeek>(0);
 
     public Lecture() {
     }
 
 	
-    public Lecture(int moduleModuleId) {
-        this.moduleModuleId = moduleModuleId;
+    public Lecture(Module module) {
+        this.module = module;
     }
-    public Lecture(String type, int moduleModuleId) {
+    public Lecture(Module module, String type, Set<ClassDayOfWeek> classDayOfWeeks) {
+       this.module = module;
        this.type = type;
-       this.moduleModuleId = moduleModuleId;
+       this.classDayOfWeeks = classDayOfWeeks;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -47,6 +55,16 @@ public class Lecture  implements java.io.Serializable {
         this.lectureId = lectureId;
     }
 
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="module_module_id", nullable=false)
+    public Module getModule() {
+        return this.module;
+    }
+    
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
     
     @Column(name="type", length=45)
     public String getType() {
@@ -57,14 +75,13 @@ public class Lecture  implements java.io.Serializable {
         this.type = type;
     }
 
-    
-    @Column(name="module_module_id", nullable=false)
-    public int getModuleModuleId() {
-        return this.moduleModuleId;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="lecture")
+    public Set<ClassDayOfWeek> getClassDayOfWeeks() {
+        return this.classDayOfWeeks;
     }
     
-    public void setModuleModuleId(int moduleModuleId) {
-        this.moduleModuleId = moduleModuleId;
+    public void setClassDayOfWeeks(Set<ClassDayOfWeek> classDayOfWeeks) {
+        this.classDayOfWeeks = classDayOfWeeks;
     }
 
 

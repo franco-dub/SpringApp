@@ -1,13 +1,16 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:19:14 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,23 +20,23 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="student_exam"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class StudentExam  implements java.io.Serializable {
 
 
      private Integer studentExamId;
+     private Exam exam;
+     private Student student;
      private Date date;
-     private int examExamId;
-     private int studentStudentId;
 
     public StudentExam() {
     }
 
-    public StudentExam(Date date, int examExamId, int studentStudentId) {
+    public StudentExam(Exam exam, Student student, Date date) {
+       this.exam = exam;
+       this.student = student;
        this.date = date;
-       this.examExamId = examExamId;
-       this.studentStudentId = studentStudentId;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -48,6 +51,26 @@ public class StudentExam  implements java.io.Serializable {
         this.studentExamId = studentExamId;
     }
 
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="exam_exam_id", nullable=false)
+    public Exam getExam() {
+        return this.exam;
+    }
+    
+    public void setExam(Exam exam) {
+        this.exam = exam;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="student_student_id", nullable=false)
+    public Student getStudent() {
+        return this.student;
+    }
+    
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     @Temporal(TemporalType.DATE)
     @Column(name="date", nullable=false, length=10)
     public Date getDate() {
@@ -56,26 +79,6 @@ public class StudentExam  implements java.io.Serializable {
     
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    
-    @Column(name="exam_exam_id", nullable=false)
-    public int getExamExamId() {
-        return this.examExamId;
-    }
-    
-    public void setExamExamId(int examExamId) {
-        this.examExamId = examExamId;
-    }
-
-    
-    @Column(name="student_student_id", nullable=false)
-    public int getStudentStudentId() {
-        return this.studentStudentId;
-    }
-    
-    public void setStudentStudentId(int studentStudentId) {
-        this.studentStudentId = studentStudentId;
     }
 
 

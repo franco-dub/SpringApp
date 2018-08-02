@@ -47,6 +47,7 @@ dependencies {
 	
 	compile('org.modelmapper:modelmapper:1.1.0')
 	compile('org.hibernate:hibernate-java8:5.1.0.Final')
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.6'
 }
 
 war {
@@ -59,7 +60,7 @@ gretty {
 }
 
 database{
-    catalog =  [ "mydb": new Schema()]
+    catalog =  [ "uni": new Schema()]
     basePackage = "it.unisalento.se.saw.domain"
     port = 3306
     url = "jdbc:mysql://127.0.0.1"

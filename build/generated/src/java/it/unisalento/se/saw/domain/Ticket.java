@@ -1,13 +1,16 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:19:14 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,39 +20,39 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="ticket"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class Ticket  implements java.io.Serializable {
 
 
      private Integer ticketId;
-     private String comment;
+     private Professor professor;
+     private Room room;
+     private Secretary secretary;
      private Date date;
      private String description;
      private String status;
-     private int professorProfessorId;
-     private int roomRoomId;
-     private int secretarySecretaryId;
+     private String comment;
 
     public Ticket() {
     }
 
 	
-    public Ticket(Date date, String description, int professorProfessorId, int roomRoomId, int secretarySecretaryId) {
+    public Ticket(Professor professor, Room room, Secretary secretary, Date date, String description) {
+        this.professor = professor;
+        this.room = room;
+        this.secretary = secretary;
         this.date = date;
         this.description = description;
-        this.professorProfessorId = professorProfessorId;
-        this.roomRoomId = roomRoomId;
-        this.secretarySecretaryId = secretarySecretaryId;
     }
-    public Ticket(String comment, Date date, String description, String status, int professorProfessorId, int roomRoomId, int secretarySecretaryId) {
-       this.comment = comment;
+    public Ticket(Professor professor, Room room, Secretary secretary, Date date, String description, String status, String comment) {
+       this.professor = professor;
+       this.room = room;
+       this.secretary = secretary;
        this.date = date;
        this.description = description;
        this.status = status;
-       this.professorProfessorId = professorProfessorId;
-       this.roomRoomId = roomRoomId;
-       this.secretarySecretaryId = secretarySecretaryId;
+       this.comment = comment;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -64,14 +67,34 @@ public class Ticket  implements java.io.Serializable {
         this.ticketId = ticketId;
     }
 
-    
-    @Column(name="comment", length=200)
-    public String getComment() {
-        return this.comment;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="professor_professor_id", nullable=false)
+    public Professor getProfessor() {
+        return this.professor;
     }
     
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="room_room_id", nullable=false)
+    public Room getRoom() {
+        return this.room;
+    }
+    
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="secretary_secretary_id", nullable=false)
+    public Secretary getSecretary() {
+        return this.secretary;
+    }
+    
+    public void setSecretary(Secretary secretary) {
+        this.secretary = secretary;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -105,33 +128,13 @@ public class Ticket  implements java.io.Serializable {
     }
 
     
-    @Column(name="professor_professor_id", nullable=false)
-    public int getProfessorProfessorId() {
-        return this.professorProfessorId;
+    @Column(name="comment", length=200)
+    public String getComment() {
+        return this.comment;
     }
     
-    public void setProfessorProfessorId(int professorProfessorId) {
-        this.professorProfessorId = professorProfessorId;
-    }
-
-    
-    @Column(name="room_room_id", nullable=false)
-    public int getRoomRoomId() {
-        return this.roomRoomId;
-    }
-    
-    public void setRoomRoomId(int roomRoomId) {
-        this.roomRoomId = roomRoomId;
-    }
-
-    
-    @Column(name="secretary_secretary_id", nullable=false)
-    public int getSecretarySecretaryId() {
-        return this.secretarySecretaryId;
-    }
-    
-    public void setSecretarySecretaryId(int secretarySecretaryId) {
-        this.secretarySecretaryId = secretarySecretaryId;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 

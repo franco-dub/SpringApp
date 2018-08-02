@@ -1,13 +1,19 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:19:14 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,31 +23,33 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="student"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class Student  implements java.io.Serializable {
 
 
      private Integer studentId;
-     private Date graduationDate;
+     private Course course;
+     private Person person;
      private Date registrationDate;
-     private int courseCourseId;
-     private int personPersonId;
+     private Date graduationDate;
+     private Set<StudentExam> studentExams = new HashSet<StudentExam>(0);
 
     public Student() {
     }
 
 	
-    public Student(Date registrationDate, int courseCourseId, int personPersonId) {
+    public Student(Course course, Person person, Date registrationDate) {
+        this.course = course;
+        this.person = person;
         this.registrationDate = registrationDate;
-        this.courseCourseId = courseCourseId;
-        this.personPersonId = personPersonId;
     }
-    public Student(Date graduationDate, Date registrationDate, int courseCourseId, int personPersonId) {
-       this.graduationDate = graduationDate;
+    public Student(Course course, Person person, Date registrationDate, Date graduationDate, Set<StudentExam> studentExams) {
+       this.course = course;
+       this.person = person;
        this.registrationDate = registrationDate;
-       this.courseCourseId = courseCourseId;
-       this.personPersonId = personPersonId;
+       this.graduationDate = graduationDate;
+       this.studentExams = studentExams;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -56,14 +64,24 @@ public class Student  implements java.io.Serializable {
         this.studentId = studentId;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name="graduation_date", length=10)
-    public Date getGraduationDate() {
-        return this.graduationDate;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="course_course_id", nullable=false)
+    public Course getCourse() {
+        return this.course;
     }
     
-    public void setGraduationDate(Date graduationDate) {
-        this.graduationDate = graduationDate;
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="person_person_id", nullable=false)
+    public Person getPerson() {
+        return this.person;
+    }
+    
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Temporal(TemporalType.DATE)
@@ -76,24 +94,23 @@ public class Student  implements java.io.Serializable {
         this.registrationDate = registrationDate;
     }
 
-    
-    @Column(name="course_course_id", nullable=false)
-    public int getCourseCourseId() {
-        return this.courseCourseId;
+    @Temporal(TemporalType.DATE)
+    @Column(name="graduation_date", length=10)
+    public Date getGraduationDate() {
+        return this.graduationDate;
     }
     
-    public void setCourseCourseId(int courseCourseId) {
-        this.courseCourseId = courseCourseId;
+    public void setGraduationDate(Date graduationDate) {
+        this.graduationDate = graduationDate;
     }
 
-    
-    @Column(name="person_person_id", nullable=false)
-    public int getPersonPersonId() {
-        return this.personPersonId;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="student")
+    public Set<StudentExam> getStudentExams() {
+        return this.studentExams;
     }
     
-    public void setPersonPersonId(int personPersonId) {
-        this.personPersonId = personPersonId;
+    public void setStudentExams(Set<StudentExam> studentExams) {
+        this.studentExams = studentExams;
     }
 
 

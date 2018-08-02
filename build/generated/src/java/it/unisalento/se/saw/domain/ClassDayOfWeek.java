@@ -1,13 +1,19 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:19:14 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,27 +23,37 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="class_day_of_week"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class ClassDayOfWeek  implements java.io.Serializable {
 
 
      private Integer classDayId;
-     private Date endTime;
+     private DayOfWeek dayOfWeek;
+     private Lecture lecture;
+     private Room room;
      private Date startTime;
-     private int dayOfWeekDayId;
-     private int lectureLectureId;
-     private int roomRoomId;
+     private Date endTime;
+     private Set<LectureRating> lectureRatings = new HashSet<LectureRating>(0);
 
     public ClassDayOfWeek() {
     }
 
-    public ClassDayOfWeek(Date endTime, Date startTime, int dayOfWeekDayId, int lectureLectureId, int roomRoomId) {
-       this.endTime = endTime;
+	
+    public ClassDayOfWeek(DayOfWeek dayOfWeek, Lecture lecture, Room room, Date startTime, Date endTime) {
+        this.dayOfWeek = dayOfWeek;
+        this.lecture = lecture;
+        this.room = room;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    public ClassDayOfWeek(DayOfWeek dayOfWeek, Lecture lecture, Room room, Date startTime, Date endTime, Set<LectureRating> lectureRatings) {
+       this.dayOfWeek = dayOfWeek;
+       this.lecture = lecture;
+       this.room = room;
        this.startTime = startTime;
-       this.dayOfWeekDayId = dayOfWeekDayId;
-       this.lectureLectureId = lectureLectureId;
-       this.roomRoomId = roomRoomId;
+       this.endTime = endTime;
+       this.lectureRatings = lectureRatings;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -52,14 +68,34 @@ public class ClassDayOfWeek  implements java.io.Serializable {
         this.classDayId = classDayId;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="end_time", nullable=false, length=19)
-    public Date getEndTime() {
-        return this.endTime;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="day_of_week_day_id", nullable=false)
+    public DayOfWeek getDayOfWeek() {
+        return this.dayOfWeek;
     }
     
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="lecture_lecture_id", nullable=false)
+    public Lecture getLecture() {
+        return this.lecture;
+    }
+    
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="room_room_id", nullable=false)
+    public Room getRoom() {
+        return this.room;
+    }
+    
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     @Temporal(TemporalType.TIME)
@@ -72,34 +108,23 @@ public class ClassDayOfWeek  implements java.io.Serializable {
         this.startTime = startTime;
     }
 
-    
-    @Column(name="day_of_week_day_id", nullable=false)
-    public int getDayOfWeekDayId() {
-        return this.dayOfWeekDayId;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="end_time", nullable=false, length=19)
+    public Date getEndTime() {
+        return this.endTime;
     }
     
-    public void setDayOfWeekDayId(int dayOfWeekDayId) {
-        this.dayOfWeekDayId = dayOfWeekDayId;
-    }
-
-    
-    @Column(name="lecture_lecture_id", nullable=false)
-    public int getLectureLectureId() {
-        return this.lectureLectureId;
-    }
-    
-    public void setLectureLectureId(int lectureLectureId) {
-        this.lectureLectureId = lectureLectureId;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    
-    @Column(name="room_room_id", nullable=false)
-    public int getRoomRoomId() {
-        return this.roomRoomId;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="classDayOfWeek")
+    public Set<LectureRating> getLectureRatings() {
+        return this.lectureRatings;
     }
     
-    public void setRoomRoomId(int roomRoomId) {
-        this.roomRoomId = roomRoomId;
+    public void setLectureRatings(Set<LectureRating> lectureRatings) {
+        this.lectureRatings = lectureRatings;
     }
 
 
