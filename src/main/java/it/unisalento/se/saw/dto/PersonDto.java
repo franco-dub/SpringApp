@@ -23,8 +23,10 @@ public class PersonDto {
 	@NotNull
 	@Pattern(regexp="[mfMF]")
     private String gender;
+	private String address;
 	@NotNull
     private String password;
+	
 	
 	public PersonDto(@NotNull String firstName, @NotNull String lastName, @NotNull String email, @NotNull String phone,
 			@NotNull @Past Date dateOfBirth, @NotNull @Pattern(regexp = "[mfMF]") String gender,
@@ -38,6 +40,21 @@ public class PersonDto {
 		this.gender = gender;
 		this.password = password;
 	}
+	
+
+		public PersonDto(String firstName, String lastName, String email, String phone, Date dateOfBirth, String gender,
+			String address, String password) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.dateOfBirth = dateOfBirth;
+		this.gender = gender;
+		this.address = address;
+		this.password = password;
+	}
+
 
 		protected PersonDto() {}
 
@@ -95,6 +112,16 @@ public class PersonDto {
 
 		public void setPassword(String password) {
 			this.password = password;
+		}
+
+
+		public String getAddress() {
+			return address;
+		}
+
+
+		public void setAddress(String address) {
+			this.address = address;
 		}
 		
 		

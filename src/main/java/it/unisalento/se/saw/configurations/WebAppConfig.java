@@ -34,7 +34,6 @@ import java.util.List;
 @Configuration
 @ComponentScan(basePackages={"it.unisalento.se.saw"})
 @EnableWebMvc
-@EnableTransactionManagement
 public class WebAppConfig extends WebMvcConfigurerAdapter{
 	private final ApplicationContext applicationContext;
     private final EntityManager entityManager;

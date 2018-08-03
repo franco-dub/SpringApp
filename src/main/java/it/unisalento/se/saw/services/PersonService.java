@@ -28,6 +28,7 @@ public class PersonService implements PersonIService {
 		this.personRepository = personRepository;
 	}
 
+	@Override
 	@Transactional
     public Person findById(Integer id) throws ResourceNotFoundException {
     	try {
@@ -38,6 +39,7 @@ public class PersonService implements PersonIService {
         
     }
 	
+	@Override
 	@Transactional
     public List<Person> findByLastName(String lastName) throws ResourceNotFoundException {
     	try {
@@ -48,27 +50,19 @@ public class PersonService implements PersonIService {
         
     }
     
+	@Override
     @Transactional
     public void savePerson(Person person) {
         personRepository.save(person);
     }
  
+	@Override
     @Transactional
-    public void updatePerson(Person personDetails){
-    	Integer id = personDetails.getPersonId();
-    	Person person = personRepository.getOne(id);
-        
-    	person.setFirstName(personDetails.getFirstName());
-        person.setLastName(personDetails.getLastName());
-        person.setEmail(personDetails.getEmail());
-        person.setPhone(personDetails.getPhone());
-        person.setDateOfBirth(personDetails.getDateOfBirth());
-        person.setGender(personDetails.getGender());
-        person.setPassword(personDetails.getPassword());
-        
+    public void updatePerson(Person person){
     	savePerson(person);
     }
  
+	@Override
     @Transactional
     public void deletePersonById(Integer id){
     	personRepository.findById(id)
@@ -76,6 +70,7 @@ public class PersonService implements PersonIService {
     	personRepository.deleteById(id);
     }
  
+	@Override
     @Transactional
     public void deleteAllPersons(){
         personRepository.deleteAll();
