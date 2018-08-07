@@ -39,7 +39,6 @@ public class Person  implements java.io.Serializable {
      private Integer personId;
      private String firstName;
      private String lastName;
-     @NotNull
      private String email;
      private String phone;
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")

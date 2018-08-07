@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +25,7 @@ public class PersonService implements PersonIService {
 
 	//private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
-	
+	@Autowired
 	public PersonService(PersonRepository personRepository) {
 		super();
 		this.personRepository = personRepository;
@@ -30,24 +33,8 @@ public class PersonService implements PersonIService {
 
 	@Override
 	@Transactional
-    public Person findById(Integer id) throws ResourceNotFoundException {
-    	try {
-    		return personRepository.getOne(id);
-    	} catch (Exception e) {
-    		throw new ResourceNotFoundException("Person", "id", id);
-    	}
-        
-    }
-	
-	@Override
-	@Transactional
-    public List<Person> findByLastName(String lastName) throws ResourceNotFoundException {
-    	try {
-    		return personRepository.findByLastName(lastName);
-    	} catch (Exception e) {
-    		throw new ResourceNotFoundException("Person-list", "lastName" , lastName);
-    	}
-        
+    public Person findById(Integer id) {
+    		return personRepository.findById(id).get();
     }
     
 	@Override
@@ -59,14 +46,12 @@ public class PersonService implements PersonIService {
 	@Override
     @Transactional
     public void updatePerson(Person person){
-    	savePerson(person);
+		personRepository.save(person);
     }
  
 	@Override
     @Transactional
     public void deletePersonById(Integer id){
-    	personRepository.findById(id)
-    			.orElseThrow(() -> new ResourceNotFoundException("Person", "id", id));
     	personRepository.deleteById(id);
     }
  
@@ -75,13 +60,13 @@ public class PersonService implements PersonIService {
     public void deleteAllPersons(){
         personRepository.deleteAll();
     }
-    
-    //@Transactional(readOnly=true)
+    @Override
+    @Transactional(readOnly=true)
     public List<Person> findAllPersons(){
         return personRepository.findAll();
     }
     
-    
+    @Override
     public boolean isPersonExist(Person person) {
         return findById(person.getPersonId()) != null;
     }
