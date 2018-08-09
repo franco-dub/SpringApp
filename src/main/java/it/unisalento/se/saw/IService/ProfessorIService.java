@@ -1,7 +1,6 @@
 package it.unisalento.se.saw.IService;
 
 import java.util.List;
-import java.util.Optional;
 
 import it.unisalento.se.saw.domain.Professor;
 

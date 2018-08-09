@@ -1,8 +1,6 @@
 package it.unisalento.se.saw.services;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.IService.PersonIService;
 import it.unisalento.se.saw.IService.ProfessorIService;
-import it.unisalento.se.saw.domain.Person;
 import it.unisalento.se.saw.domain.Professor;
-import it.unisalento.se.saw.exceptions.ResourceNotFoundException;
-import it.unisalento.se.saw.repo.PersonRepository;
 import it.unisalento.se.saw.repo.ProfessorRepository;
 
 @Service
@@ -23,7 +18,7 @@ public class ProfessorService implements ProfessorIService{
 	PersonIService personService;
 	
 	@Autowired
-	protected ProfessorService(ProfessorRepository professorRepository, PersonIService personService) {
+	public ProfessorService(ProfessorRepository professorRepository, PersonIService personService) {
 		super();
 		this.professorRepository = professorRepository;
 		this.personService = personService;
@@ -31,7 +26,7 @@ public class ProfessorService implements ProfessorIService{
 	@Override
 	@Transactional
 	public Professor findById(Integer id) {
-    		return professorRepository.findById(id).get();
+    	return professorRepository.findById(id).get();
 	}
 
 	@Override

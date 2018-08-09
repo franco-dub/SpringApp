@@ -1,12 +1,6 @@
 package it.unisalento.se.saw.services;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.IService.PersonIService;
 import it.unisalento.se.saw.domain.Person;
-import it.unisalento.se.saw.exceptions.ResourceNotFoundException;
 import it.unisalento.se.saw.repo.PersonRepository;
 
 @Service
