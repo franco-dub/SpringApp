@@ -2,14 +2,13 @@ package it.unisalento.se.saw.IService;
 
 import java.util.List;
 
-import it.unisalento.se.saw.domain.Person;
+import it.unisalento.se.saw.dto.PersonDto;
 
 public interface PersonIService {
-	public Person findById(Integer id);
-	public void savePerson(Person person);
-	public void updatePerson(Person person);
+	public PersonDto findById(Integer id);
+	public void savePerson(PersonDto personDto);
+	public void updatePerson(PersonDto personDto, Integer id);
 	public void deletePersonById(Integer id);
 	public void deleteAllPersons();
-	public List<Person> findAllPersons();
-	public boolean isPersonExist(Person person);
+	public List<PersonDto> findAllPersons();
 }
