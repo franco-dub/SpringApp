@@ -40,3 +40,4 @@ hs_err_pid*
 *.bin
 *.bin
 *.lock
+hs_err_pid*
