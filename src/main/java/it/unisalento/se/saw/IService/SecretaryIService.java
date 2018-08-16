@@ -2,14 +2,13 @@ package it.unisalento.se.saw.IService;
 
 import java.util.List;
 
-import it.unisalento.se.saw.domain.Secretary;
+import it.unisalento.se.saw.dto.SecretaryDto;
 
 public interface SecretaryIService {
 	
-	public Secretary findById(Integer id);
-	public void saveSecretary(Secretary secretary);
-	public void updateSecretary(Secretary secretary);
+	public SecretaryDto findById(Integer id);
+	public void saveSecretary(SecretaryDto secretaryDto);
+	public void updateSecretary(SecretaryDto secretaryDto);
 	public void deleteSecretaryById(Integer id);
-	public List<Secretary> findAllSecretaries();
-	public boolean isSecretaryExist(Secretary secretary);
+	public List<SecretaryDto> findAllSecretaries();
 }

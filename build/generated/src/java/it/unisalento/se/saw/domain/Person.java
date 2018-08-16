@@ -41,7 +41,6 @@ public class Person  implements java.io.Serializable {
      private String lastName;
      private String email;
      private String phone;
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
      private Date dateOfBirth;
      private String gender;
      private String address;

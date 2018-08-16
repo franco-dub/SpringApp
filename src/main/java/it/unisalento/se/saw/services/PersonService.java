@@ -66,7 +66,7 @@ public class PersonService implements PersonIService {
     public List<PersonDto> findAllPersons(){
     	List<Person> persons = personRepository.findAll();
     	Type targetListType = new TypeToken<List<PersonDto>>() {}.getType();
-    	    List<PersonDto> personDtos = modelMapper.map(persons, targetListType);
+    	List<PersonDto> personDtos = modelMapper.map(persons, targetListType);
         return personDtos;
     }    
 }

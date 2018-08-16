@@ -74,7 +74,7 @@ public class Professor  implements java.io.Serializable {
         this.professorId = professorId;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="person_person_id", nullable=false)
     public Person getPerson() {
         return this.person;

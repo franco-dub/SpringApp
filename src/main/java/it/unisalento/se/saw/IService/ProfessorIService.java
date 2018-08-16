@@ -2,13 +2,12 @@ package it.unisalento.se.saw.IService;
 
 import java.util.List;
 
-import it.unisalento.se.saw.domain.Professor;
+import it.unisalento.se.saw.dto.ProfessorDto;
 
 public interface ProfessorIService {
-	public Professor findById(Integer id);
-	public void saveProfessor(Professor professor);
-	public void updateProfessor(Professor professor);
+	public ProfessorDto findById(Integer id);
+	public void saveProfessor(ProfessorDto professorDto);
+	public void updateProfessor(ProfessorDto professorDto);
 	public void deleteProfessorById(Integer id);
-	public List<Professor> findAllProfessors();
-	public boolean isProfessorExist(Professor professor);
+	public List<ProfessorDto> findAllProfessors();
 }

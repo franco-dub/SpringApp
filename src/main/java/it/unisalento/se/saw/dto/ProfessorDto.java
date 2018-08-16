@@ -4,36 +4,35 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 public class ProfessorDto {
 	
+	private Integer professorId;
 	@NotNull
-    private PersonDto personDto;
+    private PersonDto person;
 	@NotNull
     private String level;
 	@NotNull
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
     private Date hireDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
     private Date endEngagement;
     
-	public ProfessorDto(PersonDto personDto, String level, Date hireDate) {
-		super();
-		this.personDto = personDto;
-		this.level = level;
-		this.hireDate = hireDate;
+	public ProfessorDto() {}
+
+	public Integer getProfessorId() {
+		return professorId;
 	}
-	public ProfessorDto(PersonDto personDto, String level, Date hireDate, Date endEngagement) {
-		super();
-		this.personDto = personDto;
-		this.level = level;
-		this.hireDate = hireDate;
-		this.endEngagement = endEngagement;
+	public void setProfessorId(Integer professorId) {
+		this.professorId = professorId;
 	}
-	protected ProfessorDto() {}
-	public PersonDto getPersonDto() {
-		return personDto;
+	public PersonDto getPerson() {
+		return person;
 	}
-	public void setPersonDto(PersonDto personDto) {
-		this.personDto = personDto;
+	public void setPerson(PersonDto person) {
+		this.person = person;
 	}
 	public String getLevel() {
 		return level;

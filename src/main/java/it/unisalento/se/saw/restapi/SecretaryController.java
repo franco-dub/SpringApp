@@ -37,13 +37,13 @@ public class SecretaryController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createSecretary(@Valid @RequestBody 
-    		@Dto(SecretaryDto.class) Secretary secretary, UriComponentsBuilder ucBuilder) {
+    		SecretaryDto secretaryDto, UriComponentsBuilder ucBuilder) {
     	try {
-    		secretaryService.saveSecretary(secretary);
+    		secretaryService.saveSecretary(secretaryDto);
     		
     		HttpHeaders headers = new HttpHeaders();
             headers.setLocation(ucBuilder.path("/{id}")
-            		.buildAndExpand(secretary.getSecretaryId()).toUri());
+            		.buildAndExpand(secretaryDto.getSecretaryId()).toUri());
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
@@ -56,14 +56,14 @@ public class SecretaryController {
     
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> listAllSecretaries() {
-    	List<Secretary> secretaries = secretaryService.findAllSecretaries();
-    	if (secretaries.isEmpty()) {
+    	List<SecretaryDto> secretaryDtos = secretaryService.findAllSecretaries();
+    	if (secretaryDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
     		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<Secretary>>(secretaries, HttpStatus.OK);
+        return new ResponseEntity<List<SecretaryDto>>(secretaryDtos, HttpStatus.OK);
     }
     
     // -------------------Retrieve Single Secretary------------------------------------------
@@ -71,8 +71,8 @@ public class SecretaryController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getSecretary(@PathVariable("id") int id) {
     	try {
-    		Secretary secretary = secretaryService.findById(id);
-    		return new ResponseEntity<Secretary>(secretary, HttpStatus.OK);
+    		SecretaryDto secretaryDto = secretaryService.findById(id);
+    		return new ResponseEntity<SecretaryDto>(secretaryDto, HttpStatus.OK);
     	} catch (Exception e) {
     		return new ResponseEntity<>(new CustomErrorType("Secretary with id " + id 
                     + " not found"), HttpStatus.NOT_FOUND);
@@ -83,13 +83,13 @@ public class SecretaryController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateSecretary(@PathVariable("id") int id, 
-    		@Valid @RequestBody @Dto(SecretaryDto.class)Secretary secretary) {
+    		@Valid @RequestBody SecretaryDto secretaryDto) {
     	try {
     		secretaryService.findById(id);
     		try {
-    			secretary.setSecretaryId(id);
-    			secretaryService.updateSecretary(secretary);
-                return new ResponseEntity<Secretary>(secretary, HttpStatus.OK);
+    			secretaryDto.setSecretaryId(id);
+    			secretaryService.updateSecretary(secretaryDto);
+                return new ResponseEntity<SecretaryDto>(secretaryDto, HttpStatus.OK);
     		} catch (Exception e) {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Secretary. Validation error!"),
         				HttpStatus.BAD_REQUEST);

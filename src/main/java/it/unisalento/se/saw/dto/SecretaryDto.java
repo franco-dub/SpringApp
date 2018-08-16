@@ -6,32 +6,34 @@ import javax.validation.constraints.NotNull;
 
 public class SecretaryDto {
 
+	private Integer secretaryId;
 	@NotNull
-    private PersonDto personDto;
+    private PersonDto person;
 	@NotNull
     private Date hireDate;
     private Date endEngagement;
     private String task;
     
-	protected SecretaryDto() {}
-	public SecretaryDto(PersonDto personDto, Date hireDate) {
-		super();
-		this.personDto = personDto;
-		this.hireDate = hireDate;
+	public SecretaryDto() {}
+	
+	public Integer getSecretaryId() {
+		return secretaryId;
 	}
-	public SecretaryDto(PersonDto personDto, Date hireDate, Date endEngagement, String task) {
-		super();
-		this.personDto = personDto;
-		this.hireDate = hireDate;
-		this.endEngagement = endEngagement;
-		this.task = task;
+
+	public void setSecretaryId(Integer secretaryId) {
+		this.secretaryId = secretaryId;
 	}
-	public PersonDto getPersonDto() {
-		return personDto;
+
+
+	public void setPerson(PersonDto person) {
+		this.person = person;
 	}
-	public void setPersonDto(PersonDto personDto) {
-		this.personDto = personDto;
+
+
+	public PersonDto getPerson() {
+		return person;
 	}
+
 	public Date getHireDate() {
 		return hireDate;
 	}
