@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="it.unisalento.se.saw.controllers.HomeControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-07-03T12:41:46" hostname="Francos-MBP" time="0.235">
-  <properties/>
-  <testcase name="getAllUsersTest" classname="it.unisalento.se.saw.controllers.HomeControllerTest" time="0.235"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

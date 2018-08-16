@@ -38,9 +38,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import it.unisalento.se.saw.IService.IUserService;
-import it.unisalento.se.saw.domain.User;
-
+/*
 @RunWith(MockitoJUnitRunner.class)
 public class HomeControllerTest {
 	private MockMvc mockMvc;
@@ -90,3 +88,4 @@ public class HomeControllerTest {
 		return viewResolver;
 	}
 }
+*/
