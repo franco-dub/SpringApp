@@ -1,13 +1,19 @@
 package it.unisalento.se.saw.domain;
-// Generated Jul 31, 2018, 3:49:22 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,30 +23,32 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="exam"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class Exam  implements java.io.Serializable {
 
 
      private Integer examId;
+     private Module module;
+     private Room room;
      private Date date;
      private Integer mark;
-     private int moduleModuleId;
-     private int roomRoomId;
+     private Set<StudentExam> studentExams = new HashSet<StudentExam>(0);
 
     public Exam() {
     }
 
 	
-    public Exam(int moduleModuleId, int roomRoomId) {
-        this.moduleModuleId = moduleModuleId;
-        this.roomRoomId = roomRoomId;
+    public Exam(Module module, Room room) {
+        this.module = module;
+        this.room = room;
     }
-    public Exam(Date date, Integer mark, int moduleModuleId, int roomRoomId) {
+    public Exam(Module module, Room room, Date date, Integer mark, Set<StudentExam> studentExams) {
+       this.module = module;
+       this.room = room;
        this.date = date;
        this.mark = mark;
-       this.moduleModuleId = moduleModuleId;
-       this.roomRoomId = roomRoomId;
+       this.studentExams = studentExams;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -53,6 +61,26 @@ public class Exam  implements java.io.Serializable {
     
     public void setExamId(Integer examId) {
         this.examId = examId;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="module_module_id", nullable=false)
+    public Module getModule() {
+        return this.module;
+    }
+    
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="room_room_id", nullable=false)
+    public Room getRoom() {
+        return this.room;
+    }
+    
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -75,24 +103,13 @@ public class Exam  implements java.io.Serializable {
         this.mark = mark;
     }
 
-    
-    @Column(name="module_module_id", nullable=false)
-    public int getModuleModuleId() {
-        return this.moduleModuleId;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="exam")
+    public Set<StudentExam> getStudentExams() {
+        return this.studentExams;
     }
     
-    public void setModuleModuleId(int moduleModuleId) {
-        this.moduleModuleId = moduleModuleId;
-    }
-
-    
-    @Column(name="room_room_id", nullable=false)
-    public int getRoomRoomId() {
-        return this.roomRoomId;
-    }
-    
-    public void setRoomRoomId(int roomRoomId) {
-        this.roomRoomId = roomRoomId;
+    public void setStudentExams(Set<StudentExam> studentExams) {
+        this.studentExams = studentExams;
     }
 
 
