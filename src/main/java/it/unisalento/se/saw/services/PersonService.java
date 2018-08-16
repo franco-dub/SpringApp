@@ -69,4 +69,9 @@ public class PersonService implements PersonIService {
     	List<PersonDto> personDtos = modelMapper.map(persons, targetListType);
         return personDtos;
     }    
+    @Transactional
+    public Person findByMail(String email) {
+    	Person person = personRepository.findByEmail(email);
+    	return person;
+    }
 }

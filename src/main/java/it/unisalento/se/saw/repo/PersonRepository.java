@@ -12,4 +12,6 @@ import it.unisalento.se.saw.domain.Person;
 public interface PersonRepository extends JpaRepository<Person, Integer>{
 
 	List<Person> findByLastName(@Param("lastName") String lastName);
+	
+	Person findByEmail(String email);
 }

@@ -33,7 +33,7 @@ public class StudentService implements StudentIService{
 	@Override
 	@Transactional
 	public void saveStudent(Student student) {
-		personService.savePerson(student.getPerson()); //NON DEVE SALVARE IL CORSO MA LO DEVE CERCARE
+		//personService.savePerson(student.getPerson()); //NON DEVE SALVARE IL CORSO MA LO DEVE CERCARE
 		courseService.saveCourse(student.getCourse());
 		studentRepository.save(student);
 	}
