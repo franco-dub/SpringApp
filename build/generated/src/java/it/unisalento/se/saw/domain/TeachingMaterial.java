@@ -1,13 +1,19 @@
 package it.unisalento.se.saw.domain;
-// Generated Jul 31, 2018, 3:49:22 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,23 +23,31 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="teaching_material"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class TeachingMaterial  implements java.io.Serializable {
 
 
      private Integer techingMaterialId;
+     private Module module;
      private Date date;
      private byte[] doc;
-     private int moduleModuleId;
+     private Set<TmRating> tmRatings = new HashSet<TmRating>(0);
 
     public TeachingMaterial() {
     }
 
-    public TeachingMaterial(Date date, byte[] doc, int moduleModuleId) {
+	
+    public TeachingMaterial(Module module, Date date, byte[] doc) {
+        this.module = module;
+        this.date = date;
+        this.doc = doc;
+    }
+    public TeachingMaterial(Module module, Date date, byte[] doc, Set<TmRating> tmRatings) {
+       this.module = module;
        this.date = date;
        this.doc = doc;
-       this.moduleModuleId = moduleModuleId;
+       this.tmRatings = tmRatings;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -46,6 +60,16 @@ public class TeachingMaterial  implements java.io.Serializable {
     
     public void setTechingMaterialId(Integer techingMaterialId) {
         this.techingMaterialId = techingMaterialId;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="module_module_id", nullable=false)
+    public Module getModule() {
+        return this.module;
+    }
+    
+    public void setModule(Module module) {
+        this.module = module;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -68,14 +92,13 @@ public class TeachingMaterial  implements java.io.Serializable {
         this.doc = doc;
     }
 
-    
-    @Column(name="module_module_id", nullable=false)
-    public int getModuleModuleId() {
-        return this.moduleModuleId;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="teachingMaterial")
+    public Set<TmRating> getTmRatings() {
+        return this.tmRatings;
     }
     
-    public void setModuleModuleId(int moduleModuleId) {
-        this.moduleModuleId = moduleModuleId;
+    public void setTmRatings(Set<TmRating> tmRatings) {
+        this.tmRatings = tmRatings;
     }
 
 

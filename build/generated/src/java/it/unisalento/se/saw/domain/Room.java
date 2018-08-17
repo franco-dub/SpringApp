@@ -1,12 +1,16 @@
 package it.unisalento.se.saw.domain;
-// Generated Jul 31, 2018, 3:49:22 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,14 +18,17 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="room"
-    ,catalog="mydb"
+    ,catalog="uni"
 )
 public class Room  implements java.io.Serializable {
 
 
      private Integer roomId;
-     private String location;
      private String name;
+     private String location;
+     private Set<Exam> exams = new HashSet<Exam>(0);
+     private Set<ClassDayOfWeek> classDayOfWeeks = new HashSet<ClassDayOfWeek>(0);
+     private Set<Ticket> tickets = new HashSet<Ticket>(0);
 
     public Room() {
     }
@@ -30,9 +37,12 @@ public class Room  implements java.io.Serializable {
     public Room(String name) {
         this.name = name;
     }
-    public Room(String location, String name) {
-       this.location = location;
+    public Room(String name, String location, Set<Exam> exams, Set<ClassDayOfWeek> classDayOfWeeks, Set<Ticket> tickets) {
        this.name = name;
+       this.location = location;
+       this.exams = exams;
+       this.classDayOfWeeks = classDayOfWeeks;
+       this.tickets = tickets;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -48,6 +58,16 @@ public class Room  implements java.io.Serializable {
     }
 
     
+    @Column(name="name", nullable=false, length=45)
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
     @Column(name="location", length=100)
     public String getLocation() {
         return this.location;
@@ -57,14 +77,31 @@ public class Room  implements java.io.Serializable {
         this.location = location;
     }
 
-    
-    @Column(name="name", nullable=false, length=45)
-    public String getName() {
-        return this.name;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
+    public Set<Exam> getExams() {
+        return this.exams;
     }
     
-    public void setName(String name) {
-        this.name = name;
+    public void setExams(Set<Exam> exams) {
+        this.exams = exams;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
+    public Set<ClassDayOfWeek> getClassDayOfWeeks() {
+        return this.classDayOfWeeks;
+    }
+    
+    public void setClassDayOfWeeks(Set<ClassDayOfWeek> classDayOfWeeks) {
+        this.classDayOfWeeks = classDayOfWeeks;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
+    public Set<Ticket> getTickets() {
+        return this.tickets;
+    }
+    
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
 
