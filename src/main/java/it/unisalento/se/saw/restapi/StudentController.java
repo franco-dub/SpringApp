@@ -36,17 +36,13 @@ public class StudentController {
 	// -------------------Create a Student-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createStudent(@Valid @RequestBody 
-    		@Dto(StudentDto.class) Student student, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDto studentDto) {
     	try {
-    		studentService.saveStudent(student);
-    		
-    		HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/{id}")
-            		.buildAndExpand(student.getStudentId()).toUri());
-            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    		studentService.saveStudent(studentDto);
+            return new ResponseEntity<StudentDto>(studentDto, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
+			System.out.println(e.toString());
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Student. Validation error!"),
     				HttpStatus.BAD_REQUEST);
     	}
@@ -56,14 +52,14 @@ public class StudentController {
     
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> listAllStudents() {
-    	List<Student> students = studentService.findAllStudents();
+    	List<StudentDto> students = studentService.findAllStudents();
     	if (students.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
     		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
+        return new ResponseEntity<List<StudentDto>>(students, HttpStatus.OK);
     }
     
     // -------------------Retrieve Single Student------------------------------------------
@@ -71,8 +67,8 @@ public class StudentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getStudent(@PathVariable("id") int id) {
     	try {
-    		Student student = studentService.findById(id);
-    		return new ResponseEntity<Student>(student, HttpStatus.OK);
+    		StudentDto studentDto = studentService.findById(id);
+    		return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
     	} catch (Exception e) {
     		return new ResponseEntity<>(new CustomErrorType("Student with id " + id 
                     + " not found"), HttpStatus.NOT_FOUND);
@@ -83,13 +79,13 @@ public class StudentController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateStudent(@PathVariable("id") int id, 
-    		@Valid @RequestBody @Dto(StudentDto.class)Student student) {
+    		@Valid @RequestBody StudentDto studentDto) {
     	try {
     		studentService.findById(id);
     		try {
-    			student.setStudentId(id);
-    			studentService.updateStudent(student);
-                return new ResponseEntity<Student>(student, HttpStatus.OK);
+    			studentDto.setStudentId(id);
+    			studentService.updateStudent(studentDto);
+                return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
     		} catch (Exception e) {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Student. Validation error!"),
         				HttpStatus.BAD_REQUEST);

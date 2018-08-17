@@ -1,7 +1,10 @@
 package it.unisalento.se.saw.services;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,11 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 import it.unisalento.se.saw.IService.CourseIService;
 import it.unisalento.se.saw.IService.PersonIService;
 import it.unisalento.se.saw.IService.StudentIService;
+import it.unisalento.se.saw.domain.Person;
 import it.unisalento.se.saw.domain.Student;
+import it.unisalento.se.saw.dto.PersonDto;
+import it.unisalento.se.saw.dto.StudentDto;
 import it.unisalento.se.saw.repo.StudentRepository;
 
 @Service
 public class StudentService implements StudentIService{
+	private static final ModelMapper modelMapper = new ModelMapper();
 	StudentRepository studentRepository;
 	PersonIService personService;
 	CourseIService courseService;
@@ -27,41 +34,49 @@ public class StudentService implements StudentIService{
 	}
 	@Override
 	@Transactional
-	public Student findById(Integer id) {
-		return studentRepository.findById(id).get();
+	public StudentDto findById(Integer id) {
+		Student student = studentRepository.findById(id).get();
+		StudentDto studentDto = modelMapper.map(student, StudentDto.class);
+		return studentDto;
 	}
 	@Override
 	@Transactional
-	public void saveStudent(Student student) {
-		//personService.savePerson(student.getPerson()); //NON DEVE SALVARE IL CORSO MA LO DEVE CERCARE
-		courseService.saveCourse(student.getCourse());
+	public void saveStudent(StudentDto studentDto) {
+		Student student = modelMapper.map(studentDto, Student.class);
+		System.out.println(student.getCourse().getCourseId());
 		studentRepository.save(student);
 	}
 	@Override
 	@Transactional
-	public void updateStudent(Student student) {
-		Integer idPerson = findById(student.getStudentId()).getPerson().getPersonId();
-		student.getPerson().setPersonId(idPerson);
-		saveStudent(student);
+	public void updateStudent(StudentDto studentDto) {
+		Integer idPerson = findById(studentDto.getStudentId()).getPerson().getPersonId();
+		studentDto.getPerson().setPersonId(idPerson);
+		saveStudent(studentDto);
 	}
 	@Override
 	@Transactional
 	public void deleteStudentById(Integer id){
-		Integer idPerson = findById(id).getPerson().getPersonId();
 		studentRepository.deleteById(id);
-		personService.deletePersonById(idPerson);
 		
 	}
 	@Override
 	@Transactional
-	public List<Student> findAllStudents(){
-		return studentRepository.findAll();
-	}
-	@Override
-	@Transactional
-	public boolean isStudentExist(Student student) {
-		return findById(student.getStudentId()) != null;
+	public List<StudentDto> findAllStudents(){
+		List<Student> students = studentRepository.findAll();
+		Type targetListType = new TypeToken<List<StudentDto>>() {}.getType();
+		List<StudentDto> studentDtos = modelMapper.map(students, targetListType);
+		return studentDtos;
 	}
 
-	
+	@Transactional
+	public StudentDto findByPerson(PersonDto personDto) {
+		try {
+			Person person = modelMapper.map(personDto, Person.class);
+			Student student = studentRepository.findByPerson(person);
+			StudentDto studentDto = modelMapper.map(student, StudentDto.class);
+			return studentDto;
+		} catch(IllegalArgumentException e) {
+			return null;
+		}
+	}
 }

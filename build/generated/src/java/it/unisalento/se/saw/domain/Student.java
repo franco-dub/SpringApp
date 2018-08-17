@@ -5,6 +5,8 @@ package it.unisalento.se.saw.domain;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -71,7 +73,7 @@ public class Student  implements java.io.Serializable {
         this.studentId = studentId;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="course_course_id", nullable=false)
     public Course getCourse() {
         return this.course;
@@ -81,7 +83,7 @@ public class Student  implements java.io.Serializable {
         this.course = course;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="person_person_id", nullable=false)
     public Person getPerson() {
         return this.person;

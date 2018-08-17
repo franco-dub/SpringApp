@@ -2,7 +2,6 @@ package it.unisalento.se.saw.IService;
 
 import java.util.List;
 
-import it.unisalento.se.saw.domain.Person;
 import it.unisalento.se.saw.dto.PersonDto;
 
 public interface PersonIService {
@@ -12,5 +11,5 @@ public interface PersonIService {
 	public void deletePersonById(Integer id);
 	public void deleteAllPersons();
 	public List<PersonDto> findAllPersons();
-	public Person findByMail(String email);
+	public PersonDto findByMail(String email);
 }

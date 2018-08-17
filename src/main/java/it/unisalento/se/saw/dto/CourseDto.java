@@ -3,21 +3,20 @@ package it.unisalento.se.saw.dto;
 import javax.validation.constraints.NotNull;
 
 public class CourseDto {
-	
+	private Integer courseId;
 	@NotNull
     private String name;
     private String description;
     
-	public CourseDto(String name) {
-		super();
-		this.name = name;
+
+	public CourseDto() {}
+	
+	public Integer getCourseId() {
+		return courseId;
 	}
-	public CourseDto(String name, String description) {
-		super();
-		this.name = name;
-		this.description = description;
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
 	}
-	protected CourseDto() {}
 	public String getName() {
 		return name;
 	}

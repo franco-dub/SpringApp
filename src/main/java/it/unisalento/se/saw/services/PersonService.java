@@ -70,8 +70,14 @@ public class PersonService implements PersonIService {
         return personDtos;
     }    
     @Transactional
-    public Person findByMail(String email) {
-    	Person person = personRepository.findByEmail(email);
-    	return person;
+    public PersonDto findByMail(String email) {
+    	try {
+    		Person person = personRepository.findByEmail(email);
+    		PersonDto personDto = modelMapper.map(person, PersonDto.class);
+        	return personDto;
+    	} catch (IllegalArgumentException e) {
+    		return null;
+    	}
+    	
     }
 }
