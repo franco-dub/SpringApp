@@ -32,10 +32,9 @@ public class Login {
 	@RequestMapping(value = "/{email}/{password}", method = RequestMethod.GET)
     public ResponseEntity<?> log(@PathVariable("email") String email,@PathVariable("password") String password) {
     		Person person = personService.findByMail(email);
-    		Professor prof=professorRepository.findByPerson(person);
-    		if(prof!=null)
-    		return new ResponseEntity<String>("professor", HttpStatus.OK);
-    		else
+    		if(professorRepository.findByPerson(person)!=null)
+    			return new ResponseEntity<String>("professor", HttpStatus.OK);
+    		else if()
     			return new ResponseEntity<String>("cazzi", HttpStatus.OK);
     }
 }
