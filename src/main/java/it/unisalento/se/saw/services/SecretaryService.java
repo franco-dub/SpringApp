@@ -12,13 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import it.unisalento.se.saw.IService.PersonIService;
 import it.unisalento.se.saw.IService.SecretaryIService;
 import it.unisalento.se.saw.domain.Person;
-import it.unisalento.se.saw.domain.Professor;
 import it.unisalento.se.saw.domain.Secretary;
 import it.unisalento.se.saw.dto.PersonDto;
-import it.unisalento.se.saw.dto.ProfessorDto;
 import it.unisalento.se.saw.dto.SecretaryDto;
 import it.unisalento.se.saw.repo.SecretaryRepository;
-import it.unisalento.se.saw.util.Dto;
 
 @Service
 public class SecretaryService implements SecretaryIService {

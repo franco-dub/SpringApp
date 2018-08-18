@@ -2,13 +2,12 @@ package it.unisalento.se.saw.IService;
 
 import java.util.List;
 
-import it.unisalento.se.saw.domain.Course;
+import it.unisalento.se.saw.dto.CourseDto;
 
 public interface CourseIService {
-	public Course findById(Integer id);
-	public void saveCourse(Course course);
-	public void updateCourse(Course course);
+	public CourseDto findById(Integer id);
+	public void saveCourse(CourseDto courseDto);
+	public void updateCourse(CourseDto courseDto);
 	public void deleteCourseById(Integer id);
-	public List<Course> findAllCourses();
-	public boolean isCourseExist(Course course);
+	public List<CourseDto> findAllCourses();
 }

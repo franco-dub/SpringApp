@@ -43,7 +43,6 @@ public class StudentService implements StudentIService{
 	@Transactional
 	public void saveStudent(StudentDto studentDto) {
 		Student student = modelMapper.map(studentDto, Student.class);
-		System.out.println(student.getCourse().getCourseId());
 		studentRepository.save(student);
 	}
 	@Override
