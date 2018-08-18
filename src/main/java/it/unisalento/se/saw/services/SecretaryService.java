@@ -11,12 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.IService.PersonIService;
 import it.unisalento.se.saw.IService.SecretaryIService;
-import it.unisalento.se.saw.domain.Professor;
+import it.unisalento.se.saw.domain.Person;
 import it.unisalento.se.saw.domain.Secretary;
-import it.unisalento.se.saw.dto.ProfessorDto;
+import it.unisalento.se.saw.dto.PersonDto;
 import it.unisalento.se.saw.dto.SecretaryDto;
 import it.unisalento.se.saw.repo.SecretaryRepository;
-import it.unisalento.se.saw.util.Dto;
 
 @Service
 public class SecretaryService implements SecretaryIService {
@@ -43,7 +42,6 @@ public class SecretaryService implements SecretaryIService {
 	@Transactional
 	public void saveSecretary(SecretaryDto secretaryDto) {
 		Secretary secretary = modelMapper.map(secretaryDto, Secretary.class);
-		personService.savePerson(secretaryDto.getPerson());
 		secretaryRepository.save(secretary);
 	}
 
@@ -72,4 +70,18 @@ public class SecretaryService implements SecretaryIService {
     	List<SecretaryDto> secretaryDtos = modelMapper.map(secretaries, targetListType);
         return secretaryDtos;
 	}
+	
+	@Transactional
+	public SecretaryDto findByPerson(PersonDto personDto) {
+		try {
+			Person person = modelMapper.map(personDto, Person.class);
+			Secretary secretary = secretaryRepository.findByPerson(person);
+			SecretaryDto secretaryDto = modelMapper.map(secretary, SecretaryDto.class);
+			return secretaryDto;
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+		
+	}
+
 }

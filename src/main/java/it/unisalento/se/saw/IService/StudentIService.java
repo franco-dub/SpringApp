@@ -2,15 +2,15 @@ package it.unisalento.se.saw.IService;
 
 import java.util.List;
 
-
-import it.unisalento.se.saw.domain.Student;
+import it.unisalento.se.saw.dto.PersonDto;
+import it.unisalento.se.saw.dto.StudentDto;
 
 public interface StudentIService {
 
-	public Student findById(Integer id);
-	public void saveStudent(Student student);
-	public void updateStudent(Student student);
+	public StudentDto findById(Integer id);
+	public void saveStudent(StudentDto studentDto);
+	public void updateStudent(StudentDto studentDto);
 	public void deleteStudentById(Integer id);
-	public List<Student> findAllStudents();
-	public boolean isStudentExist(Student student);
+	public List<StudentDto> findAllStudents();
+	public StudentDto findByPerson(PersonDto personDto);
 }

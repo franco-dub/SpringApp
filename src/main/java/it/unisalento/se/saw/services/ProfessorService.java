@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.IService.PersonIService;
 import it.unisalento.se.saw.IService.ProfessorIService;
+import it.unisalento.se.saw.domain.Person;
 import it.unisalento.se.saw.domain.Professor;
+import it.unisalento.se.saw.dto.PersonDto;
 import it.unisalento.se.saw.dto.ProfessorDto;
 import it.unisalento.se.saw.repo.ProfessorRepository;
 
@@ -40,7 +42,6 @@ public class ProfessorService implements ProfessorIService{
 	@Transactional
 	public void saveProfessor(ProfessorDto professorDto) {
 		Professor professor = modelMapper.map(professorDto, Professor.class);
-		personService.savePerson(professorDto.getPerson());
 		professorRepository.save(professor);
 	}
 	@Override
@@ -64,5 +65,18 @@ public class ProfessorService implements ProfessorIService{
 		Type targetListType = new TypeToken<List<ProfessorDto>>() {}.getType();
     	List<ProfessorDto> professorDtos = modelMapper.map(professors, targetListType);
         return professorDtos;
+	}
+	
+	@Transactional
+	public ProfessorDto findByPerson(PersonDto personDto) {
+		try {
+			Person person = modelMapper.map(personDto, Person.class);
+			Professor professor = professorRepository.findByPerson(person);
+			ProfessorDto professorDto = modelMapper.map(professor, ProfessorDto.class);
+			return professorDto;
+		} catch(IllegalArgumentException e) {
+			return null;
+		}
+		
 	}
 }

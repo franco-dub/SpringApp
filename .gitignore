@@ -1,6 +1,6 @@
 .DS_Store
 .gradle
-/build/
+build/*
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -42,3 +42,9 @@ hs_err_pid*
 *.lock
 hs_err_pid*
 hs_err_pid*
+*.bin
+*.lock
+*.class
+*.class
+*.lock
+*.bin
