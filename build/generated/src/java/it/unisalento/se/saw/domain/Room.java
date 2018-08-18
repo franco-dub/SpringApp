@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 18, 2018, 11:14:11 AM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.HashSet;
@@ -26,23 +26,28 @@ public class Room  implements java.io.Serializable {
      private Integer roomId;
      private String name;
      private String location;
+     private int capacity;
      private Set<Exam> exams = new HashSet<Exam>(0);
      private Set<ClassDayOfWeek> classDayOfWeeks = new HashSet<ClassDayOfWeek>(0);
      private Set<Ticket> tickets = new HashSet<Ticket>(0);
+     private Set<RoomEquipment> roomEquipments = new HashSet<RoomEquipment>(0);
 
     public Room() {
     }
 
 	
-    public Room(String name) {
+    public Room(String name, int capacity) {
         this.name = name;
+        this.capacity = capacity;
     }
-    public Room(String name, String location, Set<Exam> exams, Set<ClassDayOfWeek> classDayOfWeeks, Set<Ticket> tickets) {
+    public Room(String name, String location, int capacity, Set<Exam> exams, Set<ClassDayOfWeek> classDayOfWeeks, Set<Ticket> tickets, Set<RoomEquipment> roomEquipments) {
        this.name = name;
        this.location = location;
+       this.capacity = capacity;
        this.exams = exams;
        this.classDayOfWeeks = classDayOfWeeks;
        this.tickets = tickets;
+       this.roomEquipments = roomEquipments;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -77,6 +82,16 @@ public class Room  implements java.io.Serializable {
         this.location = location;
     }
 
+    
+    @Column(name="capacity", nullable=false)
+    public int getCapacity() {
+        return this.capacity;
+    }
+    
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
 @OneToMany(fetch=FetchType.LAZY, mappedBy="room")
     public Set<Exam> getExams() {
         return this.exams;
@@ -102,6 +117,15 @@ public class Room  implements java.io.Serializable {
     
     public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
+    public Set<RoomEquipment> getRoomEquipments() {
+        return this.roomEquipments;
+    }
+    
+    public void setRoomEquipments(Set<RoomEquipment> roomEquipments) {
+        this.roomEquipments = roomEquipments;
     }
 
 
