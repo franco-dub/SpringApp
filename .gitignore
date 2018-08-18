@@ -42,3 +42,6 @@ hs_err_pid*
 *.lock
 hs_err_pid*
 hs_err_pid*
+*.bin
+*.lock
+*.class
