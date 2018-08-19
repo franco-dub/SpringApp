@@ -26,7 +26,7 @@ public class ModuleDto {
 
 	public void setModuleId(Integer moduleId) {
 		this.moduleId = moduleId;
-	}
+	}	
 
 	public CourseDto getCourse() {
 		return course;
