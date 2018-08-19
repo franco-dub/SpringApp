@@ -31,10 +31,12 @@ public class RoomEquipmentController {
 // -------------------Create a RoomEquipment-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createRoomEquipment(@Valid @RequestBody RoomEquipmentDto roomEquipmentDto) {
+    public ResponseEntity<?> createRoomEquipment(@Valid @RequestBody List<RoomEquipmentDto> roomEquipmentDtos) {
     	try {
-    		roomEquipmentService.saveRoomEquipment(roomEquipmentDto);
-            return new ResponseEntity<RoomEquipmentDto>(roomEquipmentDto, HttpStatus.CREATED);
+    		for(RoomEquipmentDto roomEquipmentDto: roomEquipmentDtos) {
+    			roomEquipmentService.saveRoomEquipment(roomEquipmentDto);
+    		}
+            return new ResponseEntity<List<RoomEquipmentDto>>(roomEquipmentDtos, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new RoomEquipment. Validation error!"),

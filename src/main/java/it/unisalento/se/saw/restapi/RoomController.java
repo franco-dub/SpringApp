@@ -33,8 +33,7 @@ public class RoomController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createRoom(@Valid @RequestBody RoomDto roomDto) {
     	try {
-    		roomService.saveRoom(roomDto);
-            return new ResponseEntity<RoomDto>(roomDto, HttpStatus.CREATED);
+            return new ResponseEntity<RoomDto>(roomService.saveRoom(roomDto), HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Room. Validation error!"),

@@ -35,9 +35,10 @@ public class RoomService implements RoomIService {
 
 	@Override
 	@Transactional
-	public void saveRoom(RoomDto roomDto) {
+	public RoomDto saveRoom(RoomDto roomDto) {
 		Room room = modelMapper.map(roomDto, Room.class);
-		roomRepository.save(room);
+		Room newRoom = roomRepository.save(room);
+		return modelMapper.map(newRoom, RoomDto.class);
 	}
 
 	@Override
