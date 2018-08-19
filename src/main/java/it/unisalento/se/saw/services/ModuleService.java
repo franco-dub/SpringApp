@@ -35,24 +35,37 @@ public class ModuleService implements ModuleIService {
 	}
 
 	@Override
+	@Transactional
 	public void saveModule(ModuleDto moduleDto) {
 		Module module = modelMapper.map(moduleDto, Module.class);
 		moduleRepository.save(module);
 	}
 
 	@Override
+	@Transactional
 	public void updateModule(ModuleDto moduleDto) {
 		saveModule(moduleDto);
 	}
 
 	@Override
+	@Transactional
 	public void deleteModuleById(Integer id) {
 		moduleRepository.deleteById(id);
 	}
 
 	@Override
+	@Transactional
 	public List<ModuleDto> findAllModules() {
 		List<Module> modules = moduleRepository.findAll();
+		Type targetListType = new TypeToken<List<ModuleDto>>() {}.getType();
+		List<ModuleDto> moduleDtos = modelMapper.map(modules, targetListType);
+		return moduleDtos;
+	}
+
+	@Override
+	@Transactional
+	public List<ModuleDto> findAllCourseSModule(Integer id) {
+		List<Module> modules = moduleRepository.findAllByCourseCourseId(id);
 		Type targetListType = new TypeToken<List<ModuleDto>>() {}.getType();
 		List<ModuleDto> moduleDtos = modelMapper.map(modules, targetListType);
 		return moduleDtos;

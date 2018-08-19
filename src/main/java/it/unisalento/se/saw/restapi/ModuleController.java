@@ -45,7 +45,7 @@ public class ModuleController {
     	}
     }
     
-    //-------------------Retrieve All Modules--------------------------------------------------------
+//-------------------Retrieve All Modules--------------------------------------------------------
     
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> listAllModules() {
@@ -106,5 +106,19 @@ public class ModuleController {
         	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Module with id " + id 
                     + " not found."), HttpStatus.NOT_FOUND);
         }
+    }
+    
+//-------------------Retrieve All Course's Modules--------------------------------------------------------
+    
+    @RequestMapping(value = "/findAll/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllCourseSModules(@PathVariable("id") Integer id) {
+    	List<ModuleDto> moduleDtos = moduleService.findAllCourseSModule(id);
+    	if (moduleDtos.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+        return new ResponseEntity<List<ModuleDto>>(moduleDtos, HttpStatus.OK);
     }
 }

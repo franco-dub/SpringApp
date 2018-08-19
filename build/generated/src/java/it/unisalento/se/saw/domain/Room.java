@@ -22,7 +22,7 @@ import javax.persistence.Table;
 )
 public class Room  implements java.io.Serializable {
 
-
+	
      private Integer roomId;
      private String name;
      private String location;
