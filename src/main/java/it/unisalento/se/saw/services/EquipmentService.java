@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.unisalento.se.saw.IService.EquipmentIService;
 import it.unisalento.se.saw.domain.Equipment;
@@ -25,6 +26,7 @@ public class EquipmentService implements EquipmentIService {
 	}
 
 	@Override
+	@Transactional
 	public EquipmentDto findById(Integer id) {
 		Equipment equipment = equipmentRepository.findById(id).get();
 		EquipmentDto equipmentDto = modelMapper.map(equipment, EquipmentDto.class);
@@ -32,22 +34,26 @@ public class EquipmentService implements EquipmentIService {
 	}
 
 	@Override
+	@Transactional
 	public void saveEquipment(EquipmentDto equipmentDto) {
 		Equipment equipment = modelMapper.map(equipmentDto, Equipment.class);
 		equipmentRepository.save(equipment);
 	}
 
 	@Override
+	@Transactional
 	public void updateEquipment(EquipmentDto equipmentDto) {
 		saveEquipment(equipmentDto);
 	}
 
 	@Override
+	@Transactional
 	public void deleteEquipmentById(Integer id) {
 		equipmentRepository.deleteById(id);
 	}
 
 	@Override
+	@Transactional
 	public List<EquipmentDto> findAllEquipments() {
 		List<Equipment> equipments = equipmentRepository.findAll();
 		Type targetListType = new TypeToken<List<EquipmentDto>>() {}.getType();

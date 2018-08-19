@@ -35,6 +35,7 @@ public class CourseService implements CourseIService {
 	}
 
 	@Override
+	@Transactional
 	public void saveCourse(CourseDto courseDto) {
 		Course course = modelMapper.map(courseDto, Course.class);
 		courseRepository.save(course);

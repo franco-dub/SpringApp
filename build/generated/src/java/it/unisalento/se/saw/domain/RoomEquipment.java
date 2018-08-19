@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -56,7 +58,7 @@ public class RoomEquipment  implements java.io.Serializable {
         this.roomEquipmentId = roomEquipmentId;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="equipment_equipment_id", nullable=false)
     public Equipment getEquipment() {
         return this.equipment;
@@ -66,7 +68,7 @@ public class RoomEquipment  implements java.io.Serializable {
         this.equipment = equipment;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="room_room_id", nullable=false)
     public Room getRoom() {
         return this.room;

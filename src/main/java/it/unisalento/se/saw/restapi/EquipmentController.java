@@ -28,7 +28,7 @@ public class EquipmentController {
 		this.equipmentService = equipmentService;
 	}
 	
-	// -------------------Create a Equipment-------------------------------------------
+// -------------------Create a Equipment-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createEquipment(@Valid @RequestBody EquipmentDto equipmentDto) {
