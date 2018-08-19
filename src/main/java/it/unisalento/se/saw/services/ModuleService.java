@@ -62,4 +62,13 @@ public class ModuleService implements ModuleIService {
 		return moduleDtos;
 	}
 
+	@Override
+	@Transactional
+	public List<ModuleDto> findAllCourseSModule(Integer id) {
+		List<Module> modules = moduleRepository.findAllByCourseCourseId(id);
+		Type targetListType = new TypeToken<List<ModuleDto>>() {}.getType();
+		List<ModuleDto> moduleDtos = modelMapper.map(modules, targetListType);
+		return moduleDtos;
+	}
+
 }
