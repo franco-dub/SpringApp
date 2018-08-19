@@ -4,51 +4,62 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class StudentDto {
 
+	private Integer studentId;
 	@NotNull
-    private CourseDto courseDto;
+    private CourseDto course;
 	@NotNull
-    private PersonDto personDto;
+    private PersonDto person;
 	@NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
     private Date registrationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
     private Date graduationDate;
-	public StudentDto(CourseDto courseDto, PersonDto personDto, Date registrationDate) {
-		super();
-		this.courseDto = courseDto;
-		this.personDto = personDto;
-		this.registrationDate = registrationDate;
+
+	public StudentDto() {}
+
+	public Integer getStudentId() {
+		return studentId;
 	}
-	public StudentDto(CourseDto courseDto, PersonDto personDto, Date registrationDate, Date graduationDate) {
-		super();
-		this.courseDto = courseDto;
-		this.personDto = personDto;
-		this.registrationDate = registrationDate;
-		this.graduationDate = graduationDate;
+
+	public void setStudentId(Integer studentId) {
+		this.studentId = studentId;
 	}
-	protected StudentDto() {}
-	public CourseDto getCourseDto() {
-		return courseDto;
+
+	public CourseDto getCourse() {
+		return course;
 	}
-	public void setCourseDto(CourseDto courseDto) {
-		this.courseDto = courseDto;
+
+	public void setCourse(CourseDto course) {
+		this.course = course;
 	}
-	public PersonDto getPersonDto() {
-		return personDto;
+
+	public PersonDto getPerson() {
+		return person;
 	}
-	public void setPersonDto(PersonDto personDto) {
-		this.personDto = personDto;
+
+	public void setPerson(PersonDto person) {
+		this.person = person;
 	}
+
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
+
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+
 	public Date getGraduationDate() {
 		return graduationDate;
 	}
+
 	public void setGraduationDate(Date graduationDate) {
 		this.graduationDate = graduationDate;
 	}
+	
+	
 }

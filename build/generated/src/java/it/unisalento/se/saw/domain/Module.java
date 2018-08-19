@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 18, 2018, 11:38:32 AM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.HashSet;
@@ -31,6 +31,7 @@ public class Module  implements java.io.Serializable {
      private String title;
      private int credits;
      private String semester;
+     private int year;
      private Set<Lecture> lectures = new HashSet<Lecture>(0);
      private Set<Exam> exams = new HashSet<Exam>(0);
      private Set<TeachingMaterial> teachingMaterials = new HashSet<TeachingMaterial>(0);
@@ -39,19 +40,21 @@ public class Module  implements java.io.Serializable {
     }
 
 	
-    public Module(Course course, Professor professor, String title, int credits, String semester) {
+    public Module(Course course, Professor professor, String title, int credits, String semester, int year) {
         this.course = course;
         this.professor = professor;
         this.title = title;
         this.credits = credits;
         this.semester = semester;
+        this.year = year;
     }
-    public Module(Course course, Professor professor, String title, int credits, String semester, Set<Lecture> lectures, Set<Exam> exams, Set<TeachingMaterial> teachingMaterials) {
+    public Module(Course course, Professor professor, String title, int credits, String semester, int year, Set<Lecture> lectures, Set<Exam> exams, Set<TeachingMaterial> teachingMaterials) {
        this.course = course;
        this.professor = professor;
        this.title = title;
        this.credits = credits;
        this.semester = semester;
+       this.year = year;
        this.lectures = lectures;
        this.exams = exams;
        this.teachingMaterials = teachingMaterials;
@@ -117,6 +120,16 @@ public class Module  implements java.io.Serializable {
     
     public void setSemester(String semester) {
         this.semester = semester;
+    }
+
+    
+    @Column(name="year", nullable=false)
+    public int getYear() {
+        return this.year;
+    }
+    
+    public void setYear(int year) {
+        this.year = year;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="module")
