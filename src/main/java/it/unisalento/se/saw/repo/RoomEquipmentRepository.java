@@ -9,5 +9,6 @@ import it.unisalento.se.saw.domain.RoomEquipment;
 
 @Repository
 public interface RoomEquipmentRepository extends JpaRepository<RoomEquipment, Integer> {
-	public List<RoomEquipment> findAllByRoomRoomId(Integer roomId);
+	List<RoomEquipment> findAllByRoomRoomId(Integer roomId);
+	List<RoomEquipment> findAllByEquipmentEquipmentId(Integer equipmentId);
 }
