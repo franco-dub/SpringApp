@@ -61,4 +61,22 @@ public class RoomEquipmentService implements RoomEquipmentIService {
 		return roomEquipmentDtos;
 	}
 
+	@Override
+	@Transactional
+	public List<RoomEquipmentDto> findAllRoomSEquipments(Integer id) {
+		List<RoomEquipment> roomEquipments = roomEquipmentRepository.findAllByRoomRoomId(id);
+		Type targetListType = new TypeToken<List<RoomEquipmentDto>>() {}.getType();
+		List<RoomEquipmentDto> roomEquipmentDtos = modelMapper.map(roomEquipments, targetListType);
+		return roomEquipmentDtos;
+	}
+
+	@Override
+	@Transactional
+	public List<RoomEquipmentDto> findAllRoomsWhereEquipments(Integer id) {
+		List<RoomEquipment> roomEquipments = roomEquipmentRepository.findAllByEquipmentEquipmentId(id);
+		Type targetListType = new TypeToken<List<RoomEquipmentDto>>() {}.getType();
+		List<RoomEquipmentDto> roomEquipmentDtos = modelMapper.map(roomEquipments, targetListType);
+		return roomEquipmentDtos;
+	}
+
 }

@@ -11,4 +11,6 @@ public interface RoomEquipmentIService {
 	public void updateRoomEquipment(RoomEquipmentDto roomEquipmentDto);
 	public void deleteRoomEquipmentById(Integer id);
 	public List<RoomEquipmentDto> findAllRoomEquipments();
+	public List<RoomEquipmentDto> findAllRoomSEquipments(Integer id);
+	public List<RoomEquipmentDto> findAllRoomsWhereEquipments(Integer id);
 }
