@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 20, 2018, 1:46:40 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
@@ -26,17 +26,25 @@ public class StudentExam  implements java.io.Serializable {
 
 
      private Integer studentExamId;
-     private Exam exam;
+     private ExamCalendar examCalendar;
      private Student student;
      private Date date;
+     private Integer mark;
 
     public StudentExam() {
     }
 
-    public StudentExam(Exam exam, Student student, Date date) {
-       this.exam = exam;
+	
+    public StudentExam(ExamCalendar examCalendar, Student student, Date date) {
+        this.examCalendar = examCalendar;
+        this.student = student;
+        this.date = date;
+    }
+    public StudentExam(ExamCalendar examCalendar, Student student, Date date, Integer mark) {
+       this.examCalendar = examCalendar;
        this.student = student;
        this.date = date;
+       this.mark = mark;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -52,13 +60,13 @@ public class StudentExam  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="exam_exam_id", nullable=false)
-    public Exam getExam() {
-        return this.exam;
+    @JoinColumn(name="exam_calendar_exam_calendar_id", nullable=false)
+    public ExamCalendar getExamCalendar() {
+        return this.examCalendar;
     }
     
-    public void setExam(Exam exam) {
-        this.exam = exam;
+    public void setExamCalendar(ExamCalendar examCalendar) {
+        this.examCalendar = examCalendar;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -79,6 +87,16 @@ public class StudentExam  implements java.io.Serializable {
     
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    
+    @Column(name="mark")
+    public Integer getMark() {
+        return this.mark;
+    }
+    
+    public void setMark(Integer mark) {
+        this.mark = mark;
     }
 
 

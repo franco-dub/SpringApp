@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 18, 2018, 11:38:32 AM by Hibernate Tools 5.2.0.Final
+// Generated Aug 20, 2018, 1:46:40 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.HashSet;
@@ -32,9 +32,9 @@ public class Module  implements java.io.Serializable {
      private int credits;
      private String semester;
      private int year;
-     private Set<Lecture> lectures = new HashSet<Lecture>(0);
-     private Set<Exam> exams = new HashSet<Exam>(0);
+     private Set<ExamCalendar> examCalendars = new HashSet<ExamCalendar>(0);
      private Set<TeachingMaterial> teachingMaterials = new HashSet<TeachingMaterial>(0);
+     private Set<LectureCalendar> lectureCalendars = new HashSet<LectureCalendar>(0);
 
     public Module() {
     }
@@ -48,16 +48,16 @@ public class Module  implements java.io.Serializable {
         this.semester = semester;
         this.year = year;
     }
-    public Module(Course course, Professor professor, String title, int credits, String semester, int year, Set<Lecture> lectures, Set<Exam> exams, Set<TeachingMaterial> teachingMaterials) {
+    public Module(Course course, Professor professor, String title, int credits, String semester, int year, Set<ExamCalendar> examCalendars, Set<TeachingMaterial> teachingMaterials, Set<LectureCalendar> lectureCalendars) {
        this.course = course;
        this.professor = professor;
        this.title = title;
        this.credits = credits;
        this.semester = semester;
        this.year = year;
-       this.lectures = lectures;
-       this.exams = exams;
+       this.examCalendars = examCalendars;
        this.teachingMaterials = teachingMaterials;
+       this.lectureCalendars = lectureCalendars;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -133,21 +133,12 @@ public class Module  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="module")
-    public Set<Lecture> getLectures() {
-        return this.lectures;
+    public Set<ExamCalendar> getExamCalendars() {
+        return this.examCalendars;
     }
     
-    public void setLectures(Set<Lecture> lectures) {
-        this.lectures = lectures;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="module")
-    public Set<Exam> getExams() {
-        return this.exams;
-    }
-    
-    public void setExams(Set<Exam> exams) {
-        this.exams = exams;
+    public void setExamCalendars(Set<ExamCalendar> examCalendars) {
+        this.examCalendars = examCalendars;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="module")
@@ -157,6 +148,15 @@ public class Module  implements java.io.Serializable {
     
     public void setTeachingMaterials(Set<TeachingMaterial> teachingMaterials) {
         this.teachingMaterials = teachingMaterials;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="module")
+    public Set<LectureCalendar> getLectureCalendars() {
+        return this.lectureCalendars;
+    }
+    
+    public void setLectureCalendars(Set<LectureCalendar> lectureCalendars) {
+        this.lectureCalendars = lectureCalendars;
     }
 
 
