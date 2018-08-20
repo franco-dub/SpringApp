@@ -6,9 +6,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import it.unisalento.se.saw.domain.Module;
-import it.unisalento.se.saw.domain.Room;
-
 public class LectureCalendarDto {
 	
 	private Integer lectureCalendarId;
