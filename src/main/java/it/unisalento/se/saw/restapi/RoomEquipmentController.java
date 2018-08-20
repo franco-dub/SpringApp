@@ -142,4 +142,32 @@ public class RoomEquipmentController {
                     + " not found."), HttpStatus.NOT_FOUND);
         }
     }
+    
+//-------------------Retrieve All Room's Equipments--------------------------------------------------------
+    
+    @RequestMapping(value = "/findAllRoomEquipment/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllRoomSEquipments(@PathVariable("id") Integer id) {
+    	List<RoomEquipmentDto> roomEquipmentDtos = roomEquipmentService.findAllRoomSEquipments(id);
+    	if (roomEquipmentDtos.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+        return new ResponseEntity<List<RoomEquipmentDto>>(roomEquipmentDtos, HttpStatus.OK);
+    }
+    
+//-------------------Retrieve All Rooms Where Equipment--------------------------------------------------------
+    
+    @RequestMapping(value = "/findAllRoomWhereEquipment/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllRoomsWhereEquipment(@PathVariable("id") Integer id) {
+    	List<RoomEquipmentDto> roomEquipmentDtos = roomEquipmentService.findAllRoomsWhereEquipments(id);
+    	if (roomEquipmentDtos.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+        return new ResponseEntity<List<RoomEquipmentDto>>(roomEquipmentDtos, HttpStatus.OK);
+    }
 }
