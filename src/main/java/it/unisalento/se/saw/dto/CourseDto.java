@@ -7,10 +7,24 @@ public class CourseDto {
 	@NotNull
     private String name;
     private String description;
+    private Integer year;
+    private Integer cfu;
     
+    public CourseDto() {}
+	    
 
-	public CourseDto() {}
-	
+	public Integer getYear() {
+		return year;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+	public Integer getCfu() {
+		return cfu;
+	}
+	public void setCfu(Integer cfu) {
+		this.cfu = cfu;
+	}
 	public Integer getCourseId() {
 		return courseId;
 	}

@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -31,10 +32,12 @@ public class RoomEquipmentController {
 // -------------------Create a RoomEquipment-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createRoomEquipment(@Valid @RequestBody RoomEquipmentDto roomEquipmentDto) {
+    public ResponseEntity<?> createRoomEquipment(@Valid @RequestBody List<RoomEquipmentDto> roomEquipmentDtos) {
     	try {
-    		roomEquipmentService.saveRoomEquipment(roomEquipmentDto);
-            return new ResponseEntity<RoomEquipmentDto>(roomEquipmentDto, HttpStatus.CREATED);
+    		for(RoomEquipmentDto roomEquipmentDto: roomEquipmentDtos) {
+    			roomEquipmentService.saveRoomEquipment(roomEquipmentDto);
+    		}
+            return new ResponseEntity<List<RoomEquipmentDto>>(roomEquipmentDtos, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new RoomEquipment. Validation error!"),
@@ -56,6 +59,20 @@ public class RoomEquipmentController {
         return new ResponseEntity<List<RoomEquipmentDto>>(roomEquipmentDtos, HttpStatus.OK);
     }
     
+//---------------Retrieve All RoomEquipments of a Room----------------------------------------
+    
+    @RequestMapping(value = "/findByRoomId/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findAllRoomEquipmentByRoomId(@Valid @PathVariable("id") Integer id){
+    	try {
+    		List<RoomEquipmentDto> roomEquipmentDtos = roomEquipmentService.findRoomEquipmentsByroomId(id);
+    		return new ResponseEntity<List<RoomEquipmentDto>>(roomEquipmentDtos, HttpStatus.OK);
+    	} catch(Exception e) {
+    		return new ResponseEntity<>(new CustomErrorType("RoomEquipment with id " + id 
+                    + " not found"), HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    
 // -------------------Retrieve Single RoomEquipment------------------------------------------
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -71,7 +88,7 @@ public class RoomEquipmentController {
     
 // ------------------- Update a RoomEquipment ------------------------------------------------
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateById/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateRoomEquipment(@PathVariable("id") int id, 
     		@Valid @RequestBody RoomEquipmentDto roomEquipmentDto) {
     	try {
@@ -89,6 +106,27 @@ public class RoomEquipmentController {
             		+ id + " not found."), HttpStatus.NOT_FOUND);
     	}
     }
+    
+    
+//-------------------Update RoomEquipment of a Room-------------------------------------------
+    
+    
+    @RequestMapping(value = "/updateByRoom", method = RequestMethod.POST)
+    public ResponseEntity<?> updateRoomEquipmentByRoom(@Valid @RequestBody List<RoomEquipmentDto> roomEquipmentDtos){
+    	System.out.println(roomEquipmentDtos);
+    	try {
+    		List<RoomEquipmentDto> newRoomEquipmentDtos = new ArrayList<>();
+    		for(RoomEquipmentDto roomEquipmentDto: roomEquipmentDtos) {
+    			newRoomEquipmentDtos.add(roomEquipmentService.updateRoomEquipment(roomEquipmentDto));
+    		}
+    		return new ResponseEntity<List<RoomEquipmentDto>>(newRoomEquipmentDtos, HttpStatus.OK);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(new CustomErrorType("Unable to create new RoomEquipment. Validation error!"),
+    				HttpStatus.BAD_REQUEST);
+    	}
+    }
+    
+    
     
 //------------------- Delete a RoomEquipment --------------------------------------------------------
     

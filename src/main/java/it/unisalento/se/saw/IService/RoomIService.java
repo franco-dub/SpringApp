@@ -7,7 +7,7 @@ import it.unisalento.se.saw.dto.RoomDto;
 public interface RoomIService {
 
 	public RoomDto findById(Integer id);
-	public void saveRoom(RoomDto roomDto);
+	public RoomDto saveRoom(RoomDto roomDto);
 	public void updateRoom(RoomDto roomDto);
 	public void deleteRoomById(Integer id);
 	public List<RoomDto> findAllRooms();
