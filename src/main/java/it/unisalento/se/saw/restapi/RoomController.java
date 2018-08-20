@@ -58,7 +58,7 @@ public class RoomController {
 // -------------------Retrieve Single Room------------------------------------------
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getRoom(@PathVariable("id") int id) {
+    public ResponseEntity<?> getRoom(@PathVariable("id") Integer id) {
     	try {
     		RoomDto roomDto = roomService.findById(id);
     		return new ResponseEntity<RoomDto>(roomDto, HttpStatus.OK);
@@ -70,10 +70,11 @@ public class RoomController {
     
 // ------------------- Update a Room ------------------------------------------------
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateRoom(@PathVariable("id") int id, 
+    @RequestMapping(value = "/updateById/{id}", method = RequestMethod.POST)
+    public ResponseEntity<?> updateRoom(@PathVariable("id") Integer id, 
     		@Valid @RequestBody RoomDto roomDto) {
     	try {
+    		System.out.println(id + " " + roomDto);
     		roomService.findById(id);
     		try {
     			roomDto.setRoomId(id);

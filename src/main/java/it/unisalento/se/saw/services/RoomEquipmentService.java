@@ -35,15 +35,15 @@ public class RoomEquipmentService implements RoomEquipmentIService {
 
 	@Override
 	@Transactional
-	public void saveRoomEquipment(RoomEquipmentDto roomEquipmentDto) {
+	public RoomEquipmentDto saveRoomEquipment(RoomEquipmentDto roomEquipmentDto) {
 		RoomEquipment roomEquipment = modelMapper.map(roomEquipmentDto, RoomEquipment.class);
-		roomEquipmentRepository.save(roomEquipment);
+		return modelMapper.map(roomEquipmentRepository.save(roomEquipment), RoomEquipmentDto.class);
 	}
 
 	@Override
 	@Transactional
-	public void updateRoomEquipment(RoomEquipmentDto roomEquipmentDto) {
-		saveRoomEquipment(roomEquipmentDto);
+	public RoomEquipmentDto updateRoomEquipment(RoomEquipmentDto roomEquipmentDto) {
+		return saveRoomEquipment(roomEquipmentDto);
 	}
 
 	@Override
@@ -59,6 +59,14 @@ public class RoomEquipmentService implements RoomEquipmentIService {
 		Type targetListType = new TypeToken<List<RoomEquipmentDto>>() {}.getType();
 		List<RoomEquipmentDto> roomEquipmentDtos = modelMapper.map(roomEquipments, targetListType);
 		return roomEquipmentDtos;
+	}
+	
+	@Override
+	@Transactional
+	public List<RoomEquipmentDto> findRoomEquipmentsByroomId(Integer id) {
+		List<RoomEquipment> roomEquipments = roomEquipmentRepository.findAllByRoomRoomId(id);
+		Type targetListType = new TypeToken<List<RoomEquipmentDto>>() {}.getType();
+		return modelMapper.map(roomEquipments, targetListType);
 	}
 
 }
