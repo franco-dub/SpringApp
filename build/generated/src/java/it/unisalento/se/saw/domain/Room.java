@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 2, 2018, 5:57:08 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 20, 2018, 1:46:40 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.HashSet;
@@ -26,23 +26,28 @@ public class Room  implements java.io.Serializable {
      private Integer roomId;
      private String name;
      private String location;
-     private Set<Exam> exams = new HashSet<Exam>(0);
-     private Set<ClassDayOfWeek> classDayOfWeeks = new HashSet<ClassDayOfWeek>(0);
+     private int capacity;
+     private Set<LectureCalendar> lectureCalendars = new HashSet<LectureCalendar>(0);
      private Set<Ticket> tickets = new HashSet<Ticket>(0);
+     private Set<ExamCalendar> examCalendars = new HashSet<ExamCalendar>(0);
+     private Set<RoomEquipment> roomEquipments = new HashSet<RoomEquipment>(0);
 
     public Room() {
     }
 
 	
-    public Room(String name) {
+    public Room(String name, int capacity) {
         this.name = name;
+        this.capacity = capacity;
     }
-    public Room(String name, String location, Set<Exam> exams, Set<ClassDayOfWeek> classDayOfWeeks, Set<Ticket> tickets) {
+    public Room(String name, String location, int capacity, Set<LectureCalendar> lectureCalendars, Set<Ticket> tickets, Set<ExamCalendar> examCalendars, Set<RoomEquipment> roomEquipments) {
        this.name = name;
        this.location = location;
-       this.exams = exams;
-       this.classDayOfWeeks = classDayOfWeeks;
+       this.capacity = capacity;
+       this.lectureCalendars = lectureCalendars;
        this.tickets = tickets;
+       this.examCalendars = examCalendars;
+       this.roomEquipments = roomEquipments;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -77,22 +82,23 @@ public class Room  implements java.io.Serializable {
         this.location = location;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
-    public Set<Exam> getExams() {
-        return this.exams;
+    
+    @Column(name="capacity", nullable=false)
+    public int getCapacity() {
+        return this.capacity;
     }
     
-    public void setExams(Set<Exam> exams) {
-        this.exams = exams;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="room")
-    public Set<ClassDayOfWeek> getClassDayOfWeeks() {
-        return this.classDayOfWeeks;
+    public Set<LectureCalendar> getLectureCalendars() {
+        return this.lectureCalendars;
     }
     
-    public void setClassDayOfWeeks(Set<ClassDayOfWeek> classDayOfWeeks) {
-        this.classDayOfWeeks = classDayOfWeeks;
+    public void setLectureCalendars(Set<LectureCalendar> lectureCalendars) {
+        this.lectureCalendars = lectureCalendars;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="room")
@@ -102,6 +108,24 @@ public class Room  implements java.io.Serializable {
     
     public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
+    public Set<ExamCalendar> getExamCalendars() {
+        return this.examCalendars;
+    }
+    
+    public void setExamCalendars(Set<ExamCalendar> examCalendars) {
+        this.examCalendars = examCalendars;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
+    public Set<RoomEquipment> getRoomEquipments() {
+        return this.roomEquipments;
+    }
+    
+    public void setRoomEquipments(Set<RoomEquipment> roomEquipments) {
+        this.roomEquipments = roomEquipments;
     }
 
 

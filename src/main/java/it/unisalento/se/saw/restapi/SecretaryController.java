@@ -19,7 +19,6 @@ import it.unisalento.se.saw.IService.SecretaryIService;
 import it.unisalento.se.saw.domain.Secretary;
 import it.unisalento.se.saw.dto.SecretaryDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
-import it.unisalento.se.saw.util.Dto;
 
 @RestController
 @RequestMapping(path = "/secretary")

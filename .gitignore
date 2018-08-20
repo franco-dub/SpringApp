@@ -1,6 +1,7 @@
-+.DS_Store
-+.gradle
-+/build/
+
+.DS_Store
+.gradle
+
 
 # Ignore Gradle GUI config
 +gradle-app.setting
@@ -15,7 +16,9 @@
 # gradle/wrapper/gradle-wrapper.properties
 
 # Compiled class file
-+*.class
+
+ *.class
+
 
 # Log file
 +*.log
@@ -42,3 +45,10 @@ hs_err_pid*
 +*.lock
 hs_err_pid*
 hs_err_pid*
+*.bin
+*.lock
+*.class
+*.class
+*.lock
+*.bin
+build/
