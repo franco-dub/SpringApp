@@ -61,5 +61,4 @@ public class RoomService implements RoomIService {
 		List<RoomDto> roomDtos = modelMapper.map(rooms, targetListType);
 		return roomDtos;
 	}
-
 }
