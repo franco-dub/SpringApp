@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class LectureCalendarDto {
@@ -11,7 +13,7 @@ public class LectureCalendarDto {
 	private Integer lectureCalendarId;
 	@NotNull
     private ModuleDto module;
-	@NotNull
+	@Nullable
     private RoomDto room;
 	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Europe/Rome")
