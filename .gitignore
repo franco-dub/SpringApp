@@ -48,4 +48,3 @@ hs_err_pid*
 *.class
 *.lock
 *.bin
-build/
