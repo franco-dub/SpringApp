@@ -1,5 +1,7 @@
 package it.unisalento.se.saw.dto;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -8,7 +10,11 @@ import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import it.unisalento.se.saw.util.DateTimeConverter;
+
 public class LectureCalendarDto {
+	
+	private static final DateTimeConverter converter = new DateTimeConverter();
 	
 	private Integer lectureCalendarId;
 	@NotNull
@@ -83,5 +89,17 @@ public class LectureCalendarDto {
 
 	public void setDay(String day) {
 		this.day = day;
+	}
+	
+	public LocalTime getStartTimeToLocalTime() {
+		return converter.convertToLocalTime(this.getStartTime());
+	}
+	
+	public LocalTime getEndTimeToLocalTime() {
+		return converter.convertToLocalTime(this.getEndTime());
+	}
+	
+	public LocalDate getDateToLocalDate() {
+		return converter.convertToLocalDate(this.getDate());
 	}
 }
