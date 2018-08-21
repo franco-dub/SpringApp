@@ -1,6 +1,7 @@
 package it.unisalento.se.saw.services;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -55,6 +56,15 @@ public class LectureCalendarService implements LectureCalendarIService {
 	@Transactional
 	public List<LectureCalendarDto> findAllLectures() {
 		List<LectureCalendar> lectures = lectureCalendarRepository.findAll();
+		Type targetListType = new TypeToken<List<LectureCalendarDto>>() {}.getType();
+		List<LectureCalendarDto> lectureDtos = modelMapper.map(lectures, targetListType);
+		return lectureDtos;
+	}
+
+	@Override
+	@Transactional
+	public List<LectureCalendarDto> findAllLectureSDate(Date date) {
+		List<LectureCalendar> lectures = lectureCalendarRepository.findAllByDate(date);
 		Type targetListType = new TypeToken<List<LectureCalendarDto>>() {}.getType();
 		List<LectureCalendarDto> lectureDtos = modelMapper.map(lectures, targetListType);
 		return lectureDtos;
