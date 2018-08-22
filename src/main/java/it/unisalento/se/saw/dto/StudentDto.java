@@ -1,13 +1,17 @@
 package it.unisalento.se.saw.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import it.unisalento.se.saw.util.DateTimeConverter;
+
 public class StudentDto {
 
+	private static final DateTimeConverter converter = new DateTimeConverter();
 	private Integer studentId;
 	@NotNull
     private CourseDto course;
@@ -60,6 +64,10 @@ public class StudentDto {
 	public void setGraduationDate(Date graduationDate) {
 		this.graduationDate = graduationDate;
 	}
-	
-	
+
+	public long getYear() {
+		LocalDate now = converter.convertToLocalDate(new Date());
+		long years = java.time.temporal.ChronoUnit.YEARS.between(converter.convertToLocalDate(this.getRegistrationDate()), now);
+		return years+1;
+	}
 }

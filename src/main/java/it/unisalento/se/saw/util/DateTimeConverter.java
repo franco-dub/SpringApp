@@ -11,14 +11,12 @@ public class DateTimeConverter {
 
 	
 	public LocalTime convertToLocalTime(Date dateToConvert) {
-		Instant instant = Instant.ofEpochMilli(dateToConvert.getTime());
-		LocalTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalTime();
-		return res;
+		return LocalDateTime.ofInstant(Instant.ofEpochMilli(dateToConvert.getTime()), 
+				ZoneId.systemDefault()).toLocalTime();
 	}
 	
 	public LocalDate convertToLocalDate(Date dateToConvert) {
-		Instant instant = Instant.ofEpochMilli(dateToConvert.getTime());
-		LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
-		return res;
+		return LocalDateTime.ofInstant(Instant.ofEpochMilli(dateToConvert.getTime()), 
+				ZoneId.systemDefault()).toLocalDate();
 	}
 }
