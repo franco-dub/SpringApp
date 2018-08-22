@@ -33,6 +33,9 @@ public class LectureCalendarDto {
 	@NotNull
     private String day;
 	
+	private Date startDate;
+	private Date endDate;
+	
 	public LectureCalendarDto() {}
 
 	public Integer getLectureCalendarId() {
@@ -101,5 +104,28 @@ public class LectureCalendarDto {
 	
 	public LocalDate getDateToLocalDate() {
 		return converter.convertToLocalDate(this.getDate());
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getStartDateToLocalDate() {
+		return converter.convertToLocalDate(this.getStartDate());
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	
+	public LocalDate getEndDateToLocalDate() {
+		return converter.convertToLocalDate(this.getEndDate());
 	}
 }

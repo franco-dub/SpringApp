@@ -106,4 +106,18 @@ public class StudentController {
                     + " not found."), HttpStatus.NOT_FOUND);
         }
     }
+    
+//-------------------Retrieve All Course's Students--------------------------------------------------------
+    
+    @RequestMapping(value = "/findAll/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllCourseSStudents(@PathVariable("id") Integer id) {
+    	List<StudentDto> students = studentService.findAllCourseSStudent(id);
+    	if (students.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+        return new ResponseEntity<List<StudentDto>>(students, HttpStatus.OK);
+    }
 }
