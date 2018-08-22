@@ -7,4 +7,5 @@ import it.unisalento.se.saw.dto.RoomDto;
 
 public interface SchedulingIService {
 	public List<RoomDto> findFreeRooms(LectureCalendarDto lectureCalendarDto);
+	public void saveAllLectures(LectureCalendarDto lectureCalendarDto);
 }

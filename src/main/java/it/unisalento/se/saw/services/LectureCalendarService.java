@@ -69,5 +69,4 @@ public class LectureCalendarService implements LectureCalendarIService {
 		List<LectureCalendarDto> lectureDtos = modelMapper.map(lectures, targetListType);
 		return lectureDtos;
 	}
-
 }

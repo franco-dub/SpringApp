@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,16 +18,16 @@ import it.unisalento.se.saw.IService.StudentIService;
 import it.unisalento.se.saw.dto.LectureCalendarDto;
 import it.unisalento.se.saw.dto.RoomDto;
 import it.unisalento.se.saw.dto.StudentDto;
+import it.unisalento.se.saw.util.DateTimeConverter;
 
 @Service
 public class SchedulingService implements SchedulingIService {
-
+	
 	RoomIService roomService;
 	LectureCalendarIService lectureCalendarService;
 	StudentIService studentService;
 	ModuleIService moduleService;
 	
-	int count = 0;
 	@Autowired
 	public SchedulingService(RoomIService roomService, LectureCalendarIService lectureCalendarService,
 			StudentIService studentService, ModuleIService moduleService) {
@@ -48,13 +49,10 @@ public class SchedulingService implements SchedulingIService {
         });
         /*Get the count of all the students attending the module*/
         List<StudentDto> studentDtos = studentService.findAllCourseSStudent(lectureCalendarDto.getModule().getCourse().getCourseId());
-        if(!studentDtos.isEmpty()) {
-        	for (StudentDto student : studentDtos) {
-        		if(student.getYear() == lectureCalendarDto.getModule().getYear()) {
-        			count+=1;
-        		}
-        	}
-        }
+        long cap = studentDtos.stream()
+                .filter(c -> lectureCalendarDto.getModule().getYear() == c.getYear())
+                .count();
+        
         Iterable<LectureCalendarDto> lectureCalendarDtos = lectureCalendarService.findAllLectureSDate(lectureCalendarDto.getDate());
         if(null!=lectureCalendarDtos){
             lectureCalendarDtos.forEach(lecture -> {
@@ -64,12 +62,24 @@ public class SchedulingService implements SchedulingIService {
             			lecture.getStartTimeToLocalTime().isAfter(lectureCalendarDto.getEndTimeToLocalTime()) || 
             			lecture.getStartTimeToLocalTime().equals(lectureCalendarDto.getEndTimeToLocalTime()))) {
             		/*Check if room is big enough*/
-            		if(count > lecture.getRoom().getCapacity())
+            		if(cap > lecture.getRoom().getCapacity())
             			roomMapDto.remove(lecture.getRoom().getRoomId());
             	}
             });
         }
 		return new ArrayList<>(roomMapDto.values());
+	}
+
+	@Override
+	@Transactional
+	public void saveAllLectures(LectureCalendarDto lectureCalendarDto) {
+		LocalDate currentDate = lectureCalendarDto.getStartDateToLocalDate();
+		do {
+			lectureCalendarDto.setDate(DateTimeConverter.asDate(currentDate));
+			lectureCalendarService.saveLecture(lectureCalendarDto);
+			currentDate = currentDate.plusWeeks(1);
+		} while(currentDate.isBefore(lectureCalendarDto.getEndDateToLocalDate()) ||
+				currentDate.isEqual(lectureCalendarDto.getEndDateToLocalDate()));
 	}
 
 }
