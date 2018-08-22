@@ -13,4 +13,5 @@ public interface StudentIService {
 	public void deleteStudentById(Integer id);
 	public List<StudentDto> findAllStudents();
 	public StudentDto findByPerson(PersonDto personDto);
+	public List<StudentDto> findAllCourseSStudent(Integer courseId);
 }

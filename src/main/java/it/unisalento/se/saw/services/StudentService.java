@@ -78,4 +78,13 @@ public class StudentService implements StudentIService{
 			return null;
 		}
 	}
+	
+	@Override
+	@Transactional
+	public List<StudentDto> findAllCourseSStudent(Integer courseId) {
+		List<Student> students = studentRepository.findAllByCourseCourseId(courseId);
+		Type targetListType = new TypeToken<List<StudentDto>>() {}.getType();
+		List<StudentDto> studentDtos = modelMapper.map(students, targetListType);
+		return studentDtos;
+	}
 }
