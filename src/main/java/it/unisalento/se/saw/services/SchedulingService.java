@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.unisalento.se.saw.IService.LectureCalendarIService;
+import it.unisalento.se.saw.IService.CalendarIService;
 import it.unisalento.se.saw.IService.ModuleIService;
 import it.unisalento.se.saw.IService.RoomIService;
 import it.unisalento.se.saw.IService.SchedulingIService;
 import it.unisalento.se.saw.IService.StudentIService;
-import it.unisalento.se.saw.dto.LectureCalendarDto;
+import it.unisalento.se.saw.dto.CalendarDto;
 import it.unisalento.se.saw.dto.RoomDto;
 import it.unisalento.se.saw.dto.StudentDto;
 import it.unisalento.se.saw.util.DateTimeConverter;
@@ -24,12 +24,12 @@ import it.unisalento.se.saw.util.DateTimeConverter;
 public class SchedulingService implements SchedulingIService {
 	
 	RoomIService roomService;
-	LectureCalendarIService lectureCalendarService;
+	CalendarIService lectureCalendarService;
 	StudentIService studentService;
 	ModuleIService moduleService;
 	
 	@Autowired
-	public SchedulingService(RoomIService roomService, LectureCalendarIService lectureCalendarService,
+	public SchedulingService(RoomIService roomService, CalendarIService lectureCalendarService,
 			StudentIService studentService, ModuleIService moduleService) {
 		super();
 		this.roomService = roomService;
@@ -40,7 +40,7 @@ public class SchedulingService implements SchedulingIService {
 
 	@Override
 	@Transactional
-	public List<RoomDto> findFreeRooms(LectureCalendarDto lectureCalendarDto) {
+	public List<RoomDto> findFreeRooms(CalendarDto lectureCalendarDto) {
 		/*Map all rooms*/
 		Iterable<RoomDto> roomDtos = roomService.findAllRooms();
         Map<Integer, RoomDto> roomMapDto = new HashMap<>();
@@ -53,7 +53,7 @@ public class SchedulingService implements SchedulingIService {
                 .filter(c -> lectureCalendarDto.getModule().getYear() == c.getYear())
                 .count();
         
-        Iterable<LectureCalendarDto> lectureCalendarDtos = lectureCalendarService.findAllLectureSDate(lectureCalendarDto.getDate());
+        Iterable<CalendarDto> lectureCalendarDtos = lectureCalendarService.findAllLectureSDate(lectureCalendarDto.getDate());
         if(null!=lectureCalendarDtos){
             lectureCalendarDtos.forEach(lecture -> {
             	/*Check if slot time's lecture of the day overlap with requested one*/
@@ -72,7 +72,7 @@ public class SchedulingService implements SchedulingIService {
 
 	@Override
 	@Transactional
-	public void saveAllLectures(LectureCalendarDto lectureCalendarDto) {
+	public void saveAllLectures(CalendarDto lectureCalendarDto) {
 		LocalDate currentDate = lectureCalendarDto.getStartDateToLocalDate();
 		do {
 			lectureCalendarDto.setDate(DateTimeConverter.asDate(currentDate));

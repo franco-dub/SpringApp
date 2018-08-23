@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unisalento.se.saw.IService.LectureCalendarIService;
-import it.unisalento.se.saw.dto.LectureCalendarDto;
+import it.unisalento.se.saw.IService.CalendarIService;
+import it.unisalento.se.saw.dto.CalendarDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 
 @RestController
 @RequestMapping(path = "/lectureCalendar")
 public class LectureCalendarController {
 
-	LectureCalendarIService lectureCalendarService;
+	CalendarIService lectureCalendarService;
 	@Autowired
-	public LectureCalendarController(LectureCalendarIService lectureCalendarService) {
+	public LectureCalendarController(CalendarIService lectureCalendarService) {
 		super();
 		this.lectureCalendarService = lectureCalendarService;
 	}
@@ -31,10 +31,10 @@ public class LectureCalendarController {
 // -------------------Create a Lecture-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createLecture(@Valid @RequestBody LectureCalendarDto lectureCalendarDto) {
+    public ResponseEntity<?> createLecture(@Valid @RequestBody CalendarDto lectureCalendarDto) {
     	try {
     		lectureCalendarService.saveLecture(lectureCalendarDto);
-            return new ResponseEntity<LectureCalendarDto>(lectureCalendarDto, HttpStatus.CREATED);
+            return new ResponseEntity<CalendarDto>(lectureCalendarDto, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Lecture. Validation error!"),
@@ -46,14 +46,14 @@ public class LectureCalendarController {
     
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> listAllLectures() {
-    	List<LectureCalendarDto> lectureDtos = lectureCalendarService.findAllLectures();
+    	List<CalendarDto> lectureDtos = lectureCalendarService.findAllLectures();
     	if (lectureDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
     		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<LectureCalendarDto>>(lectureDtos, HttpStatus.OK);
+        return new ResponseEntity<List<CalendarDto>>(lectureDtos, HttpStatus.OK);
     }
     
 // -------------------Retrieve Single Lecture------------------------------------------
@@ -61,8 +61,8 @@ public class LectureCalendarController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getLecture(@PathVariable("id") int id) {
     	try {
-    		LectureCalendarDto lectureCalendarDto = lectureCalendarService.findById(id);
-    		return new ResponseEntity<LectureCalendarDto>(lectureCalendarDto, HttpStatus.OK);
+    		CalendarDto lectureCalendarDto = lectureCalendarService.findById(id);
+    		return new ResponseEntity<CalendarDto>(lectureCalendarDto, HttpStatus.OK);
     	} catch (Exception e) {
     		return new ResponseEntity<>(new CustomErrorType("Lecture with id " + id 
                     + " not found"), HttpStatus.NOT_FOUND);
@@ -73,13 +73,13 @@ public class LectureCalendarController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateLecture(@PathVariable("id") int id, 
-    		@Valid @RequestBody LectureCalendarDto lectureCalendarDto) {
+    		@Valid @RequestBody CalendarDto lectureCalendarDto) {
     	try {
     		lectureCalendarService.findById(id);
     		try {
     			lectureCalendarDto.setLectureCalendarId(id);
     			lectureCalendarService.updateLecture(lectureCalendarDto);
-                return new ResponseEntity<LectureCalendarDto>(lectureCalendarDto, HttpStatus.OK);
+                return new ResponseEntity<CalendarDto>(lectureCalendarDto, HttpStatus.OK);
     		} catch (Exception e) {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Lecture. Validation error!"),
         				HttpStatus.BAD_REQUEST);
@@ -98,11 +98,10 @@ public class LectureCalendarController {
         try {
         	lectureCalendarService.findById(id);
         	lectureCalendarService.deleteLectureById(id);
-            return new ResponseEntity<LectureCalendarDto>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<CalendarDto>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
         	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Lecture with id " + id 
                     + " not found."), HttpStatus.NOT_FOUND);
         }
     }
-	
 }

@@ -9,10 +9,11 @@ import javax.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import it.unisalento.se.saw.util.DateTimeConverter;
 
-public class LectureCalendarDto {
+public class CalendarDto {
 	
 	private static final DateTimeConverter converter = new DateTimeConverter();
 	
@@ -36,7 +37,7 @@ public class LectureCalendarDto {
 	private Date startDate;
 	private Date endDate;
 	
-	public LectureCalendarDto() {}
+	public CalendarDto() {}
 
 	public Integer getLectureCalendarId() {
 		return lectureCalendarId;
@@ -93,15 +94,15 @@ public class LectureCalendarDto {
 	public void setDay(String day) {
 		this.day = day;
 	}
-	
+	@JsonIgnore
 	public LocalTime getStartTimeToLocalTime() {
 		return converter.convertToLocalTime(this.getStartTime());
 	}
-	
+	@JsonIgnore
 	public LocalTime getEndTimeToLocalTime() {
 		return converter.convertToLocalTime(this.getEndTime());
 	}
-	
+	@JsonIgnore
 	public LocalDate getDateToLocalDate() {
 		return converter.convertToLocalDate(this.getDate());
 	}
@@ -113,7 +114,7 @@ public class LectureCalendarDto {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-
+	@JsonIgnore
 	public LocalDate getStartDateToLocalDate() {
 		return converter.convertToLocalDate(this.getStartDate());
 	}
@@ -124,7 +125,7 @@ public class LectureCalendarDto {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+	@JsonIgnore
 	public LocalDate getEndDateToLocalDate() {
 		return converter.convertToLocalDate(this.getEndDate());
 	}

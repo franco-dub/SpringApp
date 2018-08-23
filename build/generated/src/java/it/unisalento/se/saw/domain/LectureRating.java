@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 20, 2018, 1:46:40 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 23, 2018, 4:24:04 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
@@ -26,7 +26,7 @@ public class LectureRating  implements java.io.Serializable {
 
 
      private Integer lectureRatingId;
-     private LectureCalendar lectureCalendar;
+     private Calendar calendar;
      private String rate;
      private Date date;
      private String note;
@@ -34,8 +34,8 @@ public class LectureRating  implements java.io.Serializable {
     public LectureRating() {
     }
 
-    public LectureRating(LectureCalendar lectureCalendar, String rate, Date date, String note) {
-       this.lectureCalendar = lectureCalendar;
+    public LectureRating(Calendar calendar, String rate, Date date, String note) {
+       this.calendar = calendar;
        this.rate = rate;
        this.date = date;
        this.note = note;
@@ -54,13 +54,13 @@ public class LectureRating  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="class_day_of_week_class_day_id", nullable=false)
-    public LectureCalendar getLectureCalendar() {
-        return this.lectureCalendar;
+    @JoinColumn(name="calendar_calendar_id", nullable=false)
+    public Calendar getCalendar() {
+        return this.calendar;
     }
     
-    public void setLectureCalendar(LectureCalendar lectureCalendar) {
-        this.lectureCalendar = lectureCalendar;
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 
     

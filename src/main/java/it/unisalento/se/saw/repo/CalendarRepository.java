@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import it.unisalento.se.saw.domain.LectureCalendar;
+import it.unisalento.se.saw.domain.Calendar;
 
 @Repository
-public interface LectureCalendarRepository extends JpaRepository<LectureCalendar, Integer> {
-	List<LectureCalendar> findAllByDate(Date date);
+public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
+	List<Calendar> findAllByDate(Date date);
 }

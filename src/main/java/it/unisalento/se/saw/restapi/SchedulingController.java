@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.IService.SchedulingIService;
-import it.unisalento.se.saw.dto.LectureCalendarDto;
+import it.unisalento.se.saw.dto.CalendarDto;
 import it.unisalento.se.saw.dto.RoomDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 
@@ -29,7 +29,7 @@ public class SchedulingController {
 	}
 	
 	@RequestMapping(value = "/findFreeRooms", method = RequestMethod.POST)
-    public ResponseEntity<?> findFreeRooms(@Valid @RequestBody LectureCalendarDto lectureCalendarDto) {
+    public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto) {
     	try {
     		List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
             return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
@@ -43,10 +43,10 @@ public class SchedulingController {
 	// -------------------Create all semester's Lecture-------------------------------------------
 
     @RequestMapping(value = "/addLectures", method = RequestMethod.POST)
-    public ResponseEntity<?> createLecture(@Valid @RequestBody LectureCalendarDto lectureCalendarDto) {
+    public ResponseEntity<?> createLecture(@Valid @RequestBody CalendarDto lectureCalendarDto) {
     	try {
     		schedulingService.saveAllLectures(lectureCalendarDto);
-            return new ResponseEntity<LectureCalendarDto>(lectureCalendarDto, HttpStatus.CREATED);
+            return new ResponseEntity<CalendarDto>(lectureCalendarDto, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		return new ResponseEntity<>(new CustomErrorType(e.toString()),
