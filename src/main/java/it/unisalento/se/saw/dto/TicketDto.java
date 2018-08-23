@@ -18,6 +18,7 @@ public class TicketDto {
     private String description;
     private String status;
     private String comment;
+    private Date lastModified;
     
     
 	public Integer getTicketId() {
@@ -49,6 +50,12 @@ public class TicketDto {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public Date getLastModified() {
+		return lastModified;
+	}
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
 	}
 	public String getDescription() {
 		return description;
