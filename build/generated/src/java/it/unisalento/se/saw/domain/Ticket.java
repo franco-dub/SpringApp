@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 23, 2018, 11:19:07 AM by Hibernate Tools 5.2.0.Final
+// Generated Aug 23, 2018, 12:33:39 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
@@ -29,6 +29,7 @@ public class Ticket  implements java.io.Serializable {
      private Professor professor;
      private Room room;
      private Secretary secretary;
+     private String title;
      private Date date;
      private Date lastModified;
      private String description;
@@ -39,16 +40,18 @@ public class Ticket  implements java.io.Serializable {
     }
 
 	
-    public Ticket(Professor professor, Room room, Date date, String description) {
+    public Ticket(Professor professor, Room room, String title, Date date, String description) {
         this.professor = professor;
         this.room = room;
+        this.title = title;
         this.date = date;
         this.description = description;
     }
-    public Ticket(Professor professor, Room room, Secretary secretary, Date date, Date lastModified, String description, String status, String comment) {
+    public Ticket(Professor professor, Room room, Secretary secretary, String title, Date date, Date lastModified, String description, String status, String comment) {
        this.professor = professor;
        this.room = room;
        this.secretary = secretary;
+       this.title = title;
        this.date = date;
        this.lastModified = lastModified;
        this.description = description;
@@ -96,6 +99,16 @@ public class Ticket  implements java.io.Serializable {
     
     public void setSecretary(Secretary secretary) {
         this.secretary = secretary;
+    }
+
+    
+    @Column(name="title", nullable=false, length=45)
+    public String getTitle() {
+        return this.title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

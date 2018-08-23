@@ -11,6 +11,8 @@ public class TicketDto {
 
 	private Integer ticketId;
 	@NotNull
+	private String title;
+	@NotNull
     private ProfessorDto professor;
 	@NotNull
     private RoomDto room;
@@ -30,6 +32,13 @@ public class TicketDto {
 	}
 	public void setTicketId(Integer ticketId) {
 		this.ticketId = ticketId;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public ProfessorDto getProfessor() {
 		return professor;
