@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 23, 2018, 10:56:40 AM by Hibernate Tools 5.2.0.Final
+// Generated Aug 23, 2018, 11:02:17 AM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
@@ -38,10 +38,9 @@ public class Ticket  implements java.io.Serializable {
     }
 
 	
-    public Ticket(Professor professor, Room room, Secretary secretary, Date date, String description) {
+    public Ticket(Professor professor, Room room, Date date, String description) {
         this.professor = professor;
         this.room = room;
-        this.secretary = secretary;
         this.date = date;
         this.description = description;
     }
@@ -88,7 +87,7 @@ public class Ticket  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="secretary_secretary_id", nullable=false)
+    @JoinColumn(name="secretary_secretary_id")
     public Secretary getSecretary() {
         return this.secretary;
     }

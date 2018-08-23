@@ -1,0 +1,14 @@
+package it.unisalento.se.saw.IService;
+
+import java.util.List;
+
+import it.unisalento.se.saw.dto.TicketDto;
+
+public interface TicketIService {
+
+	public TicketDto findById(Integer id);
+	public void saveCourse(TicketDto ticketDto);
+	public void updateTicket(TicketDto ticketDto);
+	public void deleteTicketById(Integer id);
+	public List<TicketDto> findAllTickets();
+}
