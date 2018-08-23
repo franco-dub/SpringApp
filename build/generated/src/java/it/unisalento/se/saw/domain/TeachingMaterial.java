@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 20, 2018, 1:46:40 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 23, 2018, 10:56:40 AM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.HashSet;
@@ -28,19 +28,25 @@ public class TeachingMaterial  implements java.io.Serializable {
      private Integer techingMaterialId;
      private Module module;
      private byte[] doc;
+     private String fileName;
+     private String fileType;
      private Set<TmRating> tmRatings = new HashSet<TmRating>(0);
 
     public TeachingMaterial() {
     }
 
 	
-    public TeachingMaterial(Module module, byte[] doc) {
+    public TeachingMaterial(Module module, byte[] doc, String fileName, String fileType) {
         this.module = module;
         this.doc = doc;
+        this.fileName = fileName;
+        this.fileType = fileType;
     }
-    public TeachingMaterial(Module module, byte[] doc, Set<TmRating> tmRatings) {
+    public TeachingMaterial(Module module, byte[] doc, String fileName, String fileType, Set<TmRating> tmRatings) {
        this.module = module;
        this.doc = doc;
+       this.fileName = fileName;
+       this.fileType = fileType;
        this.tmRatings = tmRatings;
     }
    
@@ -74,6 +80,26 @@ public class TeachingMaterial  implements java.io.Serializable {
     
     public void setDoc(byte[] doc) {
         this.doc = doc;
+    }
+
+    
+    @Column(name="file_name", nullable=false, length=45)
+    public String getFileName() {
+        return this.fileName;
+    }
+    
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    
+    @Column(name="file_type", nullable=false, length=45)
+    public String getFileType() {
+        return this.fileType;
+    }
+    
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="teachingMaterial")
