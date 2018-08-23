@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 public class TicketDto {
 
@@ -13,11 +15,13 @@ public class TicketDto {
 	@NotNull
     private RoomDto room;
     private SecretaryDto secretary;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss", timezone = "Europe/Rome")
     private Date date;
     @NotNull
     private String description;
     private String status;
     private String comment;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss", timezone = "Europe/Rome")
     private Date lastModified;
     
     

@@ -1,9 +1,11 @@
 package it.unisalento.se.saw.services;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,26 +34,35 @@ public class TicketService implements TicketIService {
 	}
 
 	@Override
-	public void saveCourse(TicketDto ticketDto) {
+	@Transactional
+	public void saveTicket(TicketDto ticketDto) {
 		ticketDto.setDate(new Date());
+		ticketDto.setStatus("PENDING");
+		Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
+		ticketRepository.save(ticket);
 	}
 
 	@Override
+	@Transactional
 	public void updateTicket(TicketDto ticketDto) {
-		// TODO Auto-generated method stub
-
+		ticketDto.setLastModified(new Date());
+		Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
+		ticketRepository.save(ticket);
 	}
 
 	@Override
+	@Transactional
 	public void deleteTicketById(Integer id) {
-		// TODO Auto-generated method stub
-
+		ticketRepository.deleteById(id);
 	}
 
 	@Override
+	@Transactional
 	public List<TicketDto> findAllTickets() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Ticket> tickets = ticketRepository.findAll();
+		Type targetListType = new TypeToken<List<TicketDto>>() {}.getType();
+		List<TicketDto> ticketDtos = modelMapper.map(tickets, targetListType);
+		return ticketDtos;
 	}
 
 }
