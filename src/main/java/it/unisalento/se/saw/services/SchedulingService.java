@@ -41,40 +41,42 @@ public class SchedulingService implements SchedulingIService {
 	@Override
 	@Transactional
 	public List<RoomDto> findFreeRooms(CalendarDto calendarDto) {
-		/*Map all rooms*/
-		Iterable<RoomDto> roomDtos = roomService.findAllRooms();
-        Map<Integer, RoomDto> roomMapDto = new HashMap<>();
-        roomDtos.forEach(room->{
-            roomMapDto.put(room.getRoomId(), room);
-        });
-        /*Get the count of all the students attending the module*/
+		/*Get the count of all the students attending the module*/
         List<StudentDto> studentDtos = studentService.findAllCourseSStudent(calendarDto.getModule().getCourse().getCourseId());
         long cap = studentDtos.stream()
                 .filter(c -> calendarDto.getModule().getYear() == c.getYear())
                 .count();
-      
+		
+		/*Map all rooms*/
+		Iterable<RoomDto> roomDtos = roomService.findAllRooms();
+        Map<Integer, RoomDto> roomMapDto = new HashMap<>();
+        roomDtos.forEach(room->{
+        	if(cap <= room.getCapacity())
+        		roomMapDto.put(room.getRoomId(), room);
+        });
         
-        Iterable<CalendarDto> calendarDtos = calendarService.findAllCalendarSDate(calendarDto.getDate());
-        if(null!=calendarDtos){
-        	calendarDtos.forEach(calendar -> {
-        		/*Check if slot time's lecture of the day overlap with requested one*/
-        		if(!(calendar.getEndTimeToLocalTime().isBefore(calendarDto.getStartTimeToLocalTime()) || 
-        				calendar.getEndTimeToLocalTime().equals(calendarDto.getStartTimeToLocalTime()) ||
-        				calendar.getStartTimeToLocalTime().isAfter(calendarDto.getEndTimeToLocalTime()) || 
-        				calendar.getStartTimeToLocalTime().equals(calendarDto.getEndTimeToLocalTime()))) {
-        			/*Check if room is big enough*/
-        			if(cap > calendar.getRoom().getCapacity())
-        				roomMapDto.remove(calendar.getRoom().getRoomId());
-        		}
-        	});
-        }
-        	
+        System.out.println("CAP: " +cap);
+        System.out.println("COURSE SIZE: " +studentDtos.size());
         LocalDate currentDate = calendarDto.getStartDateToLocalDate();
         do {
         	calendarDto.setDate(DateTimeConverter.asDate(currentDate));
-        	//implementation
-        	
-        	
+        	System.out.println("--------------------------------------------------");
+        	Iterable<CalendarDto> calendarDtos = calendarService.findAllCalendarSDate(calendarDto.getDate());
+        	System.out.println("DATE: " + calendarDto.getDate());
+        	if(null!=calendarDtos){
+        		calendarDtos.forEach(calendar -> {
+        			System.out.println("CALENDAR ID: " + calendar.getCalendarId());
+        			System.out.println(calendar.getRoom().getCapacity());
+        			/*Check if slot time's lecture of the day overlap with requested one*/
+        			if(!(calendar.getEndTimeToLocalTime().isBefore(calendarDto.getStartTimeToLocalTime()) || 
+        					calendar.getEndTimeToLocalTime().equals(calendarDto.getStartTimeToLocalTime()) ||
+        					calendar.getStartTimeToLocalTime().isAfter(calendarDto.getEndTimeToLocalTime()) || 
+        					calendar.getStartTimeToLocalTime().equals(calendarDto.getEndTimeToLocalTime()))) {
+        				/*Check if room is big enough*/
+        				roomMapDto.remove(calendar.getRoom().getRoomId());
+        			}
+        		});
+        	}
         	currentDate = currentDate.plusWeeks(1);
         } while (currentDate.isBefore(calendarDto.getEndDateToLocalDate()) ||
 				currentDate.isEqual(calendarDto.getEndDateToLocalDate()));
@@ -86,6 +88,7 @@ public class SchedulingService implements SchedulingIService {
 	public void saveAllCalendars(CalendarDto calendarDto) {
 		LocalDate currentDate = calendarDto.getStartDateToLocalDate();
 		do {
+			System.out.println(currentDate);
 			calendarDto.setDate(DateTimeConverter.asDate(currentDate));
 			calendarService.saveCalendar(calendarDto);
 			currentDate = currentDate.plusWeeks(1);
