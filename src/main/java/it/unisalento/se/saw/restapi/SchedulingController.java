@@ -47,8 +47,7 @@ public class SchedulingController {
             return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
-    		return new ResponseEntity<>(new CustomErrorType(e.toString()),
-    				HttpStatus.BAD_REQUEST);
+    		return new ResponseEntity<>(new CustomErrorType(e.toString()), HttpStatus.BAD_REQUEST);
     	}
     }
 }
