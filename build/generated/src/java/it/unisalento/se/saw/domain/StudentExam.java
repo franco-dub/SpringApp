@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 20, 2018, 1:46:40 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 23, 2018, 4:34:20 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
@@ -26,7 +26,7 @@ public class StudentExam  implements java.io.Serializable {
 
 
      private Integer studentExamId;
-     private ExamCalendar examCalendar;
+     private Calendar calendar;
      private Student student;
      private Date date;
      private Integer mark;
@@ -35,13 +35,12 @@ public class StudentExam  implements java.io.Serializable {
     }
 
 	
-    public StudentExam(ExamCalendar examCalendar, Student student, Date date) {
-        this.examCalendar = examCalendar;
+    public StudentExam(Student student, Date date) {
         this.student = student;
         this.date = date;
     }
-    public StudentExam(ExamCalendar examCalendar, Student student, Date date, Integer mark) {
-       this.examCalendar = examCalendar;
+    public StudentExam(Calendar calendar, Student student, Date date, Integer mark) {
+       this.calendar = calendar;
        this.student = student;
        this.date = date;
        this.mark = mark;
@@ -60,13 +59,13 @@ public class StudentExam  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="exam_calendar_exam_calendar_id", nullable=false)
-    public ExamCalendar getExamCalendar() {
-        return this.examCalendar;
+    @JoinColumn(name="calendar_calendar_id")
+    public Calendar getCalendar() {
+        return this.calendar;
     }
     
-    public void setExamCalendar(ExamCalendar examCalendar) {
-        this.examCalendar = examCalendar;
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)

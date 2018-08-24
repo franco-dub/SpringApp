@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 20, 2018, 1:46:40 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 23, 2018, 4:34:20 PM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.HashSet;
@@ -27,9 +27,8 @@ public class Room  implements java.io.Serializable {
      private String name;
      private String location;
      private int capacity;
-     private Set<LectureCalendar> lectureCalendars = new HashSet<LectureCalendar>(0);
+     private Set<Calendar> calendars = new HashSet<Calendar>(0);
      private Set<Ticket> tickets = new HashSet<Ticket>(0);
-     private Set<ExamCalendar> examCalendars = new HashSet<ExamCalendar>(0);
      private Set<RoomEquipment> roomEquipments = new HashSet<RoomEquipment>(0);
 
     public Room() {
@@ -40,13 +39,12 @@ public class Room  implements java.io.Serializable {
         this.name = name;
         this.capacity = capacity;
     }
-    public Room(String name, String location, int capacity, Set<LectureCalendar> lectureCalendars, Set<Ticket> tickets, Set<ExamCalendar> examCalendars, Set<RoomEquipment> roomEquipments) {
+    public Room(String name, String location, int capacity, Set<Calendar> calendars, Set<Ticket> tickets, Set<RoomEquipment> roomEquipments) {
        this.name = name;
        this.location = location;
        this.capacity = capacity;
-       this.lectureCalendars = lectureCalendars;
+       this.calendars = calendars;
        this.tickets = tickets;
-       this.examCalendars = examCalendars;
        this.roomEquipments = roomEquipments;
     }
    
@@ -93,12 +91,12 @@ public class Room  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="room")
-    public Set<LectureCalendar> getLectureCalendars() {
-        return this.lectureCalendars;
+    public Set<Calendar> getCalendars() {
+        return this.calendars;
     }
     
-    public void setLectureCalendars(Set<LectureCalendar> lectureCalendars) {
-        this.lectureCalendars = lectureCalendars;
+    public void setCalendars(Set<Calendar> calendars) {
+        this.calendars = calendars;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="room")
@@ -108,15 +106,6 @@ public class Room  implements java.io.Serializable {
     
     public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="room")
-    public Set<ExamCalendar> getExamCalendars() {
-        return this.examCalendars;
-    }
-    
-    public void setExamCalendars(Set<ExamCalendar> examCalendars) {
-        this.examCalendars = examCalendars;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="room")
