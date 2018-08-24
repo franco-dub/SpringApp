@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 23, 2018, 4:34:20 PM by Hibernate Tools 5.2.0.Final
+// Generated Aug 24, 2018, 10:00:52 AM by Hibernate Tools 5.2.0.Final
 
 
 import java.util.Date;
@@ -35,6 +35,7 @@ public class Calendar  implements java.io.Serializable {
      private Date endTime;
      private Date date;
      private String day;
+     private String type;
      private Set<LectureRating> lectureRatings = new HashSet<LectureRating>(0);
      private Set<StudentExam> studentExams = new HashSet<StudentExam>(0);
 
@@ -42,21 +43,23 @@ public class Calendar  implements java.io.Serializable {
     }
 
 	
-    public Calendar(Module module, Room room, Date startTime, Date endTime, Date date, String day) {
+    public Calendar(Module module, Room room, Date startTime, Date endTime, Date date, String day, String type) {
         this.module = module;
         this.room = room;
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
         this.day = day;
+        this.type = type;
     }
-    public Calendar(Module module, Room room, Date startTime, Date endTime, Date date, String day, Set<LectureRating> lectureRatings, Set<StudentExam> studentExams) {
+    public Calendar(Module module, Room room, Date startTime, Date endTime, Date date, String day, String type, Set<LectureRating> lectureRatings, Set<StudentExam> studentExams) {
        this.module = module;
        this.room = room;
        this.startTime = startTime;
        this.endTime = endTime;
        this.date = date;
        this.day = day;
+       this.type = type;
        this.lectureRatings = lectureRatings;
        this.studentExams = studentExams;
     }
@@ -131,6 +134,16 @@ public class Calendar  implements java.io.Serializable {
     
     public void setDay(String day) {
         this.day = day;
+    }
+
+    
+    @Column(name="type", nullable=false, length=8)
+    public String getType() {
+        return this.type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="calendar")
