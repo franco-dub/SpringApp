@@ -1,6 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
-
+/*
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
@@ -50,7 +50,7 @@ import org.springframework.web.servlet.view.JstlView;
 import com.jayway.jsonpath.JsonPath;
 
 import it.unisalento.se.saw.exceptions.UserNotFoundException;
-/*
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserRestControllerTest {
 	
