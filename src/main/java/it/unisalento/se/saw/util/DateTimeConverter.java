@@ -19,4 +19,12 @@ public class DateTimeConverter {
 		return LocalDateTime.ofInstant(Instant.ofEpochMilli(dateToConvert.getTime()), 
 				ZoneId.systemDefault()).toLocalDate();
 	}
+	
+	public static Date asDate(LocalDate localDate) {
+	    return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+	  }
+	
+	public static Date asDate(LocalDateTime localDateTime) {
+	    return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	  }
 }
