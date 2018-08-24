@@ -7,9 +7,9 @@ import it.unisalento.se.saw.dto.CalendarDto;
 
 public interface CalendarIService {
 	public CalendarDto findById(Integer id);
-	public void saveLecture(CalendarDto lectureCalendarDto);
-	public void updateLecture(CalendarDto lectureCalendarDto);
-	public void deleteLectureById(Integer id);
-	public List<CalendarDto> findAllLectures();
-	public List<CalendarDto> findAllLectureSDate(Date date);
+	public void saveCalendar(CalendarDto calendarDto);
+	public void updateCalendar(CalendarDto calendarDto);
+	public void deleteCalendarById(Integer id);
+	public List<CalendarDto> findAllCalendars();
+	public List<CalendarDto> findAllCalendarSDate(Date date);
 }

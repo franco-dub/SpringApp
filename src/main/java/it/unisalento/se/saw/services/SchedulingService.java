@@ -24,23 +24,23 @@ import it.unisalento.se.saw.util.DateTimeConverter;
 public class SchedulingService implements SchedulingIService {
 	
 	RoomIService roomService;
-	CalendarIService lectureCalendarService;
+	CalendarIService calendarService;
 	StudentIService studentService;
 	ModuleIService moduleService;
 	
 	@Autowired
-	public SchedulingService(RoomIService roomService, CalendarIService lectureCalendarService,
+	public SchedulingService(RoomIService roomService, CalendarIService calendarService,
 			StudentIService studentService, ModuleIService moduleService) {
 		super();
 		this.roomService = roomService;
-		this.lectureCalendarService = lectureCalendarService;
+		this.calendarService = calendarService;
 		this.studentService = studentService;
 		this.moduleService = moduleService;
 	}
 
 	@Override
 	@Transactional
-	public List<RoomDto> findFreeRooms(CalendarDto lectureCalendarDto) {
+	public List<RoomDto> findFreeRooms(CalendarDto calendarDto) {
 		/*Map all rooms*/
 		Iterable<RoomDto> roomDtos = roomService.findAllRooms();
         Map<Integer, RoomDto> roomMapDto = new HashMap<>();
@@ -48,38 +48,49 @@ public class SchedulingService implements SchedulingIService {
             roomMapDto.put(room.getRoomId(), room);
         });
         /*Get the count of all the students attending the module*/
-        List<StudentDto> studentDtos = studentService.findAllCourseSStudent(lectureCalendarDto.getModule().getCourse().getCourseId());
+        List<StudentDto> studentDtos = studentService.findAllCourseSStudent(calendarDto.getModule().getCourse().getCourseId());
         long cap = studentDtos.stream()
-                .filter(c -> lectureCalendarDto.getModule().getYear() == c.getYear())
+                .filter(c -> calendarDto.getModule().getYear() == c.getYear())
                 .count();
+      
         
-        Iterable<CalendarDto> lectureCalendarDtos = lectureCalendarService.findAllLectureSDate(lectureCalendarDto.getDate());
-        if(null!=lectureCalendarDtos){
-            lectureCalendarDtos.forEach(lecture -> {
-            	/*Check if slot time's lecture of the day overlap with requested one*/
-            	if(!(lecture.getEndTimeToLocalTime().isBefore(lectureCalendarDto.getStartTimeToLocalTime()) || 
-            			lecture.getEndTimeToLocalTime().equals(lectureCalendarDto.getStartTimeToLocalTime()) ||
-            			lecture.getStartTimeToLocalTime().isAfter(lectureCalendarDto.getEndTimeToLocalTime()) || 
-            			lecture.getStartTimeToLocalTime().equals(lectureCalendarDto.getEndTimeToLocalTime()))) {
-            		/*Check if room is big enough*/
-            		if(cap > lecture.getRoom().getCapacity())
-            			roomMapDto.remove(lecture.getRoom().getRoomId());
-            	}
-            });
+        Iterable<CalendarDto> calendarDtos = calendarService.findAllCalendarSDate(calendarDto.getDate());
+        if(null!=calendarDtos){
+        	calendarDtos.forEach(calendar -> {
+        		/*Check if slot time's lecture of the day overlap with requested one*/
+        		if(!(calendar.getEndTimeToLocalTime().isBefore(calendarDto.getStartTimeToLocalTime()) || 
+        				calendar.getEndTimeToLocalTime().equals(calendarDto.getStartTimeToLocalTime()) ||
+        				calendar.getStartTimeToLocalTime().isAfter(calendarDto.getEndTimeToLocalTime()) || 
+        				calendar.getStartTimeToLocalTime().equals(calendarDto.getEndTimeToLocalTime()))) {
+        			/*Check if room is big enough*/
+        			if(cap > calendar.getRoom().getCapacity())
+        				roomMapDto.remove(calendar.getRoom().getRoomId());
+        		}
+        	});
         }
+        	
+        LocalDate currentDate = calendarDto.getStartDateToLocalDate();
+        do {
+        	calendarDto.setDate(DateTimeConverter.asDate(currentDate));
+        	//implementation
+        	
+        	
+        	currentDate = currentDate.plusWeeks(1);
+        } while (currentDate.isBefore(calendarDto.getEndDateToLocalDate()) ||
+				currentDate.isEqual(calendarDto.getEndDateToLocalDate()));
 		return new ArrayList<>(roomMapDto.values());
 	}
 
 	@Override
 	@Transactional
-	public void saveAllLectures(CalendarDto lectureCalendarDto) {
-		LocalDate currentDate = lectureCalendarDto.getStartDateToLocalDate();
+	public void saveAllCalendars(CalendarDto calendarDto) {
+		LocalDate currentDate = calendarDto.getStartDateToLocalDate();
 		do {
-			lectureCalendarDto.setDate(DateTimeConverter.asDate(currentDate));
-			lectureCalendarService.saveLecture(lectureCalendarDto);
+			calendarDto.setDate(DateTimeConverter.asDate(currentDate));
+			calendarService.saveCalendar(calendarDto);
 			currentDate = currentDate.plusWeeks(1);
-		} while(currentDate.isBefore(lectureCalendarDto.getEndDateToLocalDate()) ||
-				currentDate.isEqual(lectureCalendarDto.getEndDateToLocalDate()));
+		} while(currentDate.isBefore(calendarDto.getEndDateToLocalDate()) ||
+				currentDate.isEqual(calendarDto.getEndDateToLocalDate()));
 	}
 
 }

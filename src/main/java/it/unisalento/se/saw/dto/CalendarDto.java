@@ -17,7 +17,7 @@ public class CalendarDto {
 	
 	private static final DateTimeConverter converter = new DateTimeConverter();
 	
-	private Integer lectureCalendarId;
+	private Integer calendarId;
 	@NotNull
     private ModuleDto module;
 	@Nullable
@@ -39,12 +39,12 @@ public class CalendarDto {
 	
 	public CalendarDto() {}
 
-	public Integer getLectureCalendarId() {
-		return lectureCalendarId;
+	public Integer getCalendarId() {
+		return calendarId;
 	}
 
-	public void setLectureCalendarId(Integer lectureCalendarId) {
-		this.lectureCalendarId = lectureCalendarId;
+	public void setCalendarId(Integer calendarId) {
+		this.calendarId = calendarId;
 	}
 
 	public ModuleDto getModule() {

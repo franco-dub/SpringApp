@@ -40,13 +40,13 @@ public class SchedulingController {
     	}
     }
 	
-	// -------------------Create all semester's Lecture-------------------------------------------
+	// -------------------Create all semester's Calendars-------------------------------------------
 
     @RequestMapping(value = "/addLectures", method = RequestMethod.POST)
-    public ResponseEntity<?> createLecture(@Valid @RequestBody CalendarDto lectureCalendarDto) {
+    public ResponseEntity<?> createCalendars(@Valid @RequestBody CalendarDto calendarDto) {
     	try {
-    		schedulingService.saveAllLectures(lectureCalendarDto);
-            return new ResponseEntity<CalendarDto>(lectureCalendarDto, HttpStatus.CREATED);
+    		schedulingService.saveAllCalendars(calendarDto);
+            return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		return new ResponseEntity<>(new CustomErrorType(e.toString()),

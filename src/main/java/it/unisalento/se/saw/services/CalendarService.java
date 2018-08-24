@@ -35,38 +35,38 @@ public class CalendarService implements CalendarIService {
 
 	@Override
 	@Transactional
-	public void saveLecture(CalendarDto lectureCalendarDto) {
-		Calendar lectureCalendar = modelMapper.map(lectureCalendarDto, Calendar.class);
-		lectureCalendarRepository.save(lectureCalendar);
+	public void saveCalendar(CalendarDto calendarDto) {
+		Calendar calendar = modelMapper.map(calendarDto, Calendar.class);
+		lectureCalendarRepository.save(calendar);
 	}
 
 	@Override
 	@Transactional
-	public void updateLecture(CalendarDto lectureCalendarDto) {
-		saveLecture(lectureCalendarDto);
+	public void updateCalendar(CalendarDto calendarDto) {
+		saveCalendar(calendarDto);
 	}
 
 	@Override
 	@Transactional
-	public void deleteLectureById(Integer id) {
+	public void deleteCalendarById(Integer id) {
 		lectureCalendarRepository.deleteById(id);
 	}
 
 	@Override
 	@Transactional
-	public List<CalendarDto> findAllLectures() {
-		List<Calendar> lectures = lectureCalendarRepository.findAll();
+	public List<CalendarDto> findAllCalendars() {
+		List<Calendar> calendars = lectureCalendarRepository.findAll();
 		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
-		List<CalendarDto> lectureDtos = modelMapper.map(lectures, targetListType);
-		return lectureDtos;
+		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
+		return calendarDtos;
 	}
 
 	@Override
 	@Transactional
-	public List<CalendarDto> findAllLectureSDate(Date date) {
-		List<Calendar> lectures = lectureCalendarRepository.findAllByDate(date);
+	public List<CalendarDto> findAllCalendarSDate(Date date) {
+		List<Calendar> calendars = lectureCalendarRepository.findAllByDate(date);
 		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
-		List<CalendarDto> lectureDtos = modelMapper.map(lectures, targetListType);
-		return lectureDtos;
+		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
+		return calendarDtos;
 	}
 }
