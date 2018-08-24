@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.IService.SchedulingIService;
-import it.unisalento.se.saw.dto.LectureCalendarDto;
+import it.unisalento.se.saw.dto.CalendarDto;
 import it.unisalento.se.saw.dto.RoomDto;
+import it.unisalento.se.saw.exceptions.CustomErrorType;
 
 @RestController
 @RequestMapping(path = "/scheduling")
@@ -28,14 +29,26 @@ public class SchedulingController {
 	}
 	
 	@RequestMapping(value = "/findFreeRooms", method = RequestMethod.POST)
-    public ResponseEntity<?> findFreeRooms(@Valid @RequestBody LectureCalendarDto lectureCalendarDto) {
-    	//try {
-    		List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
-            return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
-    	//} catch(Exception e)
-    	//{
-    	//	return new ResponseEntity<>(new CustomErrorType("Unable to find Free Rooms. Validation error!"),
-    	//			HttpStatus.BAD_REQUEST);
-    	//}
+    public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto) {
+
+    	List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
+    	if (!freeRoomDtos.isEmpty())
+    		return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
+    	return new ResponseEntity<>(new CustomErrorType("List empty."),
+    			HttpStatus.NOT_FOUND);
+    }
+	
+	// -------------------Create all semester's Calendars-------------------------------------------
+
+    @RequestMapping(value = "/addLectures", method = RequestMethod.POST)
+    public ResponseEntity<?> createCalendars(@Valid @RequestBody CalendarDto calendarDto) {
+    	try {
+    		schedulingService.saveAllCalendars(calendarDto);
+            return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.CREATED);
+    	} catch(Exception e)
+    	{
+    		return new ResponseEntity<>(new CustomErrorType(e.toString()),
+    				HttpStatus.BAD_REQUEST);
+    	}
     }
 }
