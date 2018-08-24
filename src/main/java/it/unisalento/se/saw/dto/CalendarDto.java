@@ -33,8 +33,6 @@ public class CalendarDto {
     private Date date;
 	@NotNull
     private String day;
-	@NotNull
-	private String type;
 	
 	private Date startDate;
 	private Date endDate;
@@ -63,14 +61,6 @@ public class CalendarDto {
 
 	public void setRoom(RoomDto room) {
 		this.room = room;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public Date getStartTime() {

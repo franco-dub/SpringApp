@@ -30,12 +30,14 @@ public class SchedulingController {
 	
 	@RequestMapping(value = "/findFreeRooms", method = RequestMethod.POST)
     public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto) {
-
-    	List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
-    	if (!freeRoomDtos.isEmpty())
-    		return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
-    	return new ResponseEntity<>(new CustomErrorType("List empty."),
-    			HttpStatus.NOT_FOUND);
+    	try {
+    		List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
+            return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
+    	} catch(Exception e)
+    	{
+    		return new ResponseEntity<>(new CustomErrorType(e.toString()),
+    				HttpStatus.BAD_REQUEST);
+    	}
     }
 	
 	// -------------------Create all semester's Calendars-------------------------------------------
