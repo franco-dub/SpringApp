@@ -71,4 +71,11 @@ public class ModuleService implements ModuleIService {
 		return moduleDtos;
 	}
 
+	@Override
+    @Transactional
+    public ModuleDto findByProfessorProfessorId(Integer id){
+        Module module = moduleRepository.findByProfessorProfessorId(id);
+	    return modelMapper.map(module, ModuleDto.class);
+    }
+
 }

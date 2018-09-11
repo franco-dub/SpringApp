@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import it.unisalento.se.saw.IService.ModuleIService;
+import it.unisalento.se.saw.dto.ModuleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +25,13 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 public class ProfessorController {
 	
 	ProfessorIService professorService;
-	
+    ModuleIService moduleService;
+
 	@Autowired
-	protected ProfessorController(ProfessorIService professorService) {
+	protected ProfessorController(ProfessorIService professorService, ModuleIService moduleService) {
 		super();
 		this.professorService = professorService;
+		this.moduleService = moduleService;
 	}
 
 
@@ -107,4 +111,18 @@ public class ProfessorController {
                     + " not found."), HttpStatus.NOT_FOUND);
         }
     }
+
+//-----------------------Find Professor Module---------------------------------------------
+
+    @RequestMapping(value = "/findModuleByProfessorId/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findModuleByProfessorId(@PathVariable("id") Integer id){
+        try {
+            ModuleDto moduleDto = moduleService.findByProfessorProfessorId(id);
+            return new ResponseEntity<>(moduleDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new CustomErrorType("Unable to find module! Professor with id " + id
+                    + " not found."), HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

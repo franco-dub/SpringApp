@@ -11,4 +11,5 @@ public interface ModuleIService {
 	public void deleteModuleById(Integer id);
 	public List<ModuleDto> findAllModules();
 	public List<ModuleDto> findAllCourseSModule(Integer id);
+	public ModuleDto findByProfessorProfessorId(Integer id);
 }
