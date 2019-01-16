@@ -8,6 +8,7 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 
 @RestController
 @RequestMapping(path = "/module")
+@CrossOrigin
 public class ModuleController {
 
 	ModuleIService moduleService;
