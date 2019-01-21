@@ -57,7 +57,27 @@ public class TicketController {
         return new ResponseEntity<List<TicketDto>>(ticketDtos, HttpStatus.OK);
     }
     
-// -------------------Retrieve Single Equipment------------------------------------------
+    
+// -------------------Retrieve Tickets by Professor------------------------------------------
+    
+    @RequestMapping(value = "findByProfId/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getTicketByProf(@PathVariable("id") int id) {
+    	try {
+    		List<TicketDto> ticketDtos = ticketService.findByProf(id);
+    		if (ticketDtos.isEmpty()) {
+        		return new ResponseEntity<>(new CustomErrorType("List empty."),
+            			HttpStatus.NO_CONTENT);
+                // You many decide to return HttpStatus.NOT_FOUND
+        		//NO_CONTENT doesn't print json error
+        	}
+            return new ResponseEntity<List<TicketDto>>(ticketDtos, HttpStatus.OK);
+    	} catch (Exception e) {
+    		return new ResponseEntity<>(new CustomErrorType("Professor with id " + id 
+                    + " not found" + e.toString()), HttpStatus.NOT_FOUND);
+        }
+    }
+    
+// -------------------Retrieve Single Ticket------------------------------------------
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTicket(@PathVariable("id") int id) {
@@ -69,6 +89,7 @@ public class TicketController {
                     + " not found" + e.toString()), HttpStatus.NOT_FOUND);
         }
     }
+    
     
 // ------------------- Update a Ticket ------------------------------------------------
     

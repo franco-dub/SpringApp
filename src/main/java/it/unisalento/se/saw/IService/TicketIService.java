@@ -11,4 +11,5 @@ public interface TicketIService {
 	public void updateTicket(TicketDto ticketDto);
 	public void deleteTicketById(Integer id);
 	public List<TicketDto> findAllTickets();
+	public List<TicketDto> findByProf(Integer id);
 }
