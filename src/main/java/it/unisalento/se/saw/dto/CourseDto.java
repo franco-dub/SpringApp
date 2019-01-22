@@ -9,6 +9,8 @@ public class CourseDto {
     private String description;
     private Integer year;
     private Integer cfu;
+    /*ENUM('BACHELOR', 'MASTER', 'ALL_IN_ONE_CYCLE_MASTER')*/
+    private String courseType;
     
     public CourseDto() {}
 	    
@@ -42,6 +44,16 @@ public class CourseDto {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	public String getCourseType() {
+		return courseType;
+	}
+
+
+	public void setCourseType(String courseType) {
+		this.courseType = courseType;
 	}
 	
 

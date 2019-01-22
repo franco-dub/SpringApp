@@ -32,7 +32,7 @@ public class TicketService implements TicketIService {
 		Ticket ticket = ticketRepository.findById(id).get();
 		return modelMapper.map(ticket, TicketDto.class);
 	}
-
+	
 	@Override
 	@Transactional
 	public void saveTicket(TicketDto ticketDto) {
@@ -64,5 +64,15 @@ public class TicketService implements TicketIService {
 		List<TicketDto> ticketDtos = modelMapper.map(tickets, targetListType);
 		return ticketDtos;
 	}
+	
+	@Override
+	@Transactional
+	public List<TicketDto> findByProf(Integer id) {
+		List<Ticket> tickets = ticketRepository.findByProfessorProfessorId(id);
+		Type targetListType = new TypeToken<List<TicketDto>>() {}.getType();
+		List<TicketDto> ticketDtos = modelMapper.map(tickets, targetListType);
+		return ticketDtos;
+	}
+
 
 }
