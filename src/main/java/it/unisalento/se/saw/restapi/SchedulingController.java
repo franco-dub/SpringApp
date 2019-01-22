@@ -7,10 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import it.unisalento.se.saw.IService.SchedulingIService;
 import it.unisalento.se.saw.dto.CalendarDto;
@@ -18,6 +15,7 @@ import it.unisalento.se.saw.dto.RoomDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/scheduling")
 public class SchedulingController {
 
@@ -30,12 +28,14 @@ public class SchedulingController {
 	
 	@RequestMapping(value = "/findFreeRooms", method = RequestMethod.POST)
     public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto) {
-
-    	List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
-    	if (!freeRoomDtos.isEmpty())
-    		return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
-    	return new ResponseEntity<>(new CustomErrorType("List empty."),
-    			HttpStatus.NOT_FOUND);
+    	try {
+    		List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
+            return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
+    	} catch(Exception e)
+    	{
+    		return new ResponseEntity<>(new CustomErrorType(e.toString()),
+    				HttpStatus.BAD_REQUEST);
+    	}
     }
 	
 	// -------------------Create all semester's Calendars-------------------------------------------
