@@ -10,5 +10,6 @@ import it.unisalento.se.saw.dto.TeachingMaterialDto;
 public interface TeachingMaterialIService {
 	public TeachingMaterial storeFile(Integer moduleId, MultipartFile file);
 	public TeachingMaterial getFile(Integer fileId);
-	public List<TeachingMaterial> findByModule(Integer moduleId);
+	public List<TeachingMaterialDto> findByModule(Integer moduleId);
+	public void deleteFileById(Integer id);
 }

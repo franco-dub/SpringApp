@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,26 +63,19 @@ public class TeachingMaterialService implements TeachingMaterialIService {
 	}
 	
 
-
 	public TeachingMaterial getFile(Integer fileId) {
         return teachingMaterialRepository.findById(fileId)
                 .orElseThrow(() -> new MyFileNotFoundException("File not found with id " + fileId));
     }
-	public List<TeachingMaterial> findByModule(Integer moduleId){
-		
-		List<TeachingMaterial> dbFiles = teachingMaterialRepository.findFileByModuleId(moduleId);
-		//List<TeachingMaterialDto> dbFileDtos = new ArrayList<TeachingMaterialDto>();
-//		for (TeachingMaterial tmp : dbFiles) {
-//			TeachingMaterialDto obj = new TeachingMaterialDto();
-//			obj.setTechingMaterialId(tmp.getTechingMaterialId());
-//			obj.setFileName(tmp.getFileName());
-//			obj.setFileType(tmp.getFileType());
-//			obj.setCreated(tmp.getCreated());
-//			obj.setSize(tmp.getSize());
-//			dbFileDtos.add(obj);
-//		}
-		
-		return dbFiles;
+	
+	
+	public List<TeachingMaterialDto> findByModule(Integer moduleId){
+		return teachingMaterialRepository.findFileByModuleId(moduleId);
 	}
 	
+	@Override
+	@Transactional
+	public void deleteFileById(Integer id){
+		teachingMaterialRepository.deleteById(id);
+	}
 }

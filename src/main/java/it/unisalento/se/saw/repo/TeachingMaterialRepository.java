@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 
 
 import it.unisalento.se.saw.domain.TeachingMaterial;
+import it.unisalento.se.saw.dto.TeachingMaterialDto;
 
 @Repository
 public interface TeachingMaterialRepository extends JpaRepository<TeachingMaterial, Integer>{
-	@Query("select tm.techingMaterialId, tm.fileName, tm.fileType, tm.created, "
-			+ "tm.size from TeachingMaterial tm where tm.module.moduleId = :moduleId")
-	List<TeachingMaterial> findFileByModuleId(@Param("moduleId") Integer moduleId);
+	@Query("select new it.unisalento.se.saw.dto.TeachingMaterialDto(techingMaterialId, fileName, fileType, created, "
+			+ "size) from TeachingMaterial tm where tm.module.moduleId = :moduleId")
+	List<TeachingMaterialDto> findFileByModuleId(@Param("moduleId") Integer moduleId);
 }

@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import it.unisalento.se.saw.IService.TeachingMaterialIService;
+import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.domain.TeachingMaterial;
 import it.unisalento.se.saw.dto.TeachingMaterialDto;
 import it.unisalento.se.saw.dto.TicketDto;
@@ -39,22 +40,21 @@ public class TeachingMaterialController {
 		super();
 		this.tmService = tmService;
 	}
-	
+	//------------------- Upload File --------------------------------------------------------
 	@RequestMapping(value = "/uploadFile/{moduleId}", method = RequestMethod.POST, 
 			consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> uploadFile(@PathVariable("moduleId") Integer moduleId,
 			@RequestParam("file") MultipartFile file) {
-		TeachingMaterial dbFile = tmService.storeFile(moduleId, file);
-
-//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/downloadFile/")
-//                .path(dbFile.getTechingMaterialId().toString())
-//                .toUriString();
-
-        return new ResponseEntity<TeachingMaterial>(dbFile, HttpStatus.CREATED);
-
+		try {
+			TeachingMaterial dbFile = tmService.storeFile(moduleId, file);
+			return new ResponseEntity<TeachingMaterial>(dbFile, HttpStatus.CREATED);
+		} catch(Exception e) {
+			System.out.println(e.toString());
+    		return new ResponseEntity<>(new CustomErrorType("Unable to upload the file!"),
+    				HttpStatus.BAD_REQUEST);
+    	}
     }
-	
+	//------------------- Download File --------------------------------------------------------
 	@RequestMapping(value = "/downloadFile/{fileId}", method = RequestMethod.GET)
     public ResponseEntity<Resource> downloadFile(@PathVariable Integer fileId) {
         // Load file from database
@@ -65,16 +65,26 @@ public class TeachingMaterialController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
                 .body(new ByteArrayResource(dbFile.getDoc()));
     }
-	
+	//------------------- Find details by Module --------------------------------------------------------
 	@RequestMapping(value = "/findByModule/{moduleId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> findByModule(@PathVariable Integer moduleId){
-		List<TeachingMaterial> lista = tmService.findByModule(moduleId);
+		List<TeachingMaterialDto> lista = tmService.findByModule(moduleId);
 		if (lista.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
     	}
-		return new ResponseEntity<List<TeachingMaterial>>(lista, HttpStatus.OK);
+		return new ResponseEntity<List<TeachingMaterialDto>>(lista, HttpStatus.OK);
 	}
+	//------------------- Delete File --------------------------------------------------------
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteFile(@PathVariable("id") Integer id) {
+    	System.out.println("Fetching & Deleting File with id " + id);
+        try {
+        	tmService.deleteFileById(id);
+            return new ResponseEntity<TeachingMaterial>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+        	return new ResponseEntity<>(new CustomErrorType("Unable to delete! File with id " + id 
+                    + " not found."), HttpStatus.NOT_FOUND);
+        }
+    }
 }
