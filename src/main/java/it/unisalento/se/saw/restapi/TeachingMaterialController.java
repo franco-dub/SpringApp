@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import it.unisalento.se.saw.IService.TeachingMaterialIService;
 import it.unisalento.se.saw.domain.TeachingMaterial;
+import it.unisalento.se.saw.dto.TeachingMaterialDto;
 import it.unisalento.se.saw.dto.TicketDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 import it.unisalento.se.saw.repo.TeachingMaterialRepository;
@@ -65,10 +66,15 @@ public class TeachingMaterialController {
                 .body(new ByteArrayResource(dbFile.getDoc()));
     }
 	
-	@RequestMapping(value = "/findByModule/{moduleId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/findByModule/{moduleId}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> findByModule(@PathVariable Integer moduleId){
-		List<String> lista = tmService.findByModule(moduleId);
-		System.out.println(lista);
-		return new ResponseEntity<List<String>>(lista, HttpStatus.OK);
+		List<TeachingMaterial> lista = tmService.findByModule(moduleId);
+		if (lista.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+		return new ResponseEntity<List<TeachingMaterial>>(lista, HttpStatus.OK);
 	}
 }

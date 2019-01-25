@@ -12,6 +12,7 @@ import it.unisalento.se.saw.domain.TeachingMaterial;
 
 @Repository
 public interface TeachingMaterialRepository extends JpaRepository<TeachingMaterial, Integer>{
-	@Query("select tm.fileName from TeachingMaterial tm where tm.module.moduleId = :moduleId")
-	public List<String> findFileByModule(@Param("moduleId") Integer moduleId);
+	@Query("select tm.techingMaterialId, tm.fileName, tm.fileType, tm.created, "
+			+ "tm.size from TeachingMaterial tm where tm.module.moduleId = :moduleId")
+	List<TeachingMaterial> findFileByModuleId(@Param("moduleId") Integer moduleId);
 }
