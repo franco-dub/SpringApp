@@ -1,16 +1,11 @@
 package it.unisalento.se.saw.services;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.annotation.MultipartConfig;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,14 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import it.unisalento.se.saw.IService.ModuleIService;
 import it.unisalento.se.saw.IService.TeachingMaterialIService;
 import it.unisalento.se.saw.domain.Module;
-import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.domain.TeachingMaterial;
 import it.unisalento.se.saw.dto.ModuleDto;
-import it.unisalento.se.saw.dto.StudentDto;
 import it.unisalento.se.saw.dto.TeachingMaterialDto;
 import it.unisalento.se.saw.exceptions.FileStorageException;
 import it.unisalento.se.saw.exceptions.MyFileNotFoundException;
-import it.unisalento.se.saw.repo.ModuleRepository;
 import it.unisalento.se.saw.repo.TeachingMaterialRepository;
 
 

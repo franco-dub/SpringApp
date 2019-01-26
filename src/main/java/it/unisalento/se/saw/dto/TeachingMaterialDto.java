@@ -32,7 +32,7 @@ public class TeachingMaterialDto {
     	this.size = size;
     }
 
-	public Integer getTechingMaterialId() {
+	public Integer getTeachingMaterialId() {
 		return techingMaterialId;
 	}
 

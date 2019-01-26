@@ -123,4 +123,18 @@ public class ModuleController {
     	}
         return new ResponseEntity<List<ModuleDto>>(moduleDtos, HttpStatus.OK);
     }
+    
+//-------------------Retrieve All Professor's Modules--------------------------------------------------------
+    
+    @RequestMapping(value = "/findByProf/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllProfessorSModules(@PathVariable("id") Integer id) {
+    	List<ModuleDto> moduleDtos = moduleService.findAllProfessorSModule(id);
+    	if (moduleDtos.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+        return new ResponseEntity<List<ModuleDto>>(moduleDtos, HttpStatus.OK);
+    }
 }
