@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Aug 23, 2018, 4:34:20 PM by Hibernate Tools 5.2.0.Final
+// Generated Feb 1, 2019, 10:43:44 AM by Hibernate Tools 5.2.0.Final
 
 
 import javax.persistence.Column;
@@ -23,13 +23,15 @@ public class TmRating  implements java.io.Serializable {
 
 
      private Integer tmRatingId;
+     private Student student;
      private TeachingMaterial teachingMaterial;
      private String rate;
 
     public TmRating() {
     }
 
-    public TmRating(TeachingMaterial teachingMaterial, String rate) {
+    public TmRating(Student student, TeachingMaterial teachingMaterial, String rate) {
+       this.student = student;
        this.teachingMaterial = teachingMaterial;
        this.rate = rate;
     }
@@ -44,6 +46,16 @@ public class TmRating  implements java.io.Serializable {
     
     public void setTmRatingId(Integer tmRatingId) {
         this.tmRatingId = tmRatingId;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="student_student_id", nullable=false)
+    public Student getStudent() {
+        return this.student;
+    }
+    
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
