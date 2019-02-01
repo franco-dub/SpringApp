@@ -16,7 +16,7 @@ public class TeachingMaterialDto {
     @NotNull
     private String fileType;
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss", timezone = "Europe/Rome")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy HH:mm:ss", timezone = "Europe/Rome")
     private Date created;
     @NotNull
     private long size;

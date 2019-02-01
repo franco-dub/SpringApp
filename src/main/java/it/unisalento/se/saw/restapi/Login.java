@@ -3,6 +3,7 @@ package it.unisalento.se.saw.restapi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +16,7 @@ import it.unisalento.se.saw.IService.StudentIService;
 import it.unisalento.se.saw.dto.LoginDto;
 import it.unisalento.se.saw.dto.LoginDto.Type;
 import it.unisalento.se.saw.dto.PersonDto;
-
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/login")
 public class Login {

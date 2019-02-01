@@ -40,7 +40,7 @@ public class TeachingMaterial  implements java.io.Serializable {
      private byte[] doc;
      private String fileName;
      private String fileType;
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss", timezone = "Europe/Rome")
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy HH:mm:ss", timezone = "Europe/Rome")
      private Date created;
      private long size;
      @JsonIgnore
