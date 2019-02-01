@@ -2,15 +2,12 @@ package it.unisalento.se.saw.dto;
 
 import java.util.Date;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import it.unisalento.se.saw.domain.Module;
-
 public class TeachingMaterialDto {
-    private Integer techingMaterialId;
+    private Integer teachingMaterialId;
     @NotNull
     private String fileName;
     @NotNull
@@ -25,7 +22,7 @@ public class TeachingMaterialDto {
     
     public TeachingMaterialDto(Integer teachingMaterialId, String fileName,
     		String fileType, Date created, long size) {
-    	this.techingMaterialId = teachingMaterialId;
+    	this.teachingMaterialId = teachingMaterialId;
     	this.fileName = fileName;
     	this.fileType = fileType;
     	this.created = created;
@@ -33,11 +30,11 @@ public class TeachingMaterialDto {
     }
 
 	public Integer getTeachingMaterialId() {
-		return techingMaterialId;
+		return teachingMaterialId;
 	}
 
-	public void setTechingMaterialId(Integer techingMaterialId) {
-		this.techingMaterialId = techingMaterialId;
+	public void setTeachingMaterialId(Integer teachingMaterialId) {
+		this.teachingMaterialId = teachingMaterialId;
 	}
 
 	public String getFileName() {

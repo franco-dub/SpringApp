@@ -1,5 +1,5 @@
 package it.unisalento.se.saw.domain;
-// Generated Feb 1, 2019, 10:43:44 AM by Hibernate Tools 5.2.0.Final
+// Generated Feb 1, 2019, 12:19:39 PM by Hibernate Tools 5.2.0.Final
 
 
 import javax.persistence.Column;
@@ -59,7 +59,7 @@ public class TmRating  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="teaching_material_teching_material_id", nullable=false)
+    @JoinColumn(name="teaching_material_teaching_material_id", nullable=false)
     public TeachingMaterial getTeachingMaterial() {
         return this.teachingMaterial;
     }

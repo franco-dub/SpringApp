@@ -13,7 +13,7 @@ import it.unisalento.se.saw.dto.TeachingMaterialDto;
 
 @Repository
 public interface TeachingMaterialRepository extends JpaRepository<TeachingMaterial, Integer>{
-	@Query("select new it.unisalento.se.saw.dto.TeachingMaterialDto(techingMaterialId, fileName, fileType, created, "
+	@Query("select new it.unisalento.se.saw.dto.TeachingMaterialDto(teachingMaterialId, fileName, fileType, created, "
 			+ "size) from TeachingMaterial tm where tm.module.moduleId = :moduleId")
 	List<TeachingMaterialDto> findFileByModuleId(@Param("moduleId") Integer moduleId);
 }
