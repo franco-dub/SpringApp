@@ -104,4 +104,18 @@ public class CalendarController {
                     + " not found. " + e.toString()), HttpStatus.NOT_FOUND);
         }
     }
+    
+//-------------------Retrieve All Calendars By Module--------------------------------------------------------
+    
+    @RequestMapping(value = "/findByModuleId/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllCalendarsByModule(@PathVariable("id") Integer id) {
+    	List<CalendarDto> calendarDtos = calendarService.findAllCalendarByModule(id);
+    	if (calendarDtos.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+        return new ResponseEntity<List<CalendarDto>>(calendarDtos, HttpStatus.OK);
+    }
 }

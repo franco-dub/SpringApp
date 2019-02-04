@@ -1,6 +1,7 @@
 package it.unisalento.se.saw.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.lang.reflect.Type;
 
 import org.modelmapper.ModelMapper;
@@ -52,6 +53,12 @@ public class TmRatingService implements TmRatingIService {
 		Type targetListType = new TypeToken<List<TmRatingDto>>() {}.getType();
 		List<TmRatingDto> tmRatingDtos = modelMapper.map(tmRatings, targetListType);
 		return tmRatingDtos;
+	}
+
+	@Override
+	public TmRatingDto findByStudentIdAndTeachingMaterialId(Integer studentId, Integer teachingMaterialId) {
+		TmRating tmRating = tmRatingRepository.findByStudentAndTm(teachingMaterialId, studentId);
+		return modelMapper.map(tmRating, TmRatingDto.class);
 	}
 
 }

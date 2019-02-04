@@ -69,4 +69,13 @@ public class CalendarService implements CalendarIService {
 		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
 		return calendarDtos;
 	}
+	
+	@Override
+	@Transactional
+	public List<CalendarDto> findAllCalendarByModule(Integer moduleId) {
+		List<Calendar> calendars = lectureCalendarRepository.findAllByModuleModuleId(moduleId);
+		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
+		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
+		return calendarDtos;
+	}
 }

@@ -10,4 +10,5 @@ public interface TmRatingIService {
 	public void saveTmRating(TmRatingDto tmRatingDto);
 	public List<TmRatingDto> findAllTmRatings();
 	public List<TmRatingDto> findByTeachingMaterialTeachingMaterialId(Integer id);
+	public TmRatingDto findByStudentIdAndTeachingMaterialId(Integer studentId, Integer teachingMaterialId);
 }

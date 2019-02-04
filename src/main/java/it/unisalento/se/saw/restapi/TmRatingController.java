@@ -76,7 +76,7 @@ public class TmRatingController {
     
 // -------------------Retrieve TmRating by TeachingMaterial------------------------------------------
     
-    @RequestMapping(value = "findByTmId/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByTmId/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTmRatingByTeachingMaterial(@PathVariable("id") int id) {
     	try {
     		List<TmRatingDto> tmRatingDtos = tmRatingService.findByTeachingMaterialTeachingMaterialId(id);
@@ -93,5 +93,19 @@ public class TmRatingController {
         }
     }
     
+// -------------------Retrieve TmRating By StudentId and TeachingMaterialId-----------------------
+    
+    @RequestMapping(value = "findByStudentAndTM/{studentId}/{teachingMaterialId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getTmRatingByStudentIdAndTeachingMateriaId(
+    		@PathVariable("studentId") int studentId, @PathVariable("teachingMaterialId") int teachingMaterialId) {
+    	try {
+    		TmRatingDto tmRatingDto = tmRatingService.findByStudentIdAndTeachingMaterialId(studentId, teachingMaterialId);
+    		return new ResponseEntity<TmRatingDto>(tmRatingDto, HttpStatus.OK);
+    	} catch (Exception e) {
+    		return new ResponseEntity<TmRatingDto>(new TmRatingDto(), HttpStatus.NO_CONTENT);
+//("TmRating with studentId " + studentId 
+//                    + " and teachingMaterialId " + teachingMaterialId + " not found" + e.toString()), HttpStatus.NOT_FOUND);
+        }
+    }
     
 }
