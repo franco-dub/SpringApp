@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unisalento.se.saw.IService.TmRatingIService;
-import it.unisalento.se.saw.dto.TicketDto;
 import it.unisalento.se.saw.dto.TmRatingDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 

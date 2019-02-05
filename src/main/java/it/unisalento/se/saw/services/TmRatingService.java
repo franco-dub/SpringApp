@@ -27,13 +27,13 @@ public class TmRatingService implements TmRatingIService {
 	}
 	
 	@Override
-	@Transactional
 	public TmRatingDto findById(Integer id) {
 		TmRating tmRating = tmRatingRepository.findById(id).get();
 		return modelMapper.map(tmRating, TmRatingDto.class);
 	}
 
 	@Override
+	@Transactional
 	public void saveTmRating(TmRatingDto tmRatingDto) {
 		TmRating tmRating = modelMapper.map(tmRatingDto, TmRating.class);
 		tmRatingRepository.save(tmRating);
