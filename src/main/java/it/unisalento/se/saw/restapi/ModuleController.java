@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,7 +15,7 @@ import it.unisalento.se.saw.dto.ModuleDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 
 @RestController
-@CrossOrigin
+
 @RequestMapping(path = "/module")
 @CrossOrigin
 public class ModuleController {
@@ -131,5 +132,26 @@ public class ModuleController {
     		//NO_CONTENT doesn't print json error
     	}
         return new ResponseEntity<List<ModuleDto>>(moduleDtos, HttpStatus.OK);
+    }
+    
+//-------------------Retrieve All Course's Modules per year--------------------------------------------------------
+    
+    @RequestMapping(value = "/findAllCoursePerYear/{id}/{year}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllCourseSModulesPerYear(@PathVariable("id") Integer id,
+    		@PathVariable("year") int year) {
+    	List<ModuleDto> moduleDtos = moduleService.findAllCourseSModule(id);
+    	if (moduleDtos.isEmpty()) {
+    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+        			HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+    		//NO_CONTENT doesn't print json error
+    	}
+    	List<ModuleDto> modules = new ArrayList<>();
+    	for (ModuleDto mod: moduleDtos) {
+    		if ( mod.getYear() == year) {
+    			modules.add(mod);
+    		}
+    	}
+        return new ResponseEntity<List<ModuleDto>>(modules, HttpStatus.OK);
     }
 }

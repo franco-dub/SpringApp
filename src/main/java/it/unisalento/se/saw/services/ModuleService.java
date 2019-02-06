@@ -1,6 +1,7 @@
 package it.unisalento.se.saw.services;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -78,6 +79,20 @@ public class ModuleService implements ModuleIService {
 		Type targetListType = new TypeToken<List<ModuleDto>>() {}.getType();
 		List<ModuleDto> moduleDtos = modelMapper.map(modules, targetListType);
 		return moduleDtos;
+	}
+
+	@Override
+	public List<ModuleDto> findAllCourseSModulePerYear(Integer id, int year) {
+		List<Module> modules = moduleRepository.findAllByCourseCourseId(id);
+		Type targetListType = new TypeToken<List<ModuleDto>>() {}.getType();
+		List<ModuleDto> moduleDtos = modelMapper.map(modules, targetListType);
+		List<ModuleDto> mo = new ArrayList<>();
+    	for (ModuleDto mod: moduleDtos) {
+    		if ( mod.getYear() == year) {
+    			mo.add(mod);
+    		}
+    	}
+		return mo;
 	}
 
 }
