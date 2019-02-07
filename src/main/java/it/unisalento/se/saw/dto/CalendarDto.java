@@ -36,6 +36,8 @@ public class CalendarDto {
 	
 	private Date startDate;
 	private Date endDate;
+
+	private String type;
 	
 	public CalendarDto() {}
 
@@ -128,5 +130,13 @@ public class CalendarDto {
 	@JsonIgnore
 	public LocalDate getEndDateToLocalDate() {
 		return converter.convertToLocalDate(this.getEndDate());
+	}
+
+	public String getType(){
+		return type;
+	}
+
+	public void setType(String type){
+		this.type = type;
 	}
 }

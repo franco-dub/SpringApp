@@ -29,6 +29,7 @@ public class SchedulingController {
 	@RequestMapping(value = "/findFreeRooms", method = RequestMethod.POST)
     public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto) {
     	try {
+    		System.out.println(lectureCalendarDto.getEndDate() + " " + lectureCalendarDto.getStartDate());
     		List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
             return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
     	} catch(Exception e)

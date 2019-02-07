@@ -1,11 +1,18 @@
 package it.unisalento.se.saw.restapi;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import it.unisalento.se.saw.IService.ModuleIService;
+import it.unisalento.se.saw.domain.Module;
+import it.unisalento.se.saw.domain.Student;
+import it.unisalento.se.saw.dto.ModuleDto;
+import it.unisalento.se.saw.dto.StudentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +26,12 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 public class CalendarController {
 
 	CalendarIService calendarService;
+	ModuleIService moduleIService;
 	@Autowired
-	public CalendarController(CalendarIService calendarService) {
+	public CalendarController(CalendarIService calendarService, ModuleIService moduleService) {
 		super();
 		this.calendarService = calendarService;
+		this.moduleIService = moduleService;
 	}
 	
 // -------------------Create a Calendar-------------------------------------------
@@ -100,5 +109,39 @@ public class CalendarController {
         	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Calendar with id " + id 
                     + " not found. " + e.toString()), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping(value = "getStudentCalendar", consumes = "application/json")
+	public ResponseEntity<?> getStudentCalendar(@Valid @RequestBody StudentDto studentDto){
+		try{
+			List<ModuleDto> modules = moduleIService.findAllCourseSModule(studentDto.getCourse().getCourseId());
+			modules.forEach(module->{
+				if(module.getYear() != studentDto.getYear()){
+					System.out.println(modules);
+					modules.remove(module);
+					System.out.println(modules);
+
+				}
+			});
+
+			return new ResponseEntity<>(new CustomErrorType("Unable to find student! " + studentDto +
+					" not found. "), HttpStatus.NOT_FOUND);
+		}catch(Exception e){
+			return new ResponseEntity<>(new CustomErrorType("Unable to find student! " + studentDto +
+					" not found. " + e.toString()), HttpStatus.NOT_FOUND);
+		}
+    }
+
+
+    @PostMapping(value = "getModuleCalendar", consumes = "application/json")
+	public ResponseEntity<?> getModuleCalendar(@Valid @RequestBody ModuleDto moduleDto){
+	    try{
+
+			return new ResponseEntity<>(calendarService.findCalendarByModule(moduleDto), HttpStatus.OK);
+
+	    }catch(Exception e){
+		    return new ResponseEntity<>(new CustomErrorType("Unable to find student! " +
+				    " not found. " + e.toString()), HttpStatus.NOT_FOUND);
+	    }
     }
 }

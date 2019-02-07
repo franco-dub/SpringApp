@@ -16,7 +16,6 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/module")
-@CrossOrigin
 public class ModuleController {
 
 	ModuleIService moduleService;
