@@ -37,8 +37,7 @@ public class ProfessorController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createProfessor(@Valid @RequestBody ProfessorDto professorDto) {
     	try {
-    		professorService.saveProfessor(professorDto);
-            return new ResponseEntity<ProfessorDto>(professorDto, HttpStatus.CREATED);
+            return new ResponseEntity<ProfessorDto>(professorService.saveProfessor(professorDto), HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Professor. Validation error!"),

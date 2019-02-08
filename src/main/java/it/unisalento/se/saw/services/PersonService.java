@@ -37,9 +37,9 @@ public class PersonService implements PersonIService {
     
 	@Override
     @Transactional
-    public void savePerson(PersonDto personDto) {
+    public PersonDto savePerson(PersonDto personDto) {
 		Person person = modelMapper.map(personDto, Person.class);
-        personRepository.save(person);
+        return modelMapper.map(personRepository.save(person), PersonDto.class);
     }
  
 	@Override

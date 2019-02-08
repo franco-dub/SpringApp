@@ -6,7 +6,7 @@ import it.unisalento.se.saw.dto.PersonDto;
 
 public interface PersonIService {
 	public PersonDto findById(Integer id);
-	public void savePerson(PersonDto personDto);
+	public PersonDto savePerson(PersonDto personDto);
 	public void updatePerson(PersonDto personDto, Integer id);
 	public void deletePersonById(Integer id);
 	public void deleteAllPersons();

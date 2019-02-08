@@ -46,9 +46,9 @@ public class ProfessorService implements ProfessorIService{
 
 	@Override
 	@Transactional
-	public void saveProfessor(ProfessorDto professorDto) {
+	public ProfessorDto saveProfessor(ProfessorDto professorDto) {
 		Professor professor = modelMapper.map(professorDto, Professor.class);
-		professorRepository.save(professor);
+		return modelMapper.map(professorRepository.save(professor), ProfessorDto.class);
 	}
 	@Override
 	@Transactional

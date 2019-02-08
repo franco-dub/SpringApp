@@ -1,12 +1,12 @@
 package it.unisalento.se.saw.IService;
 
-import java.util.List;
-
 import it.unisalento.se.saw.dto.ModuleDto;
+
+import java.util.List;
 
 public interface ModuleIService {
 	public ModuleDto findById(Integer id);
-	public void saveModule(ModuleDto moduleDto);
+	public ModuleDto saveModule(ModuleDto moduleDto);
 	public void updateModule(ModuleDto moduleDto);
 	public void deleteModuleById(Integer id);
 	public List<ModuleDto> findAllModules();

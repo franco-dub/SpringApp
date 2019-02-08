@@ -36,9 +36,9 @@ public class ModuleService implements ModuleIService {
 
 	@Override
 	@Transactional
-	public void saveModule(ModuleDto moduleDto) {
+	public ModuleDto saveModule(ModuleDto moduleDto) {
 		Module module = modelMapper.map(moduleDto, Module.class);
-		moduleRepository.save(module);
+		return modelMapper.map(moduleRepository.save(module), ModuleDto.class);
 	}
 
 	@Override

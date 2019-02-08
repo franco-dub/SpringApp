@@ -47,8 +47,8 @@ public class PersonController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createPerson(@Valid @RequestBody PersonDto personDto) {
     	try {
-    		personService.savePerson(personDto);
-            return new ResponseEntity<PersonDto>(personDto, HttpStatus.CREATED);
+
+            return new ResponseEntity<PersonDto>(personService.savePerson(personDto), HttpStatus.CREATED);
     	} catch(Exception e) {
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Person. Validation error!"),
     				HttpStatus.BAD_REQUEST);
