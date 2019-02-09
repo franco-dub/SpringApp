@@ -3,6 +3,9 @@ package it.unisalento.se.saw.services;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import it.unisalento.se.saw.domain.Module;
+import it.unisalento.se.saw.dto.ModuleDto;
+import it.unisalento.se.saw.repo.ModuleRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +26,15 @@ public class ProfessorService implements ProfessorIService{
 	private static final ModelMapper modelMapper = new ModelMapper();
 	ProfessorRepository professorRepository;
 	PersonIService personService;
+	ModuleRepository moduleRepository;
 	
 	@Autowired
-	public ProfessorService(ProfessorRepository professorRepository, PersonIService personService) {
+	public ProfessorService(ProfessorRepository professorRepository, PersonIService personService,
+                            ModuleRepository moduleRepository) {
 		super();
 		this.professorRepository = professorRepository;
 		this.personService = personService;
+		this.moduleRepository = moduleRepository;
 	}
 	@Override
 	@Transactional
@@ -40,9 +46,9 @@ public class ProfessorService implements ProfessorIService{
 
 	@Override
 	@Transactional
-	public void saveProfessor(ProfessorDto professorDto) {
+	public ProfessorDto saveProfessor(ProfessorDto professorDto) {
 		Professor professor = modelMapper.map(professorDto, Professor.class);
-		professorRepository.save(professor);
+		return modelMapper.map(professorRepository.save(professor), ProfessorDto.class);
 	}
 	@Override
 	@Transactional
@@ -79,4 +85,5 @@ public class ProfessorService implements ProfessorIService{
 		}
 		
 	}
+
 }

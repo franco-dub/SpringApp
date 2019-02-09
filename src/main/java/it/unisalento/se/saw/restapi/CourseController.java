@@ -16,7 +16,6 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 @RestController
 
 @RequestMapping(path = "/course")
-@CrossOrigin
 public class CourseController {
 	
 	CourseIService courseService;

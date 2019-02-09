@@ -4,6 +4,9 @@ import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
+import it.unisalento.se.saw.domain.Module;
+import it.unisalento.se.saw.domain.Person;
+import it.unisalento.se.saw.dto.ModuleDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +72,14 @@ public class CalendarService implements CalendarIService {
 		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
 		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
 		return calendarDtos;
+	}
+
+	@Override
+	@Transactional
+	public List<CalendarDto> findCalendarByModule(ModuleDto moduleDto){
+		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
+		List<Calendar> calendars = lectureCalendarRepository.findAllByModule(modelMapper.map(moduleDto, Module.class));
+		return modelMapper.map(calendars, targetListType);
 	}
 	
 	@Override

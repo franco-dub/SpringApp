@@ -1,5 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
+
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,9 +13,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+
 import org.eclipse.persistence.internal.libraries.asm.tree.ModuleExportNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,8 @@ import it.unisalento.se.saw.domain.Module;
 import it.unisalento.se.saw.dto.CalendarDto;
 import it.unisalento.se.saw.dto.ModuleDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
+import it.unisalento.se.saw.domain.Student;
+import it.unisalento.se.saw.dto.StudentDto;
 
 @RestController
 @CrossOrigin
@@ -31,12 +36,13 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 public class CalendarController {
 
 	CalendarIService calendarService;
-	ModuleIService moduleService;
+	ModuleIService moduleIService;
+
 	@Autowired
 	public CalendarController(CalendarIService calendarService, ModuleIService moduleService) {
 		super();
 		this.calendarService = calendarService;
-		this.moduleService = moduleService;
+		this.moduleIService = moduleService;
 	}
 	
 // -------------------Create a Calendar-------------------------------------------
@@ -115,6 +121,42 @@ public class CalendarController {
                     + " not found. " + e.toString()), HttpStatus.NOT_FOUND);
         }
     }
+
+  //--------------------- Get Student Calendar ------------------------------------
+    @PostMapping(value = "getStudentCalendar", consumes = "application/json")
+	public ResponseEntity<?> getStudentCalendar(@Valid @RequestBody StudentDto studentDto){
+		try{
+			List<ModuleDto> modules = moduleIService.findAllCourseSModule(studentDto.getCourse().getCourseId());
+			modules.forEach(module->{
+				if(module.getYear() != studentDto.getYear()){
+					System.out.println(modules);
+					modules.remove(module);
+					System.out.println(modules);
+
+				}
+			});
+
+			return new ResponseEntity<>(new CustomErrorType("Unable to find student! " + studentDto +
+					" not found. "), HttpStatus.NOT_FOUND);
+		}catch(Exception e){
+			return new ResponseEntity<>(new CustomErrorType("Unable to find student! " + studentDto +
+					" not found. " + e.toString()), HttpStatus.NOT_FOUND);
+		}
+    }
+
+
+  
+  //---------------------------- Get Module Calendar --------------------------------
+    @PostMapping(value = "getModuleCalendar", consumes = "application/json")
+	public ResponseEntity<?> getModuleCalendar(@Valid @RequestBody ModuleDto moduleDto){
+	    try{
+
+			return new ResponseEntity<>(calendarService.findCalendarByModule(moduleDto), HttpStatus.OK);
+
+	    }catch(Exception e){
+		    return new ResponseEntity<>(new CustomErrorType("Unable to find student! " +
+				    " not found. " + e.toString()), HttpStatus.NOT_FOUND);
+	    }
     
 //-------------------Retrieve All Calendars By Module--------------------------------------------------------
     
@@ -130,6 +172,7 @@ public class CalendarController {
         return new ResponseEntity<List<CalendarDto>>(calendarDtos, HttpStatus.OK);
     }
     
+    //------------------------------- Get all professor calendar ---------------
     @RequestMapping(value = "/findByProfessorAndDate/{id}/{date}", method = RequestMethod.GET)
     public ResponseEntity<?> listAllProfessorsCalendar(@PathVariable("id") Integer id, @PathVariable("date") String date) {
     
@@ -155,6 +198,7 @@ public class CalendarController {
     }
     
     
+    //---------------- Get all student calendar ---------------------
     @RequestMapping(value = "/findByStudentAndDate/{id}/{year}/{date}", method = RequestMethod.GET)
     public ResponseEntity<?> listAllStudentCalendar(@PathVariable("id") Integer id,
     		@PathVariable("year") Integer year,

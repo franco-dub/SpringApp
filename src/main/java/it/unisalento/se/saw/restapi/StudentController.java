@@ -32,8 +32,7 @@ public class StudentController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDto studentDto) {
     	try {
-    		studentService.saveStudent(studentDto);
-            return new ResponseEntity<StudentDto>(studentDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(studentService.saveStudent(studentDto), HttpStatus.CREATED);
     	} catch(Exception e)
     	{
 			System.out.println(e.toString());

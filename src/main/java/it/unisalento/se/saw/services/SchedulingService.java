@@ -44,9 +44,7 @@ public class SchedulingService implements SchedulingIService {
 		/*Map all rooms*/
 		Iterable<RoomDto> roomDtos = roomService.findAllRooms();
         Map<Integer, RoomDto> roomMapDto = new HashMap<>();
-        roomDtos.forEach(room->{
-            roomMapDto.put(room.getRoomId(), room);
-        });
+        roomDtos.forEach(room-> roomMapDto.put(room.getRoomId(), room));
         /*Get the count of all the students attending the module*/
         List<StudentDto> studentDtos = studentService.findAllCourseSStudent(calendarDto.getModule().getCourse().getCourseId());
         long cap = studentDtos.stream()
@@ -58,13 +56,12 @@ public class SchedulingService implements SchedulingIService {
         if(null!=calendarDtos){
         	calendarDtos.forEach(calendar -> {
         		/*Check if slot time's lecture of the day overlap with requested one*/
-        		if(!(calendar.getEndTimeToLocalTime().isBefore(calendarDto.getStartTimeToLocalTime()) || 
+        		if(!(calendar.getEndTimeToLocalTime().isBefore(calendarDto.getStartTimeToLocalTime()) ||
         				calendar.getEndTimeToLocalTime().equals(calendarDto.getStartTimeToLocalTime()) ||
         				calendar.getStartTimeToLocalTime().isAfter(calendarDto.getEndTimeToLocalTime()) || 
         				calendar.getStartTimeToLocalTime().equals(calendarDto.getEndTimeToLocalTime()))) {
-        			/*Check if room is big enough*/
-        			if(cap > calendar.getRoom().getCapacity())
-        				roomMapDto.remove(calendar.getRoom().getRoomId());
+			        assert calendar.getRoom() != null;
+			        roomMapDto.remove(calendar.getRoom().getRoomId());
         		}
         	});
         }
