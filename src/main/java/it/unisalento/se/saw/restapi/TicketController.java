@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import it.unisalento.se.saw.IService.TicketIService;
 import it.unisalento.se.saw.dto.TicketDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
-@CrossOrigin
+
 @RestController
 @RequestMapping(path = "/ticket")
 public class TicketController {

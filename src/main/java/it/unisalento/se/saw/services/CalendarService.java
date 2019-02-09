@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.unisalento.se.saw.IService.CalendarIService;
 import it.unisalento.se.saw.domain.Calendar;
 import it.unisalento.se.saw.dto.CalendarDto;
+import it.unisalento.se.saw.dto.ModuleDto;
 import it.unisalento.se.saw.repo.CalendarRepository;
 
 @Service
@@ -80,5 +81,22 @@ public class CalendarService implements CalendarIService {
 		List<Calendar> calendars = lectureCalendarRepository.findAllByModule(modelMapper.map(moduleDto, Module.class));
 		return modelMapper.map(calendars, targetListType);
 	}
+	
+	@Override
+	@Transactional
+	public List<CalendarDto> findAllCalendarByModule(Integer moduleId) {
+		List<Calendar> calendars = lectureCalendarRepository.findAllByModuleModuleId(moduleId);
+		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
+		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
+		return calendarDtos;
+	}
 
+	@Override
+	public List<CalendarDto> findAllCalendarByModuleAndDate(Integer moduleId, Date date) {
+		List<Calendar> calendars = lectureCalendarRepository.findCalendarByModuleAndDate(date, moduleId);
+		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
+		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
+		return calendarDtos;
+	}
+	
 }

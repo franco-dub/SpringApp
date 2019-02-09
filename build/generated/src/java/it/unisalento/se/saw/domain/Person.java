@@ -45,8 +45,11 @@ public class Person  implements java.io.Serializable {
      private String gender;
      private String address;
      private String password;
+     @JsonIgnore
      private Set<Secretary> secretaries = new HashSet<Secretary>(0);
+     @JsonIgnore
      private Set<Professor> professors = new HashSet<Professor>(0);
+     @JsonIgnore
      private Set<Student> students = new HashSet<Student>(0);
 
     public Person() {

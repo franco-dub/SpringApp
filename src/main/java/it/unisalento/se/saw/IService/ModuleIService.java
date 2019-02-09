@@ -12,4 +12,6 @@ public interface ModuleIService {
 	public List<ModuleDto> findAllModules();
 	public List<ModuleDto> findAllCourseSModule(Integer id);
 	public ModuleDto findByProfessorProfessorId(Integer id);
+	public List<ModuleDto> findAllCourseSModulePerYear(Integer id, int year);
+	public List<ModuleDto> findAllProfessorSModule(Integer id);
 }
