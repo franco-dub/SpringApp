@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -41,7 +42,9 @@ public class Professor  implements java.io.Serializable {
      private Date hireDate;
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
      private Date endEngagement;
+     @JsonIgnore
      private Set<Ticket> tickets = new HashSet<Ticket>(0);
+     @JsonIgnore
      private Set<Module> modules = new HashSet<Module>(0);
 
     public Professor() {

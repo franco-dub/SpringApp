@@ -12,4 +12,6 @@ public interface CalendarIService {
 	public void deleteCalendarById(Integer id);
 	public List<CalendarDto> findAllCalendars();
 	public List<CalendarDto> findAllCalendarSDate(Date date);
+	public List<CalendarDto> findAllCalendarByModule(Integer moduleId);
+	public List<CalendarDto> findAllCalendarByModuleAndDate(Integer moduleId, Date date);
 }

@@ -29,10 +29,11 @@ public class CalendarDto {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Europe/Rome")
     private Date endTime;
 	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy", timezone = "Europe/Rome")
     private Date date;
 	@NotNull
     private String day;
+	private String type;
 	
 	private Date startDate;
 	private Date endDate;
@@ -129,4 +130,13 @@ public class CalendarDto {
 	public LocalDate getEndDateToLocalDate() {
 		return converter.convertToLocalDate(this.getEndDate());
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 }

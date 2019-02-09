@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -41,6 +42,7 @@ public class Secretary  implements java.io.Serializable {
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
      private Date endEngagement;
      private String task;
+     @JsonIgnore
      private Set<Ticket> tickets = new HashSet<Ticket>(0);
 
     public Secretary() {

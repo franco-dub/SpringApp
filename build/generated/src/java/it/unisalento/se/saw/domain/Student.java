@@ -42,6 +42,7 @@ public class Student  implements java.io.Serializable {
      private Date registrationDate;
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
      private Date graduationDate;
+     @JsonIgnore
      private Set<StudentExam> studentExams = new HashSet<StudentExam>(0);
 
     public Student() {
