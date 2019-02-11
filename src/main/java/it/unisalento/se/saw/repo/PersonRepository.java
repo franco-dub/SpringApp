@@ -13,5 +13,5 @@ public interface PersonRepository extends JpaRepository<Person, Integer>{
 
 	List<Person> findByLastName(@Param("lastName") String lastName);
 	
-	Person findByEmail(String email);
+	Person findByEmailAndPassword(String email, String password);
 }

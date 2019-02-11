@@ -38,8 +38,6 @@ public class CalendarDto {
 	private Date startDate;
 	private Date endDate;
 
-	private String type;
-	
 	public CalendarDto() {}
 
 	public Integer getCalendarId() {
