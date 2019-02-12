@@ -10,6 +10,7 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,13 +39,12 @@ public class CalendarController {
 // -------------------Create a Calendar-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createCalendar(@Valid @RequestBody CalendarDto calendarDto) {
-    	try {
-    		calendarService.saveCalendar(calendarDto);
-            return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-    		return new ResponseEntity<>(new CustomErrorType("Unable to create new Calendar. " + e.toString()),
+    public ResponseEntity<?> createCalendar(@Valid @RequestBody CalendarDto calendarDto, BindingResult brs) {
+    	if(!brs.hasErrors()){
+		    CalendarDto calendarRet = calendarService.saveCalendar(calendarDto);
+            return new ResponseEntity<>(calendarRet, HttpStatus.CREATED);
+    	}else{
+    		return new ResponseEntity<>(new CustomErrorType("Unable to create new Calendar. "),
     				HttpStatus.BAD_REQUEST);
     	}
     }
@@ -71,7 +71,7 @@ public class CalendarController {
     		CalendarDto calendarDto = calendarService.findById(id);
     		return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.OK);
     	} catch (Exception e) {
-    		return new ResponseEntity<>(new CustomErrorType("Calendar with id " + id 
+    		return new ResponseEntity<>(new CustomErrorType("Calendar with id " + id
                     + " not found ." + e.toString()), HttpStatus.NOT_FOUND);
         }
     }
@@ -80,21 +80,20 @@ public class CalendarController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateCalendar(@PathVariable("id") int id, 
-    		@Valid @RequestBody CalendarDto calendarDto) {
-    	try {
-    		calendarService.findById(id);
-    		try {
-    			calendarDto.setCalendarId(id);
-    			calendarService.updateCalendar(calendarDto);
-                return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.OK);
-    		} catch (Exception e) {
-    			return new ResponseEntity<>(new CustomErrorType("Unable to create new Calendar. " + e.toString()),
-        				HttpStatus.BAD_REQUEST);
-    		}
-    	} catch( Exception e) {
-    		return new ResponseEntity<>(new CustomErrorType("Unable to update. Calendar with id " 
-            		+ id + " not found. " + e.toString()), HttpStatus.NOT_FOUND);
-    	}
+    		@Valid @RequestBody CalendarDto calendarDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+    		if(calendarService.findById(id) == null){
+			    return new ResponseEntity<>(new CustomErrorType("Unable to create new Calendar."),
+					    HttpStatus.NOT_FOUND);
+		    }
+            calendarDto.setCalendarId(id);
+		    calendarDto = calendarService.updateCalendar(calendarDto);
+            return new ResponseEntity<>(calendarDto, HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>(new CustomErrorType("Unable to create new Calendar."),
+                    HttpStatus.BAD_REQUEST);
+        }
+
     }
     
 //------------------- Delete a Calendar --------------------------------------------------------
@@ -117,17 +116,12 @@ public class CalendarController {
 	public ResponseEntity<?> getStudentCalendar(@Valid @RequestBody StudentDto studentDto){
 		try{
 			List<ModuleDto> modules = moduleService.findAllCourseSModule(studentDto.getCourse().getCourseId());
-			modules.forEach(module->{
-				if(module.getYear() != studentDto.getYear()){
-					System.out.println(modules);
-					modules.remove(module);
-					System.out.println(modules);
-
+			for(int i = modules.size() - 1; i >= 0; i--){
+				if(modules.get(i).getYear() != studentDto.getYear()){
+					modules.remove(i);
 				}
-			});
-
-			return new ResponseEntity<>(new CustomErrorType("Unable to find student! " + studentDto +
-					" not found. "), HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(modules, HttpStatus.OK);
 		}catch(Exception e){
 			return new ResponseEntity<>(new CustomErrorType("Unable to find student! " + studentDto +
 					" not found. " + e.toString()), HttpStatus.NOT_FOUND);
@@ -135,20 +129,6 @@ public class CalendarController {
     }
 
 
-  
-  //---------------------------- Get Module Calendar --------------------------------
-    @PostMapping(value = "getModuleCalendar", consumes = "application/json")
-	public ResponseEntity<?> getModuleCalendar(@Valid @RequestBody ModuleDto moduleDto){
-	    try{
-
-		    return new ResponseEntity<>(calendarService.findCalendarByModule(moduleDto), HttpStatus.OK);
-
-	    }catch(Exception e){
-		    return new ResponseEntity<>(new CustomErrorType("Unable to find student! " +
-				    " not found. " + e.toString()), HttpStatus.NOT_FOUND);
-	    }
-    }
-    
 //-------------------Retrieve All Calendars By Module--------------------------------------------------------
     
     @RequestMapping(value = "/findByModuleId/{id}", method = RequestMethod.GET)
@@ -194,7 +174,7 @@ public class CalendarController {
     public ResponseEntity<?> listAllStudentCalendar(@PathVariable("id") Integer id,
     		@PathVariable("year") Integer year,
     		@PathVariable("date") String date) {
-    
+
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 		LocalDate lDate = LocalDate.parse(date, formatter);
 		Date dd = Date.from(lDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
