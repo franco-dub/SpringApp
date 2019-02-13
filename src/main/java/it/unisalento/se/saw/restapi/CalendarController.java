@@ -1,18 +1,14 @@
 package it.unisalento.se.saw.restapi;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
-import org.eclipse.persistence.internal.libraries.asm.tree.ModuleExportNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import it.unisalento.se.saw.IService.CalendarIService;
 import it.unisalento.se.saw.IService.ModuleIService;
-import it.unisalento.se.saw.domain.Module;
 import it.unisalento.se.saw.dto.CalendarDto;
 import it.unisalento.se.saw.dto.ModuleDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
