@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,17 +35,15 @@ public class TmRatingController {
 	
 	// -------------------Create a TmRating-------------------------------------------
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createTmRating(@Valid @RequestBody TmRatingDto tmRatingDto) {
-    	try {
-    		tmRatingService.saveTmRating(tmRatingDto);
-            return new ResponseEntity<TmRatingDto>(tmRatingDto, HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-    		return new ResponseEntity<>(new CustomErrorType("Unable to create new TmRating. " + e.toString()),
-    				HttpStatus.BAD_REQUEST);
-    	}
-    }
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> createTmRating(@Valid @RequestBody TmRatingDto tmRatingDto, BindingResult brs) {
+		if (!brs.hasErrors()) {
+			tmRatingService.saveTmRating(tmRatingDto);
+			return new ResponseEntity<TmRatingDto>(tmRatingDto, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(new CustomErrorType("Unable to create new TmRating. " + brs.getAllErrors()),
+				HttpStatus.BAD_REQUEST);
+	}
     
 //-------------------Retrieve All TmRating--------------------------------------------------------
     
@@ -94,7 +93,7 @@ public class TmRatingController {
     
 // -------------------Retrieve TmRating By StudentId and TeachingMaterialId-----------------------
     
-    @RequestMapping(value = "findByStudentAndTM/{studentId}/{teachingMaterialId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByStudentAndTM/{studentId}/{teachingMaterialId}", method = RequestMethod.GET)
     public ResponseEntity<?> getTmRatingByStudentIdAndTeachingMateriaId(
     		@PathVariable("studentId") int studentId, @PathVariable("teachingMaterialId") int teachingMaterialId) {
     	try {
