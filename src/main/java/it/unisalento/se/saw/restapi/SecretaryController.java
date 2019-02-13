@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,22 +32,16 @@ public class SecretaryController {
 	
 	// -------------------Create a Secretary-------------------------------------------
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createSecretary(@Valid @RequestBody 
-    		SecretaryDto secretaryDto, UriComponentsBuilder ucBuilder) {
-    	try {
-    		secretaryService.saveSecretary(secretaryDto);
-    		
-    		HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/{id}")
-            		.buildAndExpand(secretaryDto.getSecretaryId()).toUri());
-            return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-    		return new ResponseEntity<>(new CustomErrorType("Unable to create new Secretary. Validation error!"),
-    				HttpStatus.BAD_REQUEST);
-    	}
-    }
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> createSecretary(@Valid @RequestBody 
+			SecretaryDto secretaryDto, BindingResult brs) {
+		if (!brs.hasErrors()) {
+			secretaryService.saveSecretary(secretaryDto);
+			return new ResponseEntity<SecretaryDto>(secretaryDto, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(new CustomErrorType("Unable to create new Secretary. Validation error!"),
+				HttpStatus.BAD_REQUEST);
+	}
     
     //-------------------Retrieve All Secretaries--------------------------------------------------------
     
@@ -76,24 +71,23 @@ public class SecretaryController {
     }
     
     // ------------------- Update a Secretary ------------------------------------------------
-    
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateSecretary(@PathVariable("id") int id, 
-    		@Valid @RequestBody SecretaryDto secretaryDto) {
-    	try {
-    		secretaryService.findById(id);
+    		@Valid @RequestBody SecretaryDto secretaryDto, BindingResult brs) {
+    	if (!brs.hasErrors()) {
     		try {
-    			secretaryDto.setSecretaryId(id);
-    			secretaryService.updateSecretary(secretaryDto);
-                return new ResponseEntity<SecretaryDto>(secretaryDto, HttpStatus.OK);
-    		} catch (Exception e) {
-    			return new ResponseEntity<>(new CustomErrorType("Unable to create new Secretary. Validation error!"),
-        				HttpStatus.BAD_REQUEST);
+    			secretaryService.findById(id);
+    		} catch( Exception e) {
+    			return new ResponseEntity<>(new CustomErrorType("Unable to upate. Secretary with id " 
+    					+ id + " not found."), HttpStatus.NOT_FOUND);
     		}
-    	} catch( Exception e) {
-    		return new ResponseEntity<>(new CustomErrorType("Unable to upate. Secretary with id " 
-            		+ id + " not found."), HttpStatus.NOT_FOUND);
+    		secretaryDto.setSecretaryId(id);
+    		secretaryService.updateSecretary(secretaryDto);
+    		return new ResponseEntity<SecretaryDto>(secretaryDto, HttpStatus.OK);
     	}
+    	return new ResponseEntity<>(new CustomErrorType("Unable to create new Secretary. Validation error!"),
+    			HttpStatus.BAD_REQUEST);
     }
     
     //------------------- Delete a Secretary --------------------------------------------------------

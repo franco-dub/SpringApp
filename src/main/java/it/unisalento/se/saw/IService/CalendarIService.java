@@ -3,7 +3,6 @@ package it.unisalento.se.saw.IService;
 import java.util.Date;
 import java.util.List;
 
-import it.unisalento.se.saw.domain.Person;
 import it.unisalento.se.saw.dto.CalendarDto;
 import it.unisalento.se.saw.dto.ModuleDto;
 

@@ -83,7 +83,6 @@ public class StudentControllerTest {
 	
 	@Test
 	public void getStudentTest() throws Exception{
-
 		
 		when(studentServiceMock.findById(1)).thenReturn(student);
 		
