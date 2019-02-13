@@ -100,7 +100,7 @@ public class StudentControllerTest {
 	@Test
 	public void createStudentTest() throws Exception{
 		
-		Mockito.doNothing().when(studentServiceMock).saveStudent(student);
+		when(studentServiceMock.saveStudent(student)).thenReturn(student);
 		
 	    mockMvc.perform(post("/student/add")
 	    		.contentType(MediaType.APPLICATION_JSON)
