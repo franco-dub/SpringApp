@@ -20,6 +20,16 @@ public class ModuleDto {
     
     public ModuleDto() {}
 
+    public ModuleDto(ModuleDto moduleDto){
+    	setYear(moduleDto.getYear());
+    	setCourse(moduleDto.getCourse());
+    	setModuleId(moduleDto.getModuleId());
+    	setProfessor(moduleDto.getProfessor());
+    	setSemester(moduleDto.getSemester());
+    	setTitle(moduleDto.getTitle());
+    	setCredits(moduleDto.getCredits());
+    }
+
 	public Integer getModuleId() {
 		return moduleId;
 	}

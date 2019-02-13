@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import it.unisalento.se.saw.IService.PersonIService;
@@ -38,18 +39,17 @@ public class PersonController {
             // You many decide to return HttpStatus.NOT_FOUND
     		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<PersonDto>>(persons, HttpStatus.OK);
+        return new ResponseEntity<>(persons, HttpStatus.OK);
     }
     
     
  // -------------------Create a Person-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createPerson(@Valid @RequestBody PersonDto personDto) {
-    	try {
-
-            return new ResponseEntity<PersonDto>(personService.savePerson(personDto), HttpStatus.CREATED);
-    	} catch(Exception e) {
+    public ResponseEntity<?> createPerson(@Valid @RequestBody PersonDto personDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+            return new ResponseEntity<>(personService.savePerson(personDto), HttpStatus.CREATED);
+    	} else {
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Person. Validation error!"),
     				HttpStatus.BAD_REQUEST);
     	}
@@ -72,19 +72,18 @@ public class PersonController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updatePerson(@PathVariable("id") int id, 
-    		@Valid @RequestBody PersonDto personDto) {
-    	try {
-    		personService.findById(id);
-    		try {
+    		@Valid @RequestBody PersonDto personDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+    		if(personService.findById(id) != null) {
     			personService.updatePerson(personDto, id);
-                return new ResponseEntity<PersonDto>(personDto, HttpStatus.OK);
-    		} catch (Exception e) {
+                return new ResponseEntity<>(personDto, HttpStatus.OK);
+    		} else {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Person. Validation error!"),
-        				HttpStatus.BAD_REQUEST);
+        				HttpStatus.NOT_FOUND);
     		}
-    	} catch( Exception e) {
+    	} else {
     		return new ResponseEntity<>(new CustomErrorType("Unable to upate. Person with id " 
-            		+ id + " not found."), HttpStatus.NOT_FOUND);
+            		+ id + " not found."), HttpStatus.BAD_REQUEST);
     	}
     }
 	
@@ -93,11 +92,11 @@ public class PersonController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePerson(@PathVariable("id") Integer id) {
         System.out.println("Fetching & Deleting Person with id " + id);
-        try {
-        	personService.findById(id);
+        if(personService.findById(id) != null) {
+
         	personService.deletePersonById(id);
             return new ResponseEntity<Person>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        } else {
         	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Person with id " + id 
                     + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -111,7 +110,7 @@ public class PersonController {
         System.out.println("Deleting All Persons");
  
         personService.deleteAllPersons();
-        return new ResponseEntity<Person>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

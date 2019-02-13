@@ -1,29 +1,23 @@
 package it.unisalento.se.saw.restapi;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import it.unisalento.se.saw.IService.LectureRatingIService;
 import it.unisalento.se.saw.dto.LectureRatingDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/lectureRating")
 public class LectureRatingController {
 
-	LectureRatingIService lectureRatingService;
+	private LectureRatingIService lectureRatingService;
 
 	@Autowired
 	public LectureRatingController(LectureRatingIService lectureRatingService) {
@@ -34,13 +28,12 @@ public class LectureRatingController {
 	// -------------------Create a LectureRating-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createLectureRating(@Valid @RequestBody LectureRatingDto lectureRatingDto) {
-    	try {
+    public ResponseEntity<?> createLectureRating(@Valid @RequestBody LectureRatingDto lectureRatingDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
     		lectureRatingService.saveLectureRating(lectureRatingDto);
-            return new ResponseEntity<LectureRatingDto>(lectureRatingDto, HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-    		return new ResponseEntity<>(new CustomErrorType("Unable to create new LectureRating. " + e.toString()),
+            return new ResponseEntity<>(lectureRatingDto, HttpStatus.CREATED);
+    	} else{
+    		return new ResponseEntity<>(new CustomErrorType("Unable to create new LectureRating."),
     				HttpStatus.BAD_REQUEST);
     	}
     }
@@ -53,22 +46,20 @@ public class LectureRatingController {
     	if (lectureRatingDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<LectureRatingDto>>(lectureRatingDtos, HttpStatus.OK);
+        return new ResponseEntity<>(lectureRatingDtos, HttpStatus.OK);
     }
 	
 // -------------------Retrieve Single LectureRating------------------------------------------
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getLectureRating(@PathVariable("id") int id) {
-    	try {
     		LectureRatingDto lectureRatingDto = lectureRatingService.findById(id);
-    		return new ResponseEntity<LectureRatingDto>(lectureRatingDto, HttpStatus.OK);
-    	} catch (Exception e) {
+    		if(lectureRatingDto != null){
+			    return new ResponseEntity<>(lectureRatingDto, HttpStatus.OK);
+		    }else {
     		return new ResponseEntity<>(new CustomErrorType("LectureRating with id " + id 
-                    + " not found" + e.toString()), HttpStatus.NOT_FOUND);
+                    + " not found"), HttpStatus.NOT_FOUND);
         }
     }
     
@@ -76,18 +67,12 @@ public class LectureRatingController {
 
     @RequestMapping(value = "/findByModule/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getLectureRatingByLecture(@PathVariable("id") int id) {
-    	try {
-    		List<LectureRatingDto> lectureRatingDtos = lectureRatingService.findAllBylecture(id);
-    		if (lectureRatingDtos.isEmpty()) {
-        		return new ResponseEntity<>(new CustomErrorType("List empty."),
-            			HttpStatus.NO_CONTENT);
-                // You many decide to return HttpStatus.NOT_FOUND
-        		//NO_CONTENT doesn't print json error
-        	}
-            return new ResponseEntity<List<LectureRatingDto>>(lectureRatingDtos, HttpStatus.OK);
-    	} catch (Exception e) {
-    		return new ResponseEntity<>(new CustomErrorType("LectureRating with id " + id 
-                    + " not found" + e.toString()), HttpStatus.NOT_FOUND);
+        List<LectureRatingDto> lectureRatingDtos = lectureRatingService.findAllBylecture(id);
+        if (lectureRatingDtos.isEmpty()) {
+		    return new ResponseEntity<>(new CustomErrorType("LectureRating with id " + id
+				    + " not found"), HttpStatus.NOT_FOUND);
+        }else{
+	        return new ResponseEntity<>(lectureRatingDtos, HttpStatus.OK);
         }
     }
     
@@ -96,13 +81,11 @@ public class LectureRatingController {
     @RequestMapping(value = "findByStudentAndLecture/{studentId}/{calendarId}", method = RequestMethod.GET)
     public ResponseEntity<?> getLectureRatingByStudentAndLecture(
     		@PathVariable("studentId") int studentId, @PathVariable("calendarId") int calendarId) {
-    	try {
-    		LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
-    		return new ResponseEntity<LectureRatingDto>(lectureRatingDto, HttpStatus.OK);
-    	} catch (Exception e) {
-    		return new ResponseEntity<LectureRatingDto>(new LectureRatingDto(), HttpStatus.NO_CONTENT);
-//("TmRating with studentId " + studentId 
-//                    + " and teachingMaterialId " + teachingMaterialId + " not found" + e.toString()), HttpStatus.NOT_FOUND);
+   		LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
+   		if(lectureRatingDto != null){
+    		return new ResponseEntity<>(lectureRatingDto, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>("That Lecture rating is no available for this student ", HttpStatus.NOT_FOUND);
         }
     }
     

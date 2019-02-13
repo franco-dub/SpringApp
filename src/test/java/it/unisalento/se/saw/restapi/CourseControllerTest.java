@@ -56,10 +56,11 @@ public class CourseControllerTest{
 
 	@Test
 	public void createNullCourseTest() throws Exception{
-		doNothing().doThrow(new NullPointerException()).when(courseServiceMock).saveCourse(null);
+		courseDto.setName(null);
+		doNothing().doThrow(new NullPointerException()).when(courseServiceMock).saveCourse(courseDto);
 		mockMvc.perform(post("/course/add")
 				.accept(MediaType.APPLICATION_JSON_UTF8)
-				.content(mapper.writeValueAsString(null))
+				.content(mapper.writeValueAsString(courseDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isBadRequest());
 	}
