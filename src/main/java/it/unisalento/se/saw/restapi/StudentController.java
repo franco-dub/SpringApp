@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import it.unisalento.se.saw.IService.StudentIService;
@@ -28,6 +29,18 @@ public class StudentController {
 	}
 	
 	// -------------------Create a Student-------------------------------------------
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDto studentDto, BindingResult brs) {
+		if (!brs.hasErrors()) {
+			studentService.saveStudent(studentDto);
+			return new ResponseEntity<StudentDto>(studentDto, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(new CustomErrorType("Unable to create new Student. Validation error!"),
+				HttpStatus.BAD_REQUEST);
+
+	}
+
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDto studentDto) {
@@ -40,6 +53,7 @@ public class StudentController {
     				HttpStatus.BAD_REQUEST);
     	}
     }
+
     
     //-------------------Retrieve All Student--------------------------------------------------------
     
@@ -72,35 +86,36 @@ public class StudentController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateStudent(@PathVariable("id") int id, 
-    		@Valid @RequestBody StudentDto studentDto) {
-    	try {
-    		studentService.findById(id);
+    		@Valid @RequestBody StudentDto studentDto, BindingResult brs) {
+    	if (!brs.hasErrors()) {
     		try {
-    			studentDto.setStudentId(id);
-    			studentService.updateStudent(studentDto);
-                return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
-    		} catch (Exception e) {
-    			return new ResponseEntity<>(new CustomErrorType("Unable to create new Student. Validation error!"),
-        				HttpStatus.BAD_REQUEST);
+    			studentService.findById(id);
+    		} catch(Exception e) {
+    			return new ResponseEntity<>(new CustomErrorType("Unable to upate. Student with id " 
+    					+ id + " not found."), HttpStatus.NOT_FOUND);
     		}
-    	} catch( Exception e) {
-    		return new ResponseEntity<>(new CustomErrorType("Unable to upate. Student with id " 
-            		+ id + " not found."), HttpStatus.NOT_FOUND);
+    		studentDto.setStudentId(id);
+    		studentService.updateStudent(studentDto);
+    		return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
+
     	}
+    	return new ResponseEntity<>(new CustomErrorType("Unable to create new Student. Validation error!"),
+    			HttpStatus.BAD_REQUEST);
+
     }
     //------------------- Delete a Student --------------------------------------------------------
-    
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
     	System.out.println("Fetching & Deleting Student with id " + id);
-        try {
-        	studentService.findById(id);
-        	studentService.deleteStudentById(id);
-            return new ResponseEntity<Student>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-        	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Student with id " + id 
-                    + " not found."), HttpStatus.NOT_FOUND);
-        }
+    	try {
+    		studentService.findById(id);
+    	} catch (Exception e) {
+    		return new ResponseEntity<>(new CustomErrorType("Unable to delete! Student with id " + id 
+    				+ " not found."), HttpStatus.NOT_FOUND);
+    	}
+    	studentService.deleteStudentById(id);
+    	return new ResponseEntity<Student>(HttpStatus.NO_CONTENT);
     }
     
 //-------------------Retrieve All Course's Students--------------------------------------------------------
