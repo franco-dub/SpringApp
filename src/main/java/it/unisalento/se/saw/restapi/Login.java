@@ -41,7 +41,7 @@ public class Login {
 
 	@RequestMapping(value = "/{email}/{password}", method = RequestMethod.GET)
     public ResponseEntity<?> log(@PathVariable("email") String email,@PathVariable("password") String password) {
-    		PersonDto personDto = personService.findByMail(email);
+    		PersonDto personDto = personService.findByEmailAndPassword(email, password);
     		LoginDto login = new LoginDto();
     		if(professorService.findByPerson(personDto)!=null) {
     			login.setType(Type.PROFESSOR);
@@ -55,6 +55,6 @@ public class Login {
     		} else
     			login.setType(Type.NOT_FOUND);
     		
-    		return new ResponseEntity<LoginDto>(login, HttpStatus.OK);
+    		return new ResponseEntity<>(login, HttpStatus.OK);
     }
 }

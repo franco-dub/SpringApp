@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import it.unisalento.se.saw.IService.CourseIService;
 import it.unisalento.se.saw.domain.Course;
@@ -29,12 +30,11 @@ public class CourseController {
 	// -------------------Create a Course-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createCourse(@Valid @RequestBody CourseDto courseDto) {
-    	try {
+    public ResponseEntity<?> createCourse(@Valid @RequestBody CourseDto courseDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
     		courseService.saveCourse(courseDto);
             return new ResponseEntity<CourseDto>(courseDto, HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
+    	} else{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Course. Validation error!"),
     				HttpStatus.BAD_REQUEST);
     	}
@@ -71,20 +71,20 @@ public class CourseController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateCourse(@PathVariable("id") int id, 
-    		@Valid @RequestBody CourseDto courseDto) {
-    	try {
-    		courseService.findById(id);
-    		try {
+    		@Valid @RequestBody CourseDto courseDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+    		System.out.println(courseService.findById(10000));
+    		if(courseService.findById(id) != null) {
     			courseDto.setCourseId(id);
     			courseService.updateCourse(courseDto);
                 return new ResponseEntity<CourseDto>(courseDto, HttpStatus.OK);
-    		} catch (Exception e) {
+    		} else {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Course. Validation error!"),
-        				HttpStatus.BAD_REQUEST);
+        				HttpStatus.NOT_FOUND);
     		}
-    	} catch( Exception e) {
+    	} else{
     		return new ResponseEntity<>(new CustomErrorType("Unable to upate. Course with id " 
-            		+ id + " not found."), HttpStatus.NOT_FOUND);
+            		+ id + " not found."), HttpStatus.BAD_REQUEST);
     	}
     }
     
@@ -93,13 +93,13 @@ public class CourseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteCourse(@PathVariable("id") Integer id) {
     	System.out.println("Fetching & Deleting Course with id " + id);
-        try {
-        	courseService.findById(id);
-        	courseService.deleteCourseById(id);
-            return new ResponseEntity<Course>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-        	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Course with id " + id 
-                    + " not found."), HttpStatus.NOT_FOUND);
-        }
+        	if(courseService.findById(id) != null){
+		        courseService.deleteCourseById(id);
+		        return new ResponseEntity<Course>(HttpStatus.NO_CONTENT);
+	        }else{
+		        return new ResponseEntity<>(new CustomErrorType("Unable to delete! Course with id " + id
+				        + " not found."), HttpStatus.NOT_FOUND);
+	        }
+
     }
 }

@@ -3,12 +3,14 @@ package it.unisalento.se.saw.restapi;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Binding;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import it.unisalento.se.saw.IService.ModuleIService;
 import it.unisalento.se.saw.dto.ModuleDto;
@@ -19,7 +21,7 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 @RequestMapping(path = "/module")
 public class ModuleController {
 
-	ModuleIService moduleService;
+	private ModuleIService moduleService;
 
 	@Autowired
 	public ModuleController(ModuleIService moduleService) {
@@ -30,12 +32,10 @@ public class ModuleController {
 	// -------------------Create a Module-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createModule(@Valid @RequestBody ModuleDto moduleDto) {
-    	try {
+    public ResponseEntity<?> createModule(@Valid @RequestBody ModuleDto moduleDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
             return new ResponseEntity<>(moduleService.saveModule(moduleDto), HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-    		System.out.println(e.toString());
+    	} else{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Module. Validation error!"),
     				HttpStatus.BAD_REQUEST);
     	}
@@ -72,20 +72,19 @@ public class ModuleController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateModule(@PathVariable("id") int id, 
-    		@Valid @RequestBody ModuleDto moduleDto) {
-    	try {
-    		moduleService.findById(id);
-    		try {
+    		@Valid @RequestBody ModuleDto moduleDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+    		if(moduleService.findById(id) != null) {
     			moduleDto.setModuleId(id);
     			moduleService.updateModule(moduleDto);
-                return new ResponseEntity<ModuleDto>(moduleDto, HttpStatus.OK);
-    		} catch (ValidationException e) {
+                return new ResponseEntity<>(moduleDto, HttpStatus.OK);
+    		} else {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Module. Validation error!"),
-        				HttpStatus.BAD_REQUEST);
+        				HttpStatus.NOT_FOUND);
     		}
-    	} catch( Exception e) {
+    	} else {
     		return new ResponseEntity<>(new CustomErrorType("Unable to update. Module with id " 
-            		+ id + " not found."), HttpStatus.NOT_FOUND);
+            		+ id + " not found."), HttpStatus.BAD_REQUEST);
     	}
     }
     
@@ -94,11 +93,10 @@ public class ModuleController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteModule(@PathVariable("id") Integer id) {
     	System.out.println("Fetching & Deleting Module with id " + id);
-        try {
-        	moduleService.findById(id);
+        if(moduleService.findById(id) != null) {
         	moduleService.deleteModuleById(id);
             return new ResponseEntity<ModuleDto>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        }else {
         	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Module with id " + id 
                     + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -111,11 +109,11 @@ public class ModuleController {
     	List<ModuleDto> moduleDtos = moduleService.findAllCourseSModule(id);
     	if (moduleDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
-        			HttpStatus.NO_CONTENT);
+        			HttpStatus.NOT_FOUND);
             // You many decide to return HttpStatus.NOT_FOUND
     		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<ModuleDto>>(moduleDtos, HttpStatus.OK);
+        return new ResponseEntity<>(moduleDtos, HttpStatus.OK);
     }
     
 //-------------------Retrieve All Professor's Modules--------------------------------------------------------
@@ -125,11 +123,11 @@ public class ModuleController {
     	List<ModuleDto> moduleDtos = moduleService.findAllProfessorSModule(id);
     	if (moduleDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
-        			HttpStatus.NO_CONTENT);
+        			HttpStatus.NOT_FOUND);
             // You many decide to return HttpStatus.NOT_FOUND
     		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<ModuleDto>>(moduleDtos, HttpStatus.OK);
+        return new ResponseEntity<>(moduleDtos, HttpStatus.OK);
     }
     
 //-------------------Retrieve All Course's Modules per year--------------------------------------------------------
@@ -141,15 +139,14 @@ public class ModuleController {
     	if (moduleDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
     	}
-    	List<ModuleDto> modules = new ArrayList<>();
-    	for (ModuleDto mod: moduleDtos) {
-    		if ( mod.getYear() == year) {
-    			modules.add(mod);
-    		}
-    	}
-        return new ResponseEntity<List<ModuleDto>>(modules, HttpStatus.OK);
+	    List<ModuleDto> modules = new ArrayList<>();
+	    for(ModuleDto mod : moduleDtos){
+		    if(mod.getYear() == year){
+			    modules.add(mod);
+		    }
+	    }
+	    return new ResponseEntity<>(modules, HttpStatus.OK);
+
     }
 }
