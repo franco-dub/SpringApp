@@ -23,13 +23,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">8</div>
+<div class="counter">13</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">1</div>
+<div class="counter">3</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">2.596s</div>
+<div class="counter">0.758s</div>
 <p>duration</p>
 </div>
 </td>
@@ -51,7 +51,7 @@
 </td>
 <td>
 <div class="infoBox failures" id="successRate">
-<div class="percent">87%</div>
+<div class="percent">76%</div>
 <p>successful</p>
 </div>
 </td>
@@ -69,22 +69,146 @@
 <li>
 <a href="#tab2">Standard output</a>
 </li>
-<li>
-<a href="#tab3">Standard error</a>
-</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Failed tests</h2>
 <div class="test">
-<a name="updateStudentException1Test"></a>
-<h3 class="failures">updateStudentException1Test</h3>
+<a name="createStudentTest"></a>
+<h3 class="failures">createStudentTest</h3>
 <span class="code">
-<pre>java.lang.AssertionError: Status expected:&lt;400&gt; but was:&lt;404&gt;
+<pre>org.mockito.exceptions.base.MockitoException: 
+Only void methods can doNothing()!
+Example of correct use of doNothing():
+    doNothing().
+    doThrow(new RuntimeException())
+    .when(mock).someVoidMethod();
+Above means:
+someVoidMethod() does nothing the 1st time but throws an exception the 2nd time is called
+	at it.unisalento.se.saw.restapi.StudentControllerTest.createStudentTest(StudentControllerTest.java:103)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.mockito.internal.runners.JUnit45AndHigherRunnerImpl.run(JUnit45AndHigherRunnerImpl.java:37)
+	at org.mockito.runners.MockitoJUnitRunner.run(MockitoJUnitRunner.java:62)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy1.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:108)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:146)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:128)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="findAllStudentExceptionTest"></a>
+<h3 class="failures">findAllStudentExceptionTest</h3>
+<span class="code">
+<pre>java.lang.AssertionError: Status expected:&lt;204&gt; but was:&lt;400&gt;
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:55)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:82)
 	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:617)
 	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:179)
-	at it.unisalento.se.saw.restapi.StudentControllerTest.updateStudentException1Test(StudentControllerTest.java:196)
+	at it.unisalento.se.saw.restapi.StudentControllerTest.findAllStudentExceptionTest(StudentControllerTest.java:156)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.mockito.internal.runners.JUnit45AndHigherRunnerImpl.run(JUnit45AndHigherRunnerImpl.java:37)
+	at org.mockito.runners.MockitoJUnitRunner.run(MockitoJUnitRunner.java:62)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy1.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:108)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:146)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:128)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="findAllStudentTest"></a>
+<h3 class="failures">findAllStudentTest</h3>
+<span class="code">
+<pre>java.lang.AssertionError: Status expected:&lt;200&gt; but was:&lt;400&gt;
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:55)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:82)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:617)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:179)
+	at it.unisalento.se.saw.restapi.StudentControllerTest.findAllStudentTest(StudentControllerTest.java:143)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -150,42 +274,67 @@
 </thead>
 <tr>
 <td class="success">createStudentExceptionTest</td>
-<td>0.184s</td>
+<td>0.062s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">createStudentTest</td>
-<td>0.596s</td>
+<td class="failures">createStudentTest</td>
+<td>0.041s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="success">deleteStudentExceptionTest</td>
+<td>0.028s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">findAllStudentExceptionTest</td>
-<td>1.099s</td>
+<td class="success">deleteStudentTest</td>
+<td>0.030s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">findAllStudentTest</td>
-<td>0.251s</td>
-<td class="success">passed</td>
+<td class="failures">findAllStudentExceptionTest</td>
+<td>0.049s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">findAllStudentTest</td>
+<td>0.048s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
 <td class="success">getStudentExceptionTest</td>
-<td>0.042s</td>
+<td>0.026s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getStudentTest</td>
-<td>0.142s</td>
+<td>0.169s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">updateStudentException1Test</td>
-<td>0.182s</td>
-<td class="failures">failed</td>
+<td class="success">listAllCourseSStudentsExceptionTest</td>
+<td>0.027s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">listAllCourseSStudentsTest</td>
+<td>0.049s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateStudentException1Test</td>
+<td>0.084s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateStudentException2Test</td>
+<td>0.078s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateStudentTest</td>
-<td>0.100s</td>
+<td>0.067s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -193,91 +342,8 @@
 <div id="tab2" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>
-MockHttpServletRequest:
-      HTTP Method = GET
-      Request URI = /student/findAll
-       Parameters = {}
-          Headers = {}
-             Body = &lt;no character encoding set&gt;
-    Session Attrs = {}
-
-Handler:
-             Type = it.unisalento.se.saw.restapi.StudentController
-           Method = public org.springframework.http.ResponseEntity&lt;?&gt; it.unisalento.se.saw.restapi.StudentController.listAllStudents()
-
-Async:
-    Async started = false
-     Async result = null
-
-Resolved Exception:
-             Type = null
-
-ModelAndView:
-        View name = null
-             View = null
-            Model = null
-
-FlashMap:
-       Attributes = null
-
-MockHttpServletResponse:
-           Status = 200
-    Error message = null
-          Headers = {Content-Type=[application/json;charset=UTF-8]}
-     Content type = application/json;charset=UTF-8
-             Body = [{&quot;studentId&quot;:null,&quot;course&quot;:{&quot;courseId&quot;:1,&quot;name&quot;:&quot;Ingegneria&quot;,&quot;description&quot;:&quot;no description for me&quot;,&quot;year&quot;:3,&quot;cfu&quot;:180,&quot;courseType&quot;:&quot;BACHELOR&quot;},&quot;person&quot;:{&quot;personId&quot;:null,&quot;firstName&quot;:&quot;Franco&quot;,&quot;lastName&quot;:&quot;Savino&quot;,&quot;email&quot;:&quot;email@email.it&quot;,&quot;phone&quot;:&quot;5555555555&quot;,&quot;dateOfBirth&quot;:&quot;1989-06-20&quot;,&quot;gender&quot;:&quot;M&quot;,&quot;address&quot;:&quot;via Milano&quot;,&quot;password&quot;:&quot;password&quot;},&quot;registrationDate&quot;:&quot;2018-10-11&quot;,&quot;graduationDate&quot;:null,&quot;year&quot;:1},{&quot;studentId&quot;:null,&quot;course&quot;:{&quot;courseId&quot;:1,&quot;name&quot;:&quot;Ingegneria&quot;,&quot;description&quot;:&quot;no description for me&quot;,&quot;year&quot;:3,&quot;cfu&quot;:180,&quot;courseType&quot;:&quot;BACHELOR&quot;},&quot;person&quot;:{&quot;personId&quot;:null,&quot;firstName&quot;:&quot;Franco&quot;,&quot;lastName&quot;:&quot;Savino&quot;,&quot;email&quot;:&quot;email@email.it&quot;,&quot;phone&quot;:&quot;5555555555&quot;,&quot;dateOfBirth&quot;:&quot;1989-06-20&quot;,&quot;gender&quot;:&quot;M&quot;,&quot;address&quot;:&quot;via Milano&quot;,&quot;password&quot;:&quot;password&quot;},&quot;registrationDate&quot;:&quot;2018-10-11&quot;,&quot;graduationDate&quot;:null,&quot;year&quot;:1},{&quot;studentId&quot;:null,&quot;course&quot;:{&quot;courseId&quot;:1,&quot;name&quot;:&quot;Ingegneria&quot;,&quot;description&quot;:&quot;no description for me&quot;,&quot;year&quot;:3,&quot;cfu&quot;:180,&quot;courseType&quot;:&quot;BACHELOR&quot;},&quot;person&quot;:{&quot;personId&quot;:null,&quot;firstName&quot;:&quot;Franco&quot;,&quot;lastName&quot;:&quot;Savino&quot;,&quot;email&quot;:&quot;email@email.it&quot;,&quot;phone&quot;:&quot;5555555555&quot;,&quot;dateOfBirth&quot;:&quot;1989-06-20&quot;,&quot;gender&quot;:&quot;M&quot;,&quot;address&quot;:&quot;via Milano&quot;,&quot;password&quot;:&quot;password&quot;},&quot;registrationDate&quot;:&quot;2018-10-11&quot;,&quot;graduationDate&quot;:null,&quot;year&quot;:1}]
-    Forwarded URL = null
-   Redirected URL = null
-          Cookies = []
-
-MockHttpServletRequest:
-      HTTP Method = POST
-      Request URI = /student/add
-       Parameters = {}
-          Headers = {Content-Type=[application/json]}
-             Body = &lt;no character encoding set&gt;
-    Session Attrs = {}
-
-Handler:
-             Type = it.unisalento.se.saw.restapi.StudentController
-           Method = public org.springframework.http.ResponseEntity&lt;?&gt; it.unisalento.se.saw.restapi.StudentController.createStudent(it.unisalento.se.saw.dto.StudentDto,org.springframework.validation.BindingResult)
-
-Async:
-    Async started = false
-     Async result = null
-
-Resolved Exception:
-             Type = null
-
-ModelAndView:
-        View name = null
-             View = null
-            Model = null
-
-FlashMap:
-       Attributes = null
-
-MockHttpServletResponse:
-           Status = 400
-    Error message = null
-          Headers = {Content-Type=[application/json;charset=UTF-8]}
-     Content type = application/json;charset=UTF-8
-             Body = {&quot;errorMessage&quot;:&quot;Unable to create new Student. Validation error!&quot;}
-    Forwarded URL = null
-   Redirected URL = null
-          Cookies = []
-</pre>
-</span>
-</div>
-<div id="tab3" class="tab">
-<h2>Standard error</h2>
-<span class="code">
-<pre>SLF4J: Failed to load class &quot;org.slf4j.impl.StaticLoggerBinder&quot;.
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-Feb 12, 2019 12:22:32 PM org.hibernate.validator.internal.util.Version &lt;clinit&gt;
-INFO: HV000001: Hibernate Validator 5.2.4.Final
+<pre>Fetching &amp; Deleting Student with id 1
+Fetching &amp; Deleting Student with id 1
 </pre>
 </span>
 </div>
@@ -289,7 +355,7 @@ INFO: HV000001: Hibernate Validator 5.2.4.Final
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 4.3</a> at Feb 12, 2019, 12:22:35 PM</p>
+<a href="http://www.gradle.org">Gradle 4.3</a> at Feb 13, 2019, 10:13:06 AM</p>
 </div>
 </div>
 </body>

@@ -1,6 +1,5 @@
 package it.unisalento.se.saw.restapi;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
-
 
 import org.eclipse.persistence.internal.libraries.asm.tree.ModuleExportNode;
 

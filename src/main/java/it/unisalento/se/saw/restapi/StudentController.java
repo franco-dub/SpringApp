@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import it.unisalento.se.saw.IService.StudentIService;
 import it.unisalento.se.saw.domain.Student;
 import it.unisalento.se.saw.dto.StudentDto;
+import it.unisalento.se.saw.dto.TmRatingDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 
 @RestController
@@ -41,33 +42,20 @@ public class StudentController {
 
 	}
 
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDto studentDto) {
-    	try {
-            return new ResponseEntity<>(studentService.saveStudent(studentDto), HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-			System.out.println(e.toString());
-    		return new ResponseEntity<>(new CustomErrorType("Unable to create new Student. Validation error!"),
-    				HttpStatus.BAD_REQUEST);
-    	}
-    }
-
-    
-    //-------------------Retrieve All Student--------------------------------------------------------
-    
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllStudents() {
-    	List<StudentDto> students = studentService.findAllStudents();
-    	if (students.isEmpty()) {
-    		return new ResponseEntity<>(new CustomErrorType("List empty."),
+	 // -------------------Retrieve All Students------------------------------------------
+	@RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllTmRatings() {
+		List<StudentDto> studentDtos = studentService.findAllStudents();
+		if (studentDtos.isEmpty()) {
+			return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
     		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<StudentDto>>(students, HttpStatus.OK);
-    }
+        return new ResponseEntity<List<StudentDto>>(studentDtos, HttpStatus.OK);
+	}
+
+    
     
     // -------------------Retrieve Single Student------------------------------------------
     
