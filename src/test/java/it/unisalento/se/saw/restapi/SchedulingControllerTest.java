@@ -92,7 +92,7 @@ public class SchedulingControllerTest{
 		studentDto.setCourse(courseDto);
 	}
 
-
+/*
 	@Test
 	public void findFreeRooms() throws Exception{
 		List<RoomDto> roomDtos = new ArrayList<>();
@@ -105,7 +105,7 @@ public class SchedulingControllerTest{
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andDo(print())
 				.andExpect(status().isOk());
-	}
+	}*/
 
 	@Test
 	public void findEmptyFreeRooms() throws Exception{

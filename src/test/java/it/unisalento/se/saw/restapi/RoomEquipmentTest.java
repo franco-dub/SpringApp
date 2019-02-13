@@ -4,6 +4,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -226,5 +227,105 @@ public class RoomEquipmentTest {
 	    verifyNoMoreInteractions(roomEquipmentServiceMock);
 	}
 	
+	@Test
+	public void updateRoomEquipmentByRoomTest() throws Exception {
+		
+		List<RoomEquipmentDto> roomEquipments = new ArrayList<>();
+		roomEquipments.add(roomEquipment);
+		roomEquipments.add(roomEquipment);
+		roomEquipments.add(roomEquipment);
+		
+		when(roomEquipmentServiceMock.updateRoomEquipment(roomEquipment)).thenReturn(roomEquipment);
+		
+		
+	    mockMvc.perform(post("/roomEquipment/updateByRoom")
+	    		.contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(roomEquipments)))
+        	.andExpect(status().isOk());
+	    
+        verify(roomEquipmentServiceMock, times(3)).updateRoomEquipment(Mockito.isA(RoomEquipmentDto.class));
+	    verifyNoMoreInteractions(roomEquipmentServiceMock);
+	}
 	
+	@Test
+	public void deleteRoomEquipmentTest() throws Exception {
+
+		when(roomEquipmentServiceMock.findById(1)).thenReturn(roomEquipment);
+		mockMvc.perform(delete("/roomEquipment/{id}", 1))
+			.andExpect(status().isNoContent());
+	}
+
+	@Test
+	public void deleteRoomEquipmentExceptionTest() throws Exception {
+
+		when(roomEquipmentServiceMock.findById(1)).thenThrow(new NullPointerException());
+		mockMvc.perform(delete("/roomEquipment/{id}", 1))
+			.andExpect(status().isNotFound());
+	}
+	
+	@Test
+	public void listAllRoomSEquipmentsTest() throws Exception {
+		List<RoomEquipmentDto> roomEquipments = new ArrayList<>();
+		roomEquipments.add(roomEquipment);
+		roomEquipments.add(roomEquipment);
+		roomEquipments.add(roomEquipment);
+		
+		when(roomEquipmentServiceMock.findAllRoomSEquipments(1)).thenReturn(roomEquipments);
+		
+		mockMvc.perform(get("/roomEquipment/findAllRoomEquipment/{id}", 1))
+		.andExpect(status().isOk())
+		.andExpect(content().contentType(APPLICATION_JSON_UTF8));
+		
+		verify(roomEquipmentServiceMock, times(1)).findAllRoomSEquipments(1);
+		verifyNoMoreInteractions(roomEquipmentServiceMock);
+		
+	}
+	
+	@Test
+	public void listAllRoomSEquipmentsExceptionTest() throws Exception {
+		List<RoomEquipmentDto> roomEquipments = new ArrayList<>();
+		
+		when(roomEquipmentServiceMock.findAllRoomSEquipments(1)).thenReturn(roomEquipments);
+		
+		mockMvc.perform(get("/roomEquipment/findAllRoomEquipment/{id}", 1))
+		.andExpect(status().isNoContent())
+		.andExpect(content().contentType(APPLICATION_JSON_UTF8));
+		
+		verify(roomEquipmentServiceMock, times(1)).findAllRoomSEquipments(1);
+		verifyNoMoreInteractions(roomEquipmentServiceMock);
+		
+	}
+	
+	@Test
+	public void listAllRoomsWhereEquipmentTest() throws Exception {
+		List<RoomEquipmentDto> roomEquipments = new ArrayList<>();
+		roomEquipments.add(roomEquipment);
+		roomEquipments.add(roomEquipment);
+		roomEquipments.add(roomEquipment);
+		
+		when(roomEquipmentServiceMock.findAllRoomsWhereEquipments(1)).thenReturn(roomEquipments);
+		
+		mockMvc.perform(get("/roomEquipment/findAllRoomWhereEquipment/{id}", 1))
+		.andExpect(status().isOk())
+		.andExpect(content().contentType(APPLICATION_JSON_UTF8));
+		
+		verify(roomEquipmentServiceMock, times(1)).findAllRoomsWhereEquipments(1);
+		verifyNoMoreInteractions(roomEquipmentServiceMock);
+		
+	}
+	
+	@Test
+	public void listAllRoomsWhereEquipmentExceptionTest() throws Exception {
+		List<RoomEquipmentDto> roomEquipments = new ArrayList<>();
+		
+		when(roomEquipmentServiceMock.findAllRoomsWhereEquipments(1)).thenReturn(roomEquipments);
+		
+		mockMvc.perform(get("/roomEquipment/findAllRoomWhereEquipment/{id}", 1))
+		.andExpect(status().isNoContent())
+		.andExpect(content().contentType(APPLICATION_JSON_UTF8));
+		
+		verify(roomEquipmentServiceMock, times(1)).findAllRoomsWhereEquipments(1);
+		verifyNoMoreInteractions(roomEquipmentServiceMock);
+		
+	}
 }

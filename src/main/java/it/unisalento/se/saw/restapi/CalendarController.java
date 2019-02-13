@@ -144,7 +144,7 @@ public class CalendarController {
 	public ResponseEntity<?> getModuleCalendar(@Valid @RequestBody ModuleDto moduleDto){
 	    try{
 
-			return new ResponseEntity<>(calendarService.findCalendarByModule(moduleDto), HttpStatus.OK);
+			return new ResponseEntity<>(calendarService.findAllCalendarByModule(moduleDto.getModuleId()), HttpStatus.OK);
 
 	    }catch(Exception e){
 		    return new ResponseEntity<>(new CustomErrorType("Unable to find student! " +
