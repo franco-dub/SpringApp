@@ -138,20 +138,6 @@ public class CalendarController {
 		}
     }
 
-  
-  //---------------------------- Get Module Calendar --------------------------------
-    @PostMapping(value = "getModuleCalendar", consumes = "application/json")
-	public ResponseEntity<?> getModuleCalendar(@Valid @RequestBody ModuleDto moduleDto){
-	    try{
-
-			return new ResponseEntity<>(calendarService.findCalendarByModule(moduleDto), HttpStatus.OK);
-
-	    }catch(Exception e){
-		    return new ResponseEntity<>(new CustomErrorType("Unable to find student! " +
-				    " not found. " + e.toString()), HttpStatus.NOT_FOUND);
-	    }
-    }
-
 //-------------------Retrieve All Calendars By Module--------------------------------------------------------
     
     @RequestMapping(value = "/findByModuleId/{id}", method = RequestMethod.GET)
