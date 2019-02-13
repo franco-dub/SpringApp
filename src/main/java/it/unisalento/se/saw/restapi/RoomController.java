@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import it.unisalento.se.saw.IService.RoomIService;
@@ -25,18 +26,16 @@ public class RoomController {
 		this.roomService = roomService;
 	}
 	
-// -------------------Create a Room-------------------------------------------
+	// -------------------Create a Room-------------------------------------------
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createRoom(@Valid @RequestBody RoomDto roomDto) {
-    	try {
-            return new ResponseEntity<RoomDto>(roomService.saveRoom(roomDto), HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-    		return new ResponseEntity<>(new CustomErrorType("Unable to create new Room. Validation error!"),
-    				HttpStatus.BAD_REQUEST);
-    	}
-    }
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> createRoom(@Valid @RequestBody RoomDto roomDto, BindingResult brs) {
+		if (!brs.hasErrors()) {
+			return new ResponseEntity<RoomDto>(roomService.saveRoom(roomDto), HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(new CustomErrorType("Unable to create new Room. Validation error!"),
+				HttpStatus.BAD_REQUEST);
+	}
     
 //-------------------Retrieve All Rooms--------------------------------------------------------
     
@@ -65,26 +64,26 @@ public class RoomController {
         }
     }
     
-// ------------------- Update a Room ------------------------------------------------
-    
+    // ------------------- Update a Room ------------------------------------------------
+
     @RequestMapping(value = "/updateById/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> updateRoom(@PathVariable("id") Integer id, 
-    		@Valid @RequestBody RoomDto roomDto) {
-    	try {
-    		System.out.println(id + " " + roomDto);
-    		roomService.findById(id);
+    		@Valid @RequestBody RoomDto roomDto, BindingResult brs) {
+    	if (!brs.hasErrors()) {
     		try {
-    			roomDto.setRoomId(id);
-    			roomService.updateRoom(roomDto);
-                return new ResponseEntity<RoomDto>(roomDto, HttpStatus.OK);
-    		} catch (Exception e) {
-    			return new ResponseEntity<>(new CustomErrorType("Unable to create new Room. Validation error!"),
-        				HttpStatus.BAD_REQUEST);
+    			System.out.println(id + " " + roomDto);
+    			roomService.findById(id);
+
+    		} catch( Exception e) {
+    			return new ResponseEntity<>(new CustomErrorType("Unable to update. Room with id " 
+    					+ id + " not found."), HttpStatus.NOT_FOUND);
     		}
-    	} catch( Exception e) {
-    		return new ResponseEntity<>(new CustomErrorType("Unable to update. Room with id " 
-            		+ id + " not found."), HttpStatus.NOT_FOUND);
-    	}
+    		roomDto.setRoomId(id);
+    		roomService.updateRoom(roomDto);
+    		return new ResponseEntity<RoomDto>(roomDto, HttpStatus.OK);
+    	} 
+    	return new ResponseEntity<>(new CustomErrorType("Unable to create new Room. Validation error!"),
+    			HttpStatus.BAD_REQUEST);
     }
     
 //------------------- Delete a Room --------------------------------------------------------
