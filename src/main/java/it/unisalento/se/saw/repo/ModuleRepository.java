@@ -10,5 +10,6 @@ import it.unisalento.se.saw.domain.Module;
 @Repository
 public interface ModuleRepository extends JpaRepository<Module, Integer> {
 	List<Module> findAllByCourseCourseId(Integer courseId);
+	Module findByProfessorProfessorId(Integer professorId);
 	List<Module> findAllByProfessorProfessorId(Integer professorId);
 }

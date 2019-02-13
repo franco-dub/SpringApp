@@ -14,7 +14,6 @@ import it.unisalento.se.saw.dto.TicketDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
 
 @RestController
-@CrossOrigin
 @RequestMapping(path = "/ticket")
 public class TicketController {
 

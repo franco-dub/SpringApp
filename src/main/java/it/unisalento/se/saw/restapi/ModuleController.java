@@ -17,7 +17,6 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 @RestController
 
 @RequestMapping(path = "/module")
-@CrossOrigin
 public class ModuleController {
 
 	ModuleIService moduleService;
@@ -33,8 +32,7 @@ public class ModuleController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createModule(@Valid @RequestBody ModuleDto moduleDto) {
     	try {
-    		moduleService.saveModule(moduleDto);
-            return new ResponseEntity<ModuleDto>(moduleDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(moduleService.saveModule(moduleDto), HttpStatus.CREATED);
     	} catch(Exception e)
     	{
     		System.out.println(e.toString());

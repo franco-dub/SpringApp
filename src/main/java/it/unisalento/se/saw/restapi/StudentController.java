@@ -41,6 +41,20 @@ public class StudentController {
 
 	}
 
+<<<<<<< HEAD
+=======
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDto studentDto) {
+    	try {
+            return new ResponseEntity<>(studentService.saveStudent(studentDto), HttpStatus.CREATED);
+    	} catch(Exception e)
+    	{
+			System.out.println(e.toString());
+    		return new ResponseEntity<>(new CustomErrorType("Unable to create new Student. Validation error!"),
+    				HttpStatus.BAD_REQUEST);
+    	}
+    }
+>>>>>>> fb28313c43daf5fd8be8afa4fb74e6861d172c56
     
     //-------------------Retrieve All Student--------------------------------------------------------
     

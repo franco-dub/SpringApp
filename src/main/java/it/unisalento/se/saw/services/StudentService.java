@@ -41,9 +41,9 @@ public class StudentService implements StudentIService{
 	}
 	@Override
 	@Transactional
-	public void saveStudent(StudentDto studentDto) {
+	public StudentDto saveStudent(StudentDto studentDto) {
 		Student student = modelMapper.map(studentDto, Student.class);
-		studentRepository.save(student);
+		return modelMapper.map(studentRepository.save(student), StudentDto.class);
 	}
 	@Override
 	@Transactional
