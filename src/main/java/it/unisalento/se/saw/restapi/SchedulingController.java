@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import it.unisalento.se.saw.IService.SchedulingIService;
@@ -27,14 +28,19 @@ public class SchedulingController {
 	}
 	
 	@RequestMapping(value = "/findFreeRooms", method = RequestMethod.POST)
-    public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto) {
-    	try {
+    public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto, BindingResult brs) {
+    	if(!brs.hasErrors()){
     		System.out.println(lectureCalendarDto.getEndDate() + " " + lectureCalendarDto.getStartDate());
-    		List<RoomDto> freeRoomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
-            return new ResponseEntity<List<RoomDto>>(freeRoomDtos, HttpStatus.OK);
-    	} catch(Exception e)
-    	{
-    		return new ResponseEntity<>(new CustomErrorType(e.toString()),
+    		List<RoomDto> roomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
+    		System.out.println(roomDtos);
+    		if(!roomDtos.isEmpty()){
+			    return new ResponseEntity<>(roomDtos, HttpStatus.OK);
+		    }else{
+			    return new ResponseEntity<>(new CustomErrorType("No free rooms found"),
+					    HttpStatus.NOT_FOUND);
+		    }
+    	} else{
+    		return new ResponseEntity<>(new CustomErrorType("Bad Request. Missing arguments"),
     				HttpStatus.BAD_REQUEST);
     	}
     }
@@ -42,13 +48,12 @@ public class SchedulingController {
 	// -------------------Create all semester's Calendars-------------------------------------------
 
     @RequestMapping(value = "/addLectures", method = RequestMethod.POST)
-    public ResponseEntity<?> createCalendars(@Valid @RequestBody CalendarDto calendarDto) {
-    	try {
+    public ResponseEntity<?> createCalendars(@Valid @RequestBody CalendarDto calendarDto, BindingResult brs) {
+    	if(!brs.hasErrors()){
     		schedulingService.saveAllCalendars(calendarDto);
-            return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
-    		return new ResponseEntity<>(new CustomErrorType(e.toString()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(calendarDto, HttpStatus.CREATED);
+    	} else{
+    		return new ResponseEntity<>(new CustomErrorType("Bad request. Missing arguments"), HttpStatus.BAD_REQUEST);
     	}
     }
 }

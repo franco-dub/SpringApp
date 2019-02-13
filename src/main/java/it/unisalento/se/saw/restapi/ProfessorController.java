@@ -9,6 +9,7 @@ import it.unisalento.se.saw.dto.ModuleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import it.unisalento.se.saw.IService.ProfessorIService;
@@ -21,8 +22,8 @@ import it.unisalento.se.saw.exceptions.CustomErrorType;
 @RequestMapping(path = "/professor")
 public class ProfessorController {
 	
-	ProfessorIService professorService;
-    ModuleIService moduleService;
+	private ProfessorIService professorService;
+    private ModuleIService moduleService;
 
 	@Autowired
 	protected ProfessorController(ProfessorIService professorService, ModuleIService moduleService) {
@@ -35,11 +36,10 @@ public class ProfessorController {
 	// -------------------Create a Professor-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createProfessor(@Valid @RequestBody ProfessorDto professorDto) {
-    	try {
-            return new ResponseEntity<ProfessorDto>(professorService.saveProfessor(professorDto), HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
+    public ResponseEntity<?> createProfessor(@Valid @RequestBody ProfessorDto professorDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+            return new ResponseEntity<>(professorService.saveProfessor(professorDto), HttpStatus.CREATED);
+    	} else {
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Professor. Validation error!"),
     				HttpStatus.BAD_REQUEST);
     	}
@@ -53,20 +53,18 @@ public class ProfessorController {
     	if (professorDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<ProfessorDto>>(professorDtos, HttpStatus.OK);
+        return new ResponseEntity<>(professorDtos, HttpStatus.OK);
     }
     
 // -------------------Retrieve Single Professor------------------------------------------
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getProfessor(@PathVariable("id") int id) {
-    	try {
-    		ProfessorDto professorDto = professorService.findById(id);
-    		return new ResponseEntity<ProfessorDto>(professorDto, HttpStatus.OK);
-    	} catch (Exception e) {
+		ProfessorDto professorDto = professorService.findById(id);
+    	if(professorDto != null){
+    	    return new ResponseEntity<>(professorDto, HttpStatus.OK);
+    	} else {
     		return new ResponseEntity<>(new CustomErrorType("Professor with id " + id 
                     + " not found"), HttpStatus.NOT_FOUND);
         }
@@ -76,20 +74,20 @@ public class ProfessorController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateProfessor(@PathVariable("id") int id, 
-    		@Valid @RequestBody ProfessorDto professorDto) {
-    	try {
-    		professorService.findById(id);
-    		try {
+    		@Valid @RequestBody ProfessorDto professorDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+
+    		if(professorService.findById(id) != null){
     			professorDto.setProfessorId(id);
     			professorService.updateProfessor(professorDto);
-                return new ResponseEntity<ProfessorDto>(professorDto, HttpStatus.OK);
-    		} catch (Exception e) {
+                return new ResponseEntity<>(professorDto, HttpStatus.OK);
+    		} else {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Professor. Validation error!"),
-        				HttpStatus.BAD_REQUEST);
+        				HttpStatus.NOT_FOUND);
     		}
-    	} catch( Exception e) {
+    	} else {
     		return new ResponseEntity<>(new CustomErrorType("Unable to upate. Professor with id " 
-            		+ id + " not found."), HttpStatus.NOT_FOUND);
+            		+ id + " not found."), HttpStatus.BAD_REQUEST);
     	}
     }
     
@@ -98,11 +96,10 @@ public class ProfessorController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteProfessor(@PathVariable("id") Integer id) {
     	System.out.println("Fetching & Deleting Professor with id " + id);
-        try {
-        	professorService.findById(id);
+        if(professorService.findById(id) != null) {
         	professorService.deleteProfessorById(id);
-            return new ResponseEntity<Professor>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
         	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Professor with id " + id 
                     + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -112,10 +109,10 @@ public class ProfessorController {
 
     @RequestMapping(value = "/findModuleByProfessorId/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> findModuleByProfessorId(@PathVariable("id") Integer id){
-        try {
-            ModuleDto moduleDto = moduleService.findByProfessorProfessorId(id);
+		ModuleDto moduleDto = moduleService.findByProfessorProfessorId(id);
+		if(moduleDto != null){
             return new ResponseEntity<>(moduleDto, HttpStatus.OK);
-        } catch (Exception e) {
+        } else{
             return new ResponseEntity<>(new CustomErrorType("Unable to find module! Professor with id " + id
                     + " not found."), HttpStatus.NOT_FOUND);
         }

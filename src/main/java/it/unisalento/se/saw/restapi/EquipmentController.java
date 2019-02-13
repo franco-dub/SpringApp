@@ -1,24 +1,23 @@
 package it.unisalento.se.saw.restapi;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import it.unisalento.se.saw.IService.EquipmentIService;
 import it.unisalento.se.saw.dto.EquipmentDto;
 import it.unisalento.se.saw.exceptions.CustomErrorType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/equipment")
 public class EquipmentController {
 
-	EquipmentIService equipmentService;
+	private EquipmentIService equipmentService;
 	@Autowired
 	public EquipmentController(EquipmentIService equipmentService) {
 		super();
@@ -28,12 +27,11 @@ public class EquipmentController {
 // -------------------Create a Equipment-------------------------------------------
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createEquipment(@Valid @RequestBody EquipmentDto equipmentDto) {
-    	try {
+    public ResponseEntity<?> createEquipment(@Valid @RequestBody EquipmentDto equipmentDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
     		equipmentService.saveEquipment(equipmentDto);
-            return new ResponseEntity<EquipmentDto>(equipmentDto, HttpStatus.CREATED);
-    	} catch(Exception e)
-    	{
+            return new ResponseEntity<>(equipmentDto, HttpStatus.CREATED);
+    	} else{
     		return new ResponseEntity<>(new CustomErrorType("Unable to create new Equipment. Validation error!"),
     				HttpStatus.BAD_REQUEST);
     	}
@@ -47,10 +45,8 @@ public class EquipmentController {
     	if (equipmentDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<EquipmentDto>>(equipmentDtos, HttpStatus.OK);
+        return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
     }
     
 // -------------------Retrieve Single Equipment------------------------------------------
@@ -59,7 +55,7 @@ public class EquipmentController {
     public ResponseEntity<?> getEquipment(@PathVariable("id") int id) {
     	try {
     		EquipmentDto equipmentDto = equipmentService.findById(id);
-    		return new ResponseEntity<EquipmentDto>(equipmentDto, HttpStatus.OK);
+    		return new ResponseEntity<>(equipmentDto, HttpStatus.OK);
     	} catch (Exception e) {
     		return new ResponseEntity<>(new CustomErrorType("Equipment with id " + id 
                     + " not found"), HttpStatus.NOT_FOUND);
@@ -69,19 +65,18 @@ public class EquipmentController {
 // ------------------- Update a Equipment ------------------------------------------------
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateEquipment(@PathVariable("id") int id, 
-    		@Valid @RequestBody EquipmentDto equipmentDto) {
-    	try {
-    		equipmentService.findById(id);
-    		try {
+    public ResponseEntity<?> updateEquipment(@PathVariable("id") int id,
+                                             @Valid @RequestBody EquipmentDto equipmentDto, BindingResult brs) {
+    	if(!brs.hasErrors()) {
+    		if(equipmentService.findById(id) != null){
     			equipmentDto.setEquipmentId(id);
     			equipmentService.updateEquipment(equipmentDto);
-                return new ResponseEntity<EquipmentDto>(equipmentDto, HttpStatus.OK);
-    		} catch (Exception e) {
+                return new ResponseEntity<>(equipmentDto, HttpStatus.OK);
+    		} else {
     			return new ResponseEntity<>(new CustomErrorType("Unable to create new Equipment. Validation error!"),
         				HttpStatus.BAD_REQUEST);
     		}
-    	} catch( Exception e) {
+    	} else {
     		return new ResponseEntity<>(new CustomErrorType("Unable to update. Equipment with id " 
             		+ id + " not found."), HttpStatus.NOT_FOUND);
     	}
@@ -92,11 +87,10 @@ public class EquipmentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteEquipment(@PathVariable("id") Integer id) {
     	System.out.println("Fetching & Deleting Equipment with id " + id);
-        try {
-        	equipmentService.findById(id);
+        if(equipmentService.findById(id) != null) {
         	equipmentService.deleteEquipmentById(id);
             return new ResponseEntity<EquipmentDto>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        } else {
         	return new ResponseEntity<>(new CustomErrorType("Unable to delete! Equipment with id " + id 
                     + " not found."), HttpStatus.NOT_FOUND);
         }

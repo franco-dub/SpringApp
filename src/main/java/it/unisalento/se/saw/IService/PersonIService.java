@@ -11,5 +11,5 @@ public interface PersonIService {
 	public void deletePersonById(Integer id);
 	public void deleteAllPersons();
 	public List<PersonDto> findAllPersons();
-	public PersonDto findByMail(String email);
+	public PersonDto findByEmailAndPassword(String email, String password);
 }

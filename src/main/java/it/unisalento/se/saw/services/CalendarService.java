@@ -39,15 +39,15 @@ public class CalendarService implements CalendarIService {
 
 	@Override
 	@Transactional
-	public void saveCalendar(CalendarDto calendarDto) {
+	public CalendarDto saveCalendar(CalendarDto calendarDto) {
 		Calendar calendar = modelMapper.map(calendarDto, Calendar.class);
-		lectureCalendarRepository.save(calendar);
+		return modelMapper.map(lectureCalendarRepository.save(calendar), CalendarDto.class);
 	}
 
 	@Override
 	@Transactional
-	public void updateCalendar(CalendarDto calendarDto) {
-		saveCalendar(calendarDto);
+	public CalendarDto updateCalendar(CalendarDto calendarDto) {
+		return saveCalendar(calendarDto);
 	}
 
 	@Override
@@ -72,14 +72,6 @@ public class CalendarService implements CalendarIService {
 		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
 		List<CalendarDto> calendarDtos = modelMapper.map(calendars, targetListType);
 		return calendarDtos;
-	}
-
-	@Override
-	@Transactional
-	public List<CalendarDto> findCalendarByModule(ModuleDto moduleDto){
-		Type targetListType = new TypeToken<List<CalendarDto>>() {}.getType();
-		List<Calendar> calendars = lectureCalendarRepository.findAllByModule(modelMapper.map(moduleDto, Module.class));
-		return modelMapper.map(calendars, targetListType);
 	}
 	
 	@Override
