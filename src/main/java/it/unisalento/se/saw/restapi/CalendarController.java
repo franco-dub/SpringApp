@@ -1,10 +1,6 @@
 package it.unisalento.se.saw.restapi;
 
-<<<<<<< HEAD
-=======
-
 import java.text.DateFormat;
->>>>>>> fb28313c43daf5fd8be8afa4fb74e6861d172c56
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -14,11 +10,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-<<<<<<< HEAD
-=======
 
 import org.eclipse.persistence.internal.libraries.asm.tree.ModuleExportNode;
->>>>>>> fb28313c43daf5fd8be8afa4fb74e6861d172c56
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -39,13 +33,13 @@ import it.unisalento.se.saw.dto.StudentDto;
 public class CalendarController {
 
 	CalendarIService calendarService;
-	ModuleIService moduleIService;
+	ModuleIService moduleService;
 
 	@Autowired
 	public CalendarController(CalendarIService calendarService, ModuleIService moduleService) {
 		super();
 		this.calendarService = calendarService;
-		this.moduleIService = moduleService;
+		this.moduleService = moduleService;
 	}
 	
 // -------------------Create a Calendar-------------------------------------------
@@ -129,7 +123,7 @@ public class CalendarController {
     @PostMapping(value = "getStudentCalendar", consumes = "application/json")
 	public ResponseEntity<?> getStudentCalendar(@Valid @RequestBody StudentDto studentDto){
 		try{
-			List<ModuleDto> modules = moduleIService.findAllCourseSModule(studentDto.getCourse().getCourseId());
+			List<ModuleDto> modules = moduleService.findAllCourseSModule(studentDto.getCourse().getCourseId());
 			modules.forEach(module->{
 				if(module.getYear() != studentDto.getYear()){
 					System.out.println(modules);
@@ -160,6 +154,7 @@ public class CalendarController {
 		    return new ResponseEntity<>(new CustomErrorType("Unable to find student! " +
 				    " not found. " + e.toString()), HttpStatus.NOT_FOUND);
 	    }
+    }
     
 //-------------------Retrieve All Calendars By Module--------------------------------------------------------
     
