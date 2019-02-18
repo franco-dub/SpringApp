@@ -37,7 +37,7 @@ public class TeachingMaterialController {
 		this.tmService = tmService;
 	}
 	//------------------- Upload File --------------------------------------------------------
-	@RequestMapping(value = "/uploadFile/{moduleId}", method = RequestMethod.POST, 
+	@RequestMapping(value = "/uploadFile/{moduleId}", method = RequestMethod.POST,
 			consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> uploadFile(@PathVariable("moduleId") Integer moduleId,
 			@RequestParam("file") MultipartFile file) {
