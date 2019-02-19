@@ -73,6 +73,4 @@ public class TicketService implements TicketIService {
 		List<TicketDto> ticketDtos = modelMapper.map(tickets, targetListType);
 		return ticketDtos;
 	}
-
-
 }

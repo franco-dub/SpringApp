@@ -44,7 +44,7 @@ public class StudentController {
 
 	 // -------------------Retrieve All Students------------------------------------------
 	@RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllTmRatings() {
+    public ResponseEntity<?> listAllStudents() {
 		List<StudentDto> studentDtos = studentService.findAllStudents();
 		if (studentDtos.isEmpty()) {
 			return new ResponseEntity<>(new CustomErrorType("List empty."),
