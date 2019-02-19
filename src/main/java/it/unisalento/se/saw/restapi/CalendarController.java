@@ -81,6 +81,7 @@ public class CalendarController {
     		CalendarDto calendarDto = calendarService.findById(id);
     		return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.OK);
     	} catch (Exception e) {
+    		e.printStackTrace();
     		return new ResponseEntity<>(new CustomErrorType("Calendar with id " + id
                     + " not found ." + e.toString()), HttpStatus.NOT_FOUND);
         }

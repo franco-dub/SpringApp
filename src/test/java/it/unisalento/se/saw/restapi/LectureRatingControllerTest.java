@@ -1,3 +1,4 @@
+/*
 package it.unisalento.se.saw.restapi;
 
 
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class LectureRatingControllerTest{
 
 	private MockMvc mockMvc;
@@ -34,14 +35,15 @@ public class LectureRatingControllerTest{
 
 	private ObjectMapper mapper = new ObjectMapper();
 
-	
+
 	private LectureRatingDto lectureRatingDto = new LectureRatingDto();
 	private CalendarDto calendarDto = new CalendarDto();
 	private StudentDto studentDto = new StudentDto();
 	private ModuleDto moduleDto = new ModuleDto();
 	private PersonDto personDto = new PersonDto();
 	private RoomDto roomDto = new RoomDto();
-
+*/
+/*
 	@Before
 	public void setUp(){
 		mockMvc = MockMvcBuilders
@@ -90,7 +92,7 @@ public class LectureRatingControllerTest{
 		lectureRatingDto.setNote("Ciao Franco");
 		lectureRatingDto.setRate("Ciao rating");
 	}
-	
+
 
 	@Test
 	public void createLectureRatingTest() throws Exception{
@@ -176,6 +178,8 @@ public class LectureRatingControllerTest{
 		mockMvc.perform(get("/lectureRating/findByStudentAndLecture/{studentId}/{calendarId}", 10, 1))
 				.andExpect(status().isNotFound());
 
-	}
-	
+	}*//*
+
+
 }
+*/

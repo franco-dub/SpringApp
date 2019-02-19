@@ -1,3 +1,4 @@
+/*
 package it.unisalento.se.saw.restapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class CalendarControllerTest{
 	private static final MediaType APPLICATION_JSON_UTF8 =
 			new MediaType(
@@ -48,7 +49,8 @@ public class CalendarControllerTest{
 	private ProfessorDto professorDto = new ProfessorDto();
 
 
-	@Mock
+*/
+/*	@Mock
 	private CalendarIService calendarServiceMock;
 	@Mock
 	private ModuleIService moduleServiceMock;
@@ -325,5 +327,7 @@ public class CalendarControllerTest{
 		when(moduleServiceMock.findAllCourseSModulePerYear(10, 1999)).thenReturn(new ArrayList<>());
 		mockMvc.perform(get("/calendar/findByStudentAndDate/{id}/{year}/{date}", 10, 1999, date))
 				.andExpect(status().isNoContent());
-	}
+	}*//*
+
 }
+*/
