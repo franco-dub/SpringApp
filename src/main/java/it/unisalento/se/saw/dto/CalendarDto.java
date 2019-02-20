@@ -1,44 +1,21 @@
 package it.unisalento.se.saw.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
+import it.unisalento.se.saw.builder.CalendarDate;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.lang.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import it.unisalento.se.saw.util.DateTimeConverter;
-
 public class CalendarDto {
-	
-	private static final DateTimeConverter converter = new DateTimeConverter();
-	
+
 	private Integer calendarId;
 	@NotNull
     private ModuleDto module;
 	@Nullable
     private RoomDto room;
 	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Europe/Rome")
-    private Date startTime;
-	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Europe/Rome")
-    private Date endTime;
-	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy", timezone = "Europe/Rome")
-    private Date date;
-	@NotNull
     private String day;
-	private String type;
-	
-	private Date startDate;
-	private Date endDate;
+	private CalendarDate calendarDate;
 
-  
 	public CalendarDto() {}
 
 	public Integer getCalendarId() {
@@ -65,30 +42,6 @@ public class CalendarDto {
 		this.room = room;
 	}
 
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public String getDay() {
 		return day;
 	}
@@ -96,47 +49,12 @@ public class CalendarDto {
 	public void setDay(String day) {
 		this.day = day;
 	}
-	@JsonIgnore
-	public LocalTime getStartTimeToLocalTime() {
-		return converter.convertToLocalTime(this.getStartTime());
-	}
-	@JsonIgnore
-	public LocalTime getEndTimeToLocalTime() {
-		return converter.convertToLocalTime(this.getEndTime());
-	}
-	@JsonIgnore
-	public LocalDate getDateToLocalDate() {
-		return converter.convertToLocalDate(this.getDate());
+
+	public CalendarDate getCalendarDate(){
+		return calendarDate;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public void setCalendarDate(CalendarDate calendarDate){
+		this.calendarDate = calendarDate;
 	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-	@JsonIgnore
-	public LocalDate getStartDateToLocalDate() {
-		return converter.convertToLocalDate(this.getStartDate());
-	}
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	@JsonIgnore
-	public LocalDate getEndDateToLocalDate() {
-		return converter.convertToLocalDate(this.getEndDate());
-	}
-	public String getType(){
-		return type;
-	}
-
-	public void setType(String type){
-		this.type = type;
-	}
-
 }

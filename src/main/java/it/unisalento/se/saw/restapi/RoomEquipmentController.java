@@ -99,22 +99,17 @@ public class RoomEquipmentController {
     }
     
     
-//-------------------Update RoomEquipment of a Room-------------------------------------------
-    
-    
+    //-------------------Update RoomEquipment of a Room-------------------------------------------
+
+
     @RequestMapping(value = "/updateByRoom", method = RequestMethod.POST)
     public ResponseEntity<?> updateRoomEquipmentByRoom(@Valid @RequestBody List<RoomEquipmentDto> roomEquipmentDtos){
     	System.out.println(roomEquipmentDtos);
-    	try {
-    		List<RoomEquipmentDto> newRoomEquipmentDtos = new ArrayList<>();
-    		for(RoomEquipmentDto roomEquipmentDto: roomEquipmentDtos) {
-    			newRoomEquipmentDtos.add(roomEquipmentService.updateRoomEquipment(roomEquipmentDto));
-    		}
-    		return new ResponseEntity<List<RoomEquipmentDto>>(newRoomEquipmentDtos, HttpStatus.OK);
-    	}catch(Exception e) {
-    		return new ResponseEntity<>(new CustomErrorType("Unable to create new RoomEquipment. Validation error!"),
-    				HttpStatus.BAD_REQUEST);
+    	List<RoomEquipmentDto> newRoomEquipmentDtos = new ArrayList<>();
+    	for(RoomEquipmentDto roomEquipmentDto: roomEquipmentDtos) {
+    		newRoomEquipmentDtos.add(roomEquipmentService.updateRoomEquipment(roomEquipmentDto));
     	}
+    	return new ResponseEntity<List<RoomEquipmentDto>>(newRoomEquipmentDtos, HttpStatus.OK);
     }
     
     

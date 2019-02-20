@@ -1,8 +1,13 @@
+
 package it.unisalento.se.saw.restapi;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unisalento.se.saw.IService.CalendarIService;
 import it.unisalento.se.saw.IService.ModuleIService;
+import it.unisalento.se.saw.builder.CalendarLessonType;
+import it.unisalento.se.saw.builder.CalendarType;
+import it.unisalento.se.saw.builder.LectureType;
 import it.unisalento.se.saw.dto.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,12 +65,13 @@ public class CalendarControllerTest{
 				.build();
 
 		calendarDto.setCalendarId(10);
-		calendarDto.setStartDate(new Date());
-		calendarDto.setDate(new Date());
-		calendarDto.setEndDate(new Date());
+		CalendarLessonType type = new CalendarLessonType();
+		calendarDto.setCalendarDate(type.calendarDate(
+				new Date(),
+				new Date(),
+				new Date(),
+				type.type(), null, null));
 		calendarDto.setDay("LUNEDI");
-		calendarDto.setStartTime(new Date());
-		calendarDto.setEndTime(new Date());
 		roomDto.setName("test");
 		roomDto.setRoomId(1);
 		calendarDto.setRoom(roomDto);
@@ -75,9 +81,6 @@ public class CalendarControllerTest{
 		moduleDto.setTitle("testModule");
 		moduleDto.setSemester("1");
 		calendarDto.setModule(moduleDto);
-		calendarDto.setType("Lecture TEst");
-
-
 
 		personDto.setFirstName("Andrea");
 		personDto.setLastName("Chezzinoinoino");
@@ -326,4 +329,6 @@ public class CalendarControllerTest{
 		mockMvc.perform(get("/calendar/findByStudentAndDate/{id}/{year}/{date}", 10, 1999, date))
 				.andExpect(status().isNoContent());
 	}
+
 }
+
