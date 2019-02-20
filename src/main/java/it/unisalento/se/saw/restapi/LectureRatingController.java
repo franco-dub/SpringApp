@@ -81,19 +81,12 @@ public class LectureRatingController {
     @RequestMapping(value = "/findByStudentAndLecture/{studentId}/{calendarId}", method = RequestMethod.GET)
     public ResponseEntity<?> getLectureRatingByStudentAndLecture(
     		@PathVariable("studentId") int studentId, @PathVariable("calendarId") int calendarId) {
-<<<<<<< HEAD
     	try {
    		LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
     		return new ResponseEntity<LectureRatingDto>(lectureRatingDto, HttpStatus.OK);
     	} catch (Exception e) {
     		return new ResponseEntity<LectureRatingDto>( new LectureRatingDto(), HttpStatus.NO_CONTENT);
-=======
-   		try {
-    	LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
-    		return new ResponseEntity<>(lectureRatingDto, HttpStatus.OK);
-    	} catch (Exception e) {
-    		return new ResponseEntity<>("That Lecture rating is no available for this student ", HttpStatus.NO_CONTENT);
->>>>>>> master
+
         }
     }
     

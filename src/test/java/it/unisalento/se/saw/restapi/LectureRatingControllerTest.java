@@ -174,21 +174,12 @@ public class LectureRatingControllerTest{
 
 	}
 
-/*	@Test
+	@Test
 	public void getEmptyLectureRatingByStudentAndLecture() throws Exception{
 		when(lectureRatingServiceMock.findByStudentIdAndLectureId(10, 1)).thenThrow(new NullPointerException());
 		mockMvc.perform(get("/lectureRating/findByStudentAndLecture/{studentId}/{calendarId}", 10, 1))
-<<<<<<< HEAD
-				.andExpect(status().isNotFound()).andDo(print());
-
-	}*/
-	
-=======
 				.andExpect(status().isNoContent());
-
 	}
 
-
->>>>>>> master
 }
 
