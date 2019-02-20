@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
+<testsuite name="it.unisalento.se.saw.restapi.StudentControllerTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2019-02-14T11:44:09" hostname="Francos-MBP.station" time="0.621">
+  <properties/>
+  <testcase name="deleteStudentTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.03"/>
+  <testcase name="findAllStudentExceptionTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.047"/>
+  <testcase name="findAllStudentTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.029"/>
+  <testcase name="createStudentTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.079"/>
+  <testcase name="updateStudentException1Test" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.058"/>
+  <testcase name="updateStudentException2Test" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.051"/>
+  <testcase name="createStudentExceptionTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.068"/>
+  <testcase name="deleteStudentExceptionTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.03"/>
+  <testcase name="listAllCourseSStudentsTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.066"/>
+  <testcase name="updateStudentTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.051"/>
+  <testcase name="getStudentTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.045"/>
+  <testcase name="listAllCourseSStudentsExceptionTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.021"/>
+  <testcase name="getStudentExceptionTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.02"/>
+=======
 <testsuite name="it.unisalento.se.saw.restapi.StudentControllerTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2019-02-20T09:33:46" hostname="Francos-MBP.station" time="0.289">
   <properties/>
   <testcase name="deleteStudentTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.024"/>
@@ -14,6 +31,7 @@
   <testcase name="getStudentTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.018"/>
   <testcase name="listAllCourseSStudentsExceptionTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.015"/>
   <testcase name="getStudentExceptionTest" classname="it.unisalento.se.saw.restapi.StudentControllerTest" time="0.017"/>
+>>>>>>> master
   <system-out><![CDATA[Fetching & Deleting Student with id 1
 Fetching & Deleting Student with id 1
 ]]></system-out>
