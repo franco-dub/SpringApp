@@ -49,6 +49,7 @@ public class CalendarService implements CalendarIService {
 		calendar.setEndTime(calendarDto.getCalendarDate().getEndTime());
 		calendar.setStartTime(calendarDto.getCalendarDate().getStartTime());
 		calendar.setType(calendarDto.getCalendarDate().getType());
+		calendar.setDay(calendarDto.getDay());
 		return modelMapper.map(lectureCalendarRepository.save(calendar), CalendarDto.class);
 	}
 
@@ -105,6 +106,7 @@ public class CalendarService implements CalendarIService {
 		calendarDto.setRoom(modelMapper.map(calendar.getRoom(), RoomDto.class));
 		calendarDto.setCalendarId(calendar.getCalendarId());
 		if(calendar.getType().equals("LECTURE")){
+			calendarDto.setDay(calendar.getDay());
 			calendarDto.setCalendarDate(calendarLessonType.calendarDate(
 					calendar.getStartTime(),
 					calendar.getEndTime(),
