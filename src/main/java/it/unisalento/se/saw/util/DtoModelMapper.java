@@ -1,7 +1,10 @@
 package it.unisalento.se.saw.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.unisalento.se.saw.domain.Calendar;
+import it.unisalento.se.saw.dto.CalendarDto;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpInputMessage;
@@ -45,6 +48,7 @@ public class DtoModelMapper extends RequestResponseBodyMethodProcessor {
 
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+		privateMap();
 		Object dto = super.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 		Object id = getEntityId(dto);
 		if (id == null) {
@@ -79,5 +83,19 @@ public class DtoModelMapper extends RequestResponseBodyMethodProcessor {
 			}
 		}
 		return null;
+	}
+
+	private void privateMap(){
+		PropertyMap<CalendarDto, Calendar> mymap = new PropertyMap<CalendarDto, Calendar>(){
+			protected void configure(){
+				map(source.getDay()).setDay(null);
+				map(source.getCalendarId()).setCalendarId(null);
+				map(source.getModule()).setModule(null);
+				map(source.getRoom()).setRoom(null);
+				map().setDate(source.getCalendarDate().getDate());
+			}
+		};
+
+		modelMapper.addMappings(mymap);
 	}
 }

@@ -64,7 +64,6 @@ public class SchedulingControllerTest{
 		moduleDto.setTitle("testModule");
 		moduleDto.setSemester("1");
 		calendarDto.setModule(moduleDto);
-		calendarDto.setType("Lecture TEst");
 
 
 
@@ -93,7 +92,7 @@ public class SchedulingControllerTest{
 	}
 
 /*
-	@Test
+/*	@Test
 	public void findFreeRooms() throws Exception{
 		List<RoomDto> roomDtos = new ArrayList<>();
 		for(int i = 0; i < 5; i++) roomDtos.add(roomDto);

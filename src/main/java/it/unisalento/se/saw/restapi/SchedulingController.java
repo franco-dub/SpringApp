@@ -30,7 +30,7 @@ public class SchedulingController {
 	@RequestMapping(value = "/findFreeRooms", method = RequestMethod.POST)
     public ResponseEntity<?> findFreeRooms(@Valid @RequestBody CalendarDto lectureCalendarDto, BindingResult brs) {
     	if(!brs.hasErrors()){
-    		System.out.println(lectureCalendarDto.getEndDate() + " " + lectureCalendarDto.getStartDate());
+    		System.out.println(lectureCalendarDto.getCalendarDate().getEndDate() + " " + lectureCalendarDto.getCalendarDate().getStartDate());
     		List<RoomDto> roomDtos = schedulingService.findFreeRooms(lectureCalendarDto);
     		System.out.println(roomDtos);
     		if(!roomDtos.isEmpty()){
@@ -57,3 +57,4 @@ public class SchedulingController {
     	}
     }
 }
+
