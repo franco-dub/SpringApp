@@ -1,8 +1,10 @@
+
 package it.unisalento.se.saw.restapi;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unisalento.se.saw.IService.LectureRatingIService;
+import it.unisalento.se.saw.builder.CalendarLessonType;
 import it.unisalento.se.saw.dto.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +36,7 @@ public class LectureRatingControllerTest{
 
 	private ObjectMapper mapper = new ObjectMapper();
 
-	
+
 	private LectureRatingDto lectureRatingDto = new LectureRatingDto();
 	private CalendarDto calendarDto = new CalendarDto();
 	private StudentDto studentDto = new StudentDto();
@@ -50,12 +52,14 @@ public class LectureRatingControllerTest{
 
 
 		calendarDto.setCalendarId(10);
-		calendarDto.setStartDate(new Date());
-		calendarDto.setDate(new Date());
-		calendarDto.setEndDate(new Date());
+		CalendarLessonType type = new CalendarLessonType();
+		calendarDto.setCalendarDate(type.calendarDate(
+				new Date(),
+				new Date(),
+				new Date(),
+				type.type(), null, null));
 		calendarDto.setDay("LUNEDI");
-		calendarDto.setStartTime(new Date());
-		calendarDto.setEndTime(new Date());
+
 		roomDto.setName("test");
 		roomDto.setRoomId(1);
 		calendarDto.setRoom(roomDto);
@@ -65,7 +69,6 @@ public class LectureRatingControllerTest{
 		moduleDto.setTitle("testModule");
 		moduleDto.setSemester("1");
 		calendarDto.setModule(moduleDto);
-		calendarDto.setType("Lecture TEst");
 
 
 
@@ -90,7 +93,7 @@ public class LectureRatingControllerTest{
 		lectureRatingDto.setNote("Ciao Franco");
 		lectureRatingDto.setRate("Ciao rating");
 	}
-	
+
 
 	@Test
 	public void createLectureRatingTest() throws Exception{
@@ -172,10 +175,12 @@ public class LectureRatingControllerTest{
 
 	@Test
 	public void getEmptyLectureRatingByStudentAndLecture() throws Exception{
-		when(lectureRatingServiceMock.findByStudentIdAndLectureId(10, 1)).thenReturn(null);
+		when(lectureRatingServiceMock.findByStudentIdAndLectureId(10, 1)).thenThrow(new NullPointerException());
 		mockMvc.perform(get("/lectureRating/findByStudentAndLecture/{studentId}/{calendarId}", 10, 1))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isNoContent());
 
 	}
-	
+
+
 }
+

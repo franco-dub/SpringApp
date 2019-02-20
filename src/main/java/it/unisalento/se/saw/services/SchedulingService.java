@@ -52,42 +52,42 @@ public class SchedulingService implements SchedulingIService {
                 .count();
       
         
-        Iterable<CalendarDto> calendarDtos = calendarService.findAllCalendarSDate(calendarDto.getDate());
+        Iterable<CalendarDto> calendarDtos = calendarService.findAllCalendarSDate(calendarDto.getCalendarDate().getDate());
         if(null!=calendarDtos){
         	calendarDtos.forEach(calendar -> {
         		/*Check if slot time's lecture of the day overlap with requested one*/
-        		if(!(calendar.getEndTimeToLocalTime().isBefore(calendarDto.getStartTimeToLocalTime()) ||
-        				calendar.getEndTimeToLocalTime().equals(calendarDto.getStartTimeToLocalTime()) ||
-        				calendar.getStartTimeToLocalTime().isAfter(calendarDto.getEndTimeToLocalTime()) || 
-        				calendar.getStartTimeToLocalTime().equals(calendarDto.getEndTimeToLocalTime()))) {
+        		if(!(calendar.getCalendarDate().getEndTimeToLocalTime().isBefore(calendarDto.getCalendarDate().getStartTimeToLocalTime()) ||
+        				calendar.getCalendarDate().getEndTimeToLocalTime().equals(calendarDto.getCalendarDate().getStartTimeToLocalTime()) ||
+        				calendar.getCalendarDate().getStartTimeToLocalTime().isAfter(calendarDto.getCalendarDate().getEndTimeToLocalTime()) ||
+        				calendar.getCalendarDate().getStartTimeToLocalTime().equals(calendarDto.getCalendarDate().getEndTimeToLocalTime()))) {
 			        assert calendar.getRoom() != null;
 			        roomMapDto.remove(calendar.getRoom().getRoomId());
         		}
         	});
         }
         	
-        LocalDate currentDate = calendarDto.getStartDateToLocalDate();
+        LocalDate currentDate = calendarDto.getCalendarDate().getStartDateToLocalDate();
         do {
-        	calendarDto.setDate(DateTimeConverter.asDate(currentDate));
+        	calendarDto.getCalendarDate().setDate(DateTimeConverter.asDate(currentDate));
         	//implementation
         	
         	
         	currentDate = currentDate.plusWeeks(1);
-        } while (currentDate.isBefore(calendarDto.getEndDateToLocalDate()) ||
-				currentDate.isEqual(calendarDto.getEndDateToLocalDate()));
+        } while (currentDate.isBefore(calendarDto.getCalendarDate().getEndDateToLocalDate()) ||
+				currentDate.isEqual(calendarDto.getCalendarDate().getEndDateToLocalDate()));
 		return new ArrayList<>(roomMapDto.values());
 	}
 
 	@Override
 	@Transactional
 	public void saveAllCalendars(CalendarDto calendarDto) {
-		LocalDate currentDate = calendarDto.getStartDateToLocalDate();
+		LocalDate currentDate = calendarDto.getCalendarDate().getStartDateToLocalDate();
 		do {
-			calendarDto.setDate(DateTimeConverter.asDate(currentDate));
+			calendarDto.getCalendarDate().setDate(DateTimeConverter.asDate(currentDate));
 			calendarService.saveCalendar(calendarDto);
 			currentDate = currentDate.plusWeeks(1);
-		} while(currentDate.isBefore(calendarDto.getEndDateToLocalDate()) ||
-				currentDate.isEqual(calendarDto.getEndDateToLocalDate()));
+		} while(currentDate.isBefore(calendarDto.getCalendarDate().getEndDateToLocalDate()) ||
+				currentDate.isEqual(calendarDto.getCalendarDate().getEndDateToLocalDate()));
 	}
 
 }

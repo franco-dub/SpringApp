@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 
+import it.unisalento.se.saw.domain.Calendar;
 import org.eclipse.persistence.internal.libraries.asm.tree.ModuleExportNode;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,7 @@ public class CalendarController {
     		CalendarDto calendarDto = calendarService.findById(id);
     		return new ResponseEntity<CalendarDto>(calendarDto, HttpStatus.OK);
     	} catch (Exception e) {
+    		e.printStackTrace();
     		return new ResponseEntity<>(new CustomErrorType("Calendar with id " + id
                     + " not found ." + e.toString()), HttpStatus.NOT_FOUND);
         }
@@ -139,21 +141,6 @@ public class CalendarController {
     }
 
 
-  
-  //---------------------------- Get Module Calendar --------------------------------
-    @PostMapping(value = "getModuleCalendar", consumes = "application/json")
-	public ResponseEntity<?> getModuleCalendar(@Valid @RequestBody ModuleDto moduleDto){
-	    try{
-
-			return new ResponseEntity<>(calendarService.findAllCalendarByModule(moduleDto.getModuleId()), HttpStatus.OK);
-
-	    }catch(Exception e){
-		    return new ResponseEntity<>(new CustomErrorType("Unable to find student! " +
-				    " not found. " + e.toString()), HttpStatus.NOT_FOUND);
-	    }
-    }
-
-
 //-------------------Retrieve All Calendars By Module--------------------------------------------------------
     
     @RequestMapping(value = "/findByModuleId/{id}", method = RequestMethod.GET)
@@ -162,10 +149,8 @@ public class CalendarController {
     	if (calendarDtos.isEmpty()) {
     		return new ResponseEntity<>(new CustomErrorType("List empty."),
         			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
     	}
-        return new ResponseEntity<List<CalendarDto>>(calendarDtos, HttpStatus.OK);
+        return new ResponseEntity<>(calendarDtos, HttpStatus.OK);
     }
     
     //------------------------------- Get all professor calendar ---------------
@@ -177,20 +162,7 @@ public class CalendarController {
 		Date dd = Date.from(lDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     	
 		List<ModuleDto> modules = moduleService.findAllProfessorSModule(id);
-    	if (modules.isEmpty()) {
-    		return new ResponseEntity<>(new CustomErrorType("List empty."),
-        			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
-    	}
-        //return new ResponseEntity<List<ModuleDto>>(modules, HttpStatus.OK);
-    	List<CalendarDto> cal = new ArrayList<>();
-    	for (ModuleDto module: modules) {
-    		List<CalendarDto> calendarDtos = calendarService.findAllCalendarByModuleAndDate(module.getModuleId(), dd);
-    		cal.addAll(calendarDtos);
-    	}
-
-    	return new ResponseEntity<List<CalendarDto>>(cal, HttpStatus.OK);
+	    return returnList(modules, dd);
     }
     
     
@@ -205,19 +177,21 @@ public class CalendarController {
 		Date dd = Date.from(lDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     	
 		List<ModuleDto> modules = moduleService.findAllCourseSModulePerYear(id, year);
-    	if (modules.isEmpty()) {
-    		return new ResponseEntity<>(new CustomErrorType("List empty."),
-        			HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
-    		//NO_CONTENT doesn't print json error
-    	}
-        //return new ResponseEntity<List<ModuleDto>>(modules, HttpStatus.OK);
-    	List<CalendarDto> cal = new ArrayList<>();
-    	for (ModuleDto module: modules) {
-    		List<CalendarDto> calendarDtos = calendarService.findAllCalendarByModuleAndDate(module.getModuleId(), dd);
-    		cal.addAll(calendarDtos);
-    	}
 
-    	return new ResponseEntity<List<CalendarDto>>(cal, HttpStatus.OK);
+		return returnList(modules, dd);
+    }
+
+
+    private ResponseEntity<?> returnList(List<ModuleDto> modules, Date dd){
+	    if (modules.isEmpty()) {
+		    return new ResponseEntity<>(new CustomErrorType("List empty."),
+				    HttpStatus.NO_CONTENT);
+	    }
+	    List<CalendarDto> cal = new ArrayList<>();
+	    for (ModuleDto module: modules) {
+		    List<CalendarDto> calendarDtos = calendarService.findAllCalendarByModuleAndDate(module.getModuleId(), dd);
+		    cal.addAll(calendarDtos);
+	    }
+	    return new ResponseEntity<>(cal, HttpStatus.OK);
     }
 }
