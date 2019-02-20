@@ -70,7 +70,7 @@ public class LectureRatingController {
         List<LectureRatingDto> lectureRatingDtos = lectureRatingService.findAllBylecture(id);
         if (lectureRatingDtos.isEmpty()) {
 		    return new ResponseEntity<>(new CustomErrorType("LectureRating with id " + id
-				    + " not found"), HttpStatus.NOT_FOUND);
+				    + " not found"), HttpStatus.NO_CONTENT);
         }else{
 	        return new ResponseEntity<>(lectureRatingDtos, HttpStatus.OK);
         }
@@ -78,14 +78,15 @@ public class LectureRatingController {
     
 // -------------------Retrieve LectureRating By Student and Lecture-----------------------
     
-    @RequestMapping(value = "findByStudentAndLecture/{studentId}/{calendarId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByStudentAndLecture/{studentId}/{calendarId}", method = RequestMethod.GET)
     public ResponseEntity<?> getLectureRatingByStudentAndLecture(
     		@PathVariable("studentId") int studentId, @PathVariable("calendarId") int calendarId) {
-   		try {
-    	LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
-    		return new ResponseEntity<>(lectureRatingDto, HttpStatus.OK);
+    	try {
+   		LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
+    		return new ResponseEntity<LectureRatingDto>(lectureRatingDto, HttpStatus.OK);
     	} catch (Exception e) {
-    		return new ResponseEntity<>("That Lecture rating is no available for this student ", HttpStatus.NO_CONTENT);
+    		return new ResponseEntity<LectureRatingDto>( new LectureRatingDto(), HttpStatus.NO_CONTENT);
+
         }
     }
     

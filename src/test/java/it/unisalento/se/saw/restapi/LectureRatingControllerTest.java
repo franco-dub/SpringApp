@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -161,7 +162,7 @@ public class LectureRatingControllerTest{
 	public void getEmptyLectureRatingByLecture() throws Exception{
 		when(lectureRatingServiceMock.findAllBylecture(10)).thenReturn(new ArrayList<>());
 		mockMvc.perform(get("/lectureRating/findByModule/{id}", 10))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isNoContent());
 
 	}
 
@@ -178,9 +179,7 @@ public class LectureRatingControllerTest{
 		when(lectureRatingServiceMock.findByStudentIdAndLectureId(10, 1)).thenThrow(new NullPointerException());
 		mockMvc.perform(get("/lectureRating/findByStudentAndLecture/{studentId}/{calendarId}", 10, 1))
 				.andExpect(status().isNoContent());
-
 	}
-
 
 }
 

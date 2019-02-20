@@ -16,6 +16,7 @@ import it.unisalento.se.saw.dto.TmRatingDto;
 import it.unisalento.se.saw.repo.TmRatingRepository;
 
 @Service
+
 public class TmRatingService implements TmRatingIService {
 
 	private static final ModelMapper modelMapper = new ModelMapper();
