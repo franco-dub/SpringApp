@@ -110,6 +110,7 @@ public class CalendarService implements CalendarIService {
 		calendarDto.setCalendarId(calendar.getCalendarId());
 		calendarDto.setDay(calendar.getDay());
 		if(calendar.getType().equals("LECTURE")){
+			calendarDto.setDay(calendar.getDay());
 			calendarDto.setCalendarDate(calendarLessonType.calendarDate(
 					calendar.getStartTime(),
 					calendar.getEndTime(),

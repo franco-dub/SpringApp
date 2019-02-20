@@ -81,11 +81,11 @@ public class LectureRatingController {
     @RequestMapping(value = "findByStudentAndLecture/{studentId}/{calendarId}", method = RequestMethod.GET)
     public ResponseEntity<?> getLectureRatingByStudentAndLecture(
     		@PathVariable("studentId") int studentId, @PathVariable("calendarId") int calendarId) {
-   		LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
-   		if(lectureRatingDto != null){
+   		try {
+    	LectureRatingDto lectureRatingDto = lectureRatingService.findByStudentIdAndLectureId(studentId, calendarId);
     		return new ResponseEntity<>(lectureRatingDto, HttpStatus.OK);
-    	} else {
-    		return new ResponseEntity<>("That Lecture rating is no available for this student ", HttpStatus.NOT_FOUND);
+    	} catch (Exception e) {
+    		return new ResponseEntity<>("That Lecture rating is no available for this student ", HttpStatus.NO_CONTENT);
         }
     }
     
