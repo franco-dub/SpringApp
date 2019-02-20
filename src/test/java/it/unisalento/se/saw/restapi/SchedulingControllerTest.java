@@ -1,7 +1,9 @@
+
 package it.unisalento.se.saw.restapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unisalento.se.saw.IService.SchedulingIService;
+import it.unisalento.se.saw.builder.CalendarLessonType;
 import it.unisalento.se.saw.dto.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,12 +50,14 @@ public class SchedulingControllerTest{
 
 
 		calendarDto.setCalendarId(10);
-		calendarDto.setStartDate(new Date());
-		calendarDto.setDate(new Date());
-		calendarDto.setEndDate(new Date());
+		CalendarLessonType type = new CalendarLessonType();
+		calendarDto.setCalendarDate(type.calendarDate(
+				new Date(),
+				new Date(),
+				new Date(),
+				type.type(), null, null));
 		calendarDto.setDay("LUNEDI");
-		calendarDto.setStartTime(new Date());
-		calendarDto.setEndTime(new Date());
+
 		roomDto.setName("test");
 		roomDto.setRoomId(1);
 		roomDto.setCapacity(10);
@@ -91,7 +95,7 @@ public class SchedulingControllerTest{
 		studentDto.setCourse(courseDto);
 	}
 
-/*
+
 /*	@Test
 	public void findFreeRooms() throws Exception{
 		List<RoomDto> roomDtos = new ArrayList<>();
@@ -105,6 +109,7 @@ public class SchedulingControllerTest{
 				.andDo(print())
 				.andExpect(status().isOk());
 	}*/
+
 
 	@Test
 	public void findEmptyFreeRooms() throws Exception{
@@ -151,3 +156,4 @@ public class SchedulingControllerTest{
 
 
 }
+
