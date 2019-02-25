@@ -97,6 +97,7 @@ public class CalendarController {
 			    return new ResponseEntity<>(new CustomErrorType("Unable to create new Calendar."),
 					    HttpStatus.NOT_FOUND);
 		    }
+    		System.out.println("PROVA ------" + calendarDto.getCalendarDate().getDate());
             calendarDto.setCalendarId(id);
 		    calendarDto = calendarService.updateCalendar(calendarDto);
             return new ResponseEntity<>(calendarDto, HttpStatus.OK);

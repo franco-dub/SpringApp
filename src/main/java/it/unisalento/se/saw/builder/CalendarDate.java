@@ -20,7 +20,7 @@ public class CalendarDate implements CalendarIDate{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Europe/Rome")
 	private Date endTime;
 	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy", timezone = "Europe/Rome")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Rome")
 	private Date date;
 
 	private Date startDate;
