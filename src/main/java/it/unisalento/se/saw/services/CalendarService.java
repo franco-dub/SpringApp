@@ -50,7 +50,10 @@ public class CalendarService implements CalendarIService {
 		calendar.setStartTime(calendarDto.getCalendarDate().getStartTime());
 		calendar.setType(calendarDto.getCalendarDate().getType());
 		calendar.setDay(calendarDto.getDay());
-		return modelMapper.map(lectureCalendarRepository.save(calendar), CalendarDto.class);
+		System.out.println(calendarDto.getCalendarDate().getDate());
+		System.out.println(calendar.getDate());
+		calendar = lectureCalendarRepository.save(calendar);
+		return modelMapper.map(calendar, CalendarDto.class);
 	}
 
 	@Override
@@ -105,6 +108,7 @@ public class CalendarService implements CalendarIService {
 		calendarDto.setModule(modelMapper.map(calendar.getModule(), ModuleDto.class));
 		calendarDto.setRoom(modelMapper.map(calendar.getRoom(), RoomDto.class));
 		calendarDto.setCalendarId(calendar.getCalendarId());
+		calendarDto.setDay(calendar.getDay());
 		if(calendar.getType().equals("LECTURE")){
 			calendarDto.setDay(calendar.getDay());
 			calendarDto.setCalendarDate(calendarLessonType.calendarDate(
